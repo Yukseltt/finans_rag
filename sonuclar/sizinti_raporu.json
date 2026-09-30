@@ -1,0 +1,385 @@
+{
+  "sirket_duzeyi_ortak": [
+    "3M",
+    "AES Corporation",
+    "Adobe",
+    "American Water Works",
+    "Apple",
+    "General Mills",
+    "Intel",
+    "JPMorgan",
+    "Kraft Heinz",
+    "Lockheed Martin",
+    "Nike",
+    "Walmart"
+  ],
+  "sirket_yil_ortusen": [
+    {
+      "sirket": "3M",
+      "yil": 2015,
+      "finqa": {
+        "train": 4,
+        "test": 2
+      },
+      "fb_belgeler": [
+        "3M_2015_10K"
+      ]
+    },
+    {
+      "sirket": "AES Corporation",
+      "yil": 2015,
+      "finqa": {
+        "dev": 4
+      },
+      "fb_belgeler": [
+        "AES_2015_10K"
+      ]
+    },
+    {
+      "sirket": "AES Corporation",
+      "yil": 2016,
+      "finqa": {
+        "train": 6,
+        "dev": 7
+      },
+      "fb_belgeler": [
+        "AES_2016_10K"
+      ]
+    },
+    {
+      "sirket": "AES Corporation",
+      "yil": 2017,
+      "finqa": {
+        "train": 10,
+        "dev": 8
+      },
+      "fb_belgeler": [
+        "AES_2017_10K"
+      ]
+    },
+    {
+      "sirket": "AES Corporation",
+      "yil": 2018,
+      "finqa": {
+        "train": 3
+      },
+      "fb_belgeler": [
+        "AES_2018_10K"
+      ]
+    },
+    {
+      "sirket": "Adobe",
+      "yil": 2018,
+      "finqa": {
+        "train": 14,
+        "dev": 4
+      },
+      "fb_belgeler": [
+        "ADOBE_2018_10K"
+      ]
+    },
+    {
+      "sirket": "American Water Works",
+      "yil": 2015,
+      "finqa": {
+        "train": 37
+      },
+      "fb_belgeler": [
+        "AMERICANWATERWORKS_2015_10K"
+      ]
+    },
+    {
+      "sirket": "American Water Works",
+      "yil": 2017,
+      "finqa": {
+        "train": 21,
+        "test": 4
+      },
+      "fb_belgeler": [
+        "AMERICANWATERWORKS_2017_10K"
+      ]
+    },
+    {
+      "sirket": "American Water Works",
+      "yil": 2018,
+      "finqa": {
+        "train": 43,
+        "test": 4
+      },
+      "fb_belgeler": [
+        "AMERICANWATERWORKS_2018_10K"
+      ]
+    },
+    {
+      "sirket": "Apple",
+      "yil": 2015,
+      "finqa": {
+        "train": 11
+      },
+      "fb_belgeler": [
+        "APPLE_2015_10K"
+      ]
+    },
+    {
+      "sirket": "Apple",
+      "yil": 2016,
+      "finqa": {
+        "train": 4
+      },
+      "fb_belgeler": [
+        "APPLE_2016_10K"
+      ]
+    },
+    {
+      "sirket": "Apple",
+      "yil": 2017,
+      "finqa": {
+        "train": 2
+      },
+      "fb_belgeler": [
+        "APPLE_2017_10K"
+      ]
+    },
+    {
+      "sirket": "Apple",
+      "yil": 2018,
+      "finqa": {
+        "train": 4
+      },
+      "fb_belgeler": [
+        "APPLE_2018_10K"
+      ]
+    },
+    {
+      "sirket": "General Mills",
+      "yil": 2015,
+      "finqa": {
+        "train": 1,
+        "test": 1
+      },
+      "fb_belgeler": [
+        "GENERALMILLS_2015_10K"
+      ]
+    },
+    {
+      "sirket": "General Mills",
+      "yil": 2017,
+      "finqa": {
+        "train": 5,
+        "test": 4
+      },
+      "fb_belgeler": [
+        "GENERALMILLS_2017_10K"
+      ]
+    },
+    {
+      "sirket": "General Mills",
+      "yil": 2018,
+      "finqa": {
+        "train": 15,
+        "test": 3
+      },
+      "fb_belgeler": [
+        "GENERALMILLS_2018_10K"
+      ]
+    },
+    {
+      "sirket": "General Mills",
+      "yil": 2019,
+      "finqa": {
+        "train": 12,
+        "dev": 3,
+        "test": 2
+      },
+      "fb_belgeler": [
+        "GENERALMILLS_2019_10K"
+      ]
+    },
+    {
+      "sirket": "Intel",
+      "yil": 2015,
+      "finqa": {
+        "train": 4,
+        "test": 4
+      },
+      "fb_belgeler": [
+        "INTEL_2015_10K"
+      ]
+    },
+    {
+      "sirket": "Intel",
+      "yil": 2016,
+      "finqa": {
+        "train": 8
+      },
+      "fb_belgeler": [
+        "INTEL_2016_10K"
+      ]
+    },
+    {
+      "sirket": "Intel",
+      "yil": 2017,
+      "finqa": {
+        "train": 8
+      },
+      "fb_belgeler": [
+        "INTEL_2017_10K"
+      ]
+    },
+    {
+      "sirket": "Intel",
+      "yil": 2018,
+      "finqa": {
+        "train": 10
+      },
+      "fb_belgeler": [
+        "INTEL_2018_10K"
+      ]
+    },
+    {
+      "sirket": "Kraft Heinz",
+      "yil": 2016,
+      "finqa": {
+        "train": 2,
+        "dev": 4
+      },
+      "fb_belgeler": [
+        "KRAFTHEINZ_2016_10K"
+      ]
+    },
+    {
+      "sirket": "Kraft Heinz",
+      "yil": 2017,
+      "finqa": {
+        "train": 4
+      },
+      "fb_belgeler": [
+        "KRAFTHEINZ_2017_10K"
+      ]
+    },
+    {
+      "sirket": "Kraft Heinz",
+      "yil": 2018,
+      "finqa": {
+        "train": 4,
+        "test": 3
+      },
+      "fb_belgeler": [
+        "KRAFTHEINZ_2018_10K"
+      ]
+    },
+    {
+      "sirket": "Lockheed Martin",
+      "yil": 2015,
+      "finqa": {
+        "train": 18,
+        "dev": 10,
+        "test": 4
+      },
+      "fb_belgeler": [
+        "LOCKHEEDMARTIN_2015_10K"
+      ]
+    },
+    {
+      "sirket": "Lockheed Martin",
+      "yil": 2016,
+      "finqa": {
+        "train": 25,
+        "dev": 4,
+        "test": 4
+      },
+      "fb_belgeler": [
+        "LOCKHEEDMARTIN_2016_10K"
+      ]
+    },
+    {
+      "sirket": "Lockheed Martin",
+      "yil": 2017,
+      "finqa": {
+        "train": 9,
+        "dev": 3
+      },
+      "fb_belgeler": [
+        "LOCKHEEDMARTIN_2017_10K"
+      ]
+    },
+    {
+      "sirket": "Lockheed Martin",
+      "yil": 2018,
+      "finqa": {
+        "train": 14
+      },
+      "fb_belgeler": [
+        "LOCKHEEDMARTIN_2018_10K"
+      ]
+    },
+    {
+      "sirket": "Nike",
+      "yil": 2015,
+      "finqa": {
+        "train": 4
+      },
+      "fb_belgeler": [
+        "NIKE_2015_10K"
+      ]
+    },
+    {
+      "sirket": "Nike",
+      "yil": 2016,
+      "finqa": {
+        "dev": 2
+      },
+      "fb_belgeler": [
+        "NIKE_2016_10K"
+      ]
+    },
+    {
+      "sirket": "Walmart",
+      "yil": 2018,
+      "finqa": {
+        "train": 5
+      },
+      "fb_belgeler": [
+        "WALMART_2018_10K"
+      ]
+    }
+  ],
+  "etkilenen_finqa_ornek": {
+    "train": 307,
+    "dev": 49,
+    "test": 35
+  },
+  "finqa_toplam": {
+    "train": 6251,
+    "dev": 883,
+    "test": 1147
+  },
+  "etkilenen_fb_soru": [
+    {
+      "id": "financebench_id_04103",
+      "doc_name": "GENERALMILLS_2019_10K",
+      "doc_type": "10k",
+      "finqa_ornek_sayisi": {
+        "train": 12,
+        "dev": 3,
+        "test": 2
+      }
+    },
+    {
+      "id": "financebench_id_06247",
+      "doc_name": "WALMART_2018_10K",
+      "doc_type": "10k",
+      "finqa_ornek_sayisi": {
+        "train": 5
+      }
+    }
+  ],
+  "etkilenen_fb_soru_sadece_sirket": 39,
+  "sayfa_duzeyi_eslesen_fb_soru": {
+    "fb_sayfa_+0": [],
+    "fb_sayfa_+1": [
+      "financebench_id_04103"
+    ]
+  },
+  "fb_soru_toplam": 150
+}

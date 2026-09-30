@@ -1,0 +1,97 @@
+{
+  "neden": "FinanceBench sorusu olan belgeyle ayni sirket-yil raporu",
+  "sirket_yil": [
+    "General Mills 2019",
+    "Walmart 2018"
+  ],
+  "ornekler": [
+    {
+      "id": "GIS/2019/page_45.pdf-1",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_104.pdf-2",
+      "bolum": "train"
+    },
+    {
+      "id": "WMT/2018/page_15.pdf-1",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_75.pdf-1",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_38.pdf-2",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_104.pdf-1",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_38.pdf-1",
+      "bolum": "train"
+    },
+    {
+      "id": "WMT/2018/page_46.pdf-1",
+      "bolum": "train"
+    },
+    {
+      "id": "WMT/2018/page_46.pdf-4",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_53.pdf-1",
+      "bolum": "train"
+    },
+    {
+      "id": "WMT/2018/page_46.pdf-3",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_33.pdf-2",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_33.pdf-1",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_75.pdf-2",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_75.pdf-3",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_53.pdf-2",
+      "bolum": "train"
+    },
+    {
+      "id": "WMT/2018/page_46.pdf-2",
+      "bolum": "train"
+    },
+    {
+      "id": "GIS/2019/page_37.pdf-3",
+      "bolum": "dev"
+    },
+    {
+      "id": "GIS/2019/page_37.pdf-2",
+      "bolum": "dev"
+    },
+    {
+      "id": "GIS/2019/page_37.pdf-1",
+      "bolum": "dev"
+    },
+    {
+      "id": "GIS/2019/page_68.pdf-1",
+      "bolum": "test"
+    },
+    {
+      "id": "GIS/2019/page_68.pdf-2",
+      "bolum": "test"
+    }
+  ]
+}

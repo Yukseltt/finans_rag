@@ -1,0 +1,978 @@
+{
+  "parca_uzunlugu": 8,
+  "esik": 0.3,
+  "eslesmeler": [
+    {
+      "fb_soru": "financebench_id_00941",
+      "fb_belge": "3M_2023Q2_10Q",
+      "fb_sayfa": 0,
+      "finqa_id": "KMI/2010/page_2.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 84,
+      "kapsama": 0.195
+    },
+    {
+      "fb_soru": "financebench_id_00476",
+      "fb_belge": "AMERICANEXPRESS_2022_10K",
+      "fb_sayfa": 0,
+      "finqa_id": "KMI/2010/page_2.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 84,
+      "kapsama": 0.195
+    },
+    {
+      "fb_soru": "financebench_id_00746",
+      "fb_belge": "ULTABEAUTY_2023_10K",
+      "fb_sayfa": 0,
+      "finqa_id": "KMI/2010/page_2.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 74,
+      "kapsama": 0.172
+    },
+    {
+      "fb_soru": "financebench_id_01254",
+      "fb_belge": "MGMRESORTS_2022_10K",
+      "fb_sayfa": 31,
+      "finqa_id": "HFC/2018/page_43.pdf-4",
+      "finqa_bolum": "train",
+      "ortak_parca": 24,
+      "kapsama": 0.077
+    },
+    {
+      "fb_soru": "financebench_id_01244",
+      "fb_belge": "CVSHEALTH_2022_10K",
+      "fb_sayfa": 67,
+      "finqa_id": "TFX/2018/page_47.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 10,
+      "kapsama": 0.051
+    },
+    {
+      "fb_soru": "financebench_id_01858",
+      "fb_belge": "3M_2023Q2_10Q",
+      "fb_sayfa": 61,
+      "finqa_id": "MMM/2015/page_19.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 15,
+      "kapsama": 0.044
+    },
+    {
+      "fb_soru": "financebench_id_04854",
+      "fb_belge": "GENERALMILLS_2020_10K",
+      "fb_sayfa": 51,
+      "finqa_id": "GIS/2019/page_33.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 24,
+      "kapsama": 0.039
+    },
+    {
+      "fb_soru": "financebench_id_00206",
+      "fb_belge": "JPMORGAN_2022_10K",
+      "fb_sayfa": 2,
+      "finqa_id": "JPM/2008/page_41.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 32,
+      "kapsama": 0.038
+    },
+    {
+      "fb_soru": "financebench_id_00859",
+      "fb_belge": "VERIZON_2021_10K",
+      "fb_sayfa": 84,
+      "finqa_id": "LLY/2018/page_63.pdf-1",
+      "finqa_bolum": "dev",
+      "ortak_parca": 12,
+      "kapsama": 0.023
+    },
+    {
+      "fb_soru": "financebench_id_02024",
+      "fb_belge": "VERIZON_2021_10K",
+      "fb_sayfa": 62,
+      "finqa_id": "PNC/2013/page_66.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 17,
+      "kapsama": 0.02
+    },
+    {
+      "fb_soru": "financebench_id_00735",
+      "fb_belge": "PEPSICO_2022_10K",
+      "fb_sayfa": 25,
+      "finqa_id": "IPG/2012/page_89.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 12,
+      "kapsama": 0.019
+    },
+    {
+      "fb_soru": "financebench_id_01935",
+      "fb_belge": "AMCOR_2022_8K_dated-2022-07-01",
+      "fb_sayfa": 1,
+      "finqa_id": "EXR/2005/page_46.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 6,
+      "kapsama": 0.017
+    },
+    {
+      "fb_soru": "financebench_id_01198",
+      "fb_belge": "AMD_2022_10K",
+      "fb_sayfa": 42,
+      "finqa_id": "BDX/2017/page_32.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 8,
+      "kapsama": 0.016
+    },
+    {
+      "fb_soru": "financebench_id_00917",
+      "fb_belge": "AMD_2022_10K",
+      "fb_sayfa": 42,
+      "finqa_id": "BDX/2017/page_32.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 8,
+      "kapsama": 0.016
+    },
+    {
+      "fb_soru": "financebench_id_00995",
+      "fb_belge": "AMD_2022_10K",
+      "fb_sayfa": 3,
+      "finqa_id": "FIS/2016/page_31.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 3,
+      "kapsama": 0.014
+    },
+    {
+      "fb_soru": "financebench_id_01009",
+      "fb_belge": "PEPSICO_2022_10K",
+      "fb_sayfa": 3,
+      "finqa_id": "FIS/2016/page_31.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 3,
+      "kapsama": 0.014
+    },
+    {
+      "fb_soru": "financebench_id_00283",
+      "fb_belge": "Pfizer_2023Q2_10Q",
+      "fb_sayfa": 40,
+      "finqa_id": "FIS/2016/page_31.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 3,
+      "kapsama": 0.014
+    },
+    {
+      "fb_soru": "financebench_id_02419",
+      "fb_belge": "Pfizer_2023Q2_10Q",
+      "fb_sayfa": 40,
+      "finqa_id": "FIS/2016/page_31.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 3,
+      "kapsama": 0.014
+    },
+    {
+      "fb_soru": "financebench_id_00215",
+      "fb_belge": "VERIZON_2022_10K",
+      "fb_sayfa": 22,
+      "finqa_id": "FIS/2016/page_31.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 3,
+      "kapsama": 0.014
+    },
+    {
+      "fb_soru": "financebench_id_04672",
+      "fb_belge": "3M_2018_10K",
+      "fb_sayfa": 57,
+      "finqa_id": "MMM/2012/page_105.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.012
+    },
+    {
+      "fb_soru": "financebench_id_00499",
+      "fb_belge": "3M_2022_10K",
+      "fb_sayfa": 49,
+      "finqa_id": "MMM/2012/page_105.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.012
+    },
+    {
+      "fb_soru": "financebench_id_00807",
+      "fb_belge": "3M_2023Q2_10Q",
+      "fb_sayfa": 4,
+      "finqa_id": "MMM/2012/page_105.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.012
+    },
+    {
+      "fb_soru": "financebench_id_10136",
+      "fb_belge": "GENERALMILLS_2022_10K",
+      "fb_sayfa": 48,
+      "finqa_id": "GIS/2018/page_39.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 6,
+      "kapsama": 0.012
+    },
+    {
+      "fb_soru": "financebench_id_02049",
+      "fb_belge": "JPMORGAN_2023Q2_10Q",
+      "fb_sayfa": 84,
+      "finqa_id": "JPM/2010/page_144.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 6,
+      "kapsama": 0.012
+    },
+    {
+      "fb_soru": "financebench_id_03029",
+      "fb_belge": "3M_2018_10K",
+      "fb_sayfa": 59,
+      "finqa_id": "INTC/2018/page_48.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.011
+    },
+    {
+      "fb_soru": "financebench_id_00499",
+      "fb_belge": "3M_2022_10K",
+      "fb_sayfa": 51,
+      "finqa_id": "INTC/2018/page_48.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.011
+    },
+    {
+      "fb_soru": "financebench_id_07966",
+      "fb_belge": "ACTIVISIONBLIZZARD_2019_10K",
+      "fb_sayfa": 72,
+      "finqa_id": "INTC/2018/page_48.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.011
+    },
+    {
+      "fb_soru": "financebench_id_04735",
+      "fb_belge": "ADOBE_2015_10K",
+      "fb_sayfa": 62,
+      "finqa_id": "INTC/2018/page_48.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.011
+    },
+    {
+      "fb_soru": "financebench_id_03856",
+      "fb_belge": "ADOBE_2017_10K",
+      "fb_sayfa": 60,
+      "finqa_id": "INTC/2018/page_48.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.011
+    },
+    {
+      "fb_soru": "financebench_id_03069",
+      "fb_belge": "AMD_2015_10K",
+      "fb_sayfa": 59,
+      "finqa_id": "INTC/2018/page_48.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.011
+    },
+    {
+      "fb_soru": "financebench_id_00822",
+      "fb_belge": "FOOTLOCKER_2022_8K_dated-2022-05-20",
+      "fb_sayfa": 1,
+      "finqa_id": "RSG/2008/page_43.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 2,
+      "kapsama": 0.011
+    },
+    {
+      "fb_soru": "financebench_id_00521",
+      "fb_belge": "ULTABEAUTY_2023_10K",
+      "fb_sayfa": 56,
+      "finqa_id": "INTC/2018/page_48.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.011
+    },
+    {
+      "fb_soru": "financebench_id_01351",
+      "fb_belge": "AMERICANEXPRESS_2022_10K",
+      "fb_sayfa": 43,
+      "finqa_id": "HFC/2018/page_43.pdf-4",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.01
+    },
+    {
+      "fb_soru": "financebench_id_01290",
+      "fb_belge": "BOEING_2022_10K",
+      "fb_sayfa": 7,
+      "finqa_id": "FIS/2007/page_33.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 4,
+      "kapsama": 0.01
+    },
+    {
+      "fb_soru": "financebench_id_01290",
+      "fb_belge": "BOEING_2022_10K",
+      "fb_sayfa": 13,
+      "finqa_id": "PKG/2005/page_74.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 5,
+      "kapsama": 0.01
+    },
+    {
+      "fb_soru": "financebench_id_00464",
+      "fb_belge": "BOEING_2022_10K",
+      "fb_sayfa": 7,
+      "finqa_id": "FIS/2007/page_33.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 4,
+      "kapsama": 0.01
+    },
+    {
+      "fb_soru": "financebench_id_04103",
+      "fb_belge": "GENERALMILLS_2019_10K",
+      "fb_sayfa": 52,
+      "finqa_id": "GIS/2018/page_53.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.01
+    },
+    {
+      "fb_soru": "financebench_id_10136",
+      "fb_belge": "GENERALMILLS_2022_10K",
+      "fb_sayfa": 44,
+      "finqa_id": "GIS/2018/page_53.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.01
+    },
+    {
+      "fb_soru": "financebench_id_01346",
+      "fb_belge": "CORNING_2022_10K",
+      "fb_sayfa": 23,
+      "finqa_id": "PKG/2006/page_65.pdf-4",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.009
+    },
+    {
+      "fb_soru": "financebench_id_02416",
+      "fb_belge": "PFIZER_2021_10K",
+      "fb_sayfa": 70,
+      "finqa_id": "UNP/2006/page_55.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 6,
+      "kapsama": 0.009
+    },
+    {
+      "fb_soru": "financebench_id_01077",
+      "fb_belge": "BESTBUY_2023_10K",
+      "fb_sayfa": 50,
+      "finqa_id": "HUM/2009/page_105.pdf-1",
+      "finqa_bolum": "test",
+      "ortak_parca": 4,
+      "kapsama": 0.008
+    },
+    {
+      "fb_soru": "financebench_id_01091",
+      "fb_belge": "BOEING_2022_10K",
+      "fb_sayfa": 112,
+      "finqa_id": "ZBH/2013/page_49.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 7,
+      "kapsama": 0.008
+    },
+    {
+      "fb_soru": "financebench_id_00790",
+      "fb_belge": "CVSHEALTH_2022_10K",
+      "fb_sayfa": 107,
+      "finqa_id": "AWK/2015/page_109.pdf-3",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.007
+    },
+    {
+      "fb_soru": "financebench_id_01107",
+      "fb_belge": "CVSHEALTH_2022_10K",
+      "fb_sayfa": 173,
+      "finqa_id": "KHC/2016/page_23.pdf-3",
+      "finqa_bolum": "dev",
+      "ortak_parca": 4,
+      "kapsama": 0.007
+    },
+    {
+      "fb_soru": "financebench_id_00956",
+      "fb_belge": "JOHNSON_JOHNSON_2022_10K",
+      "fb_sayfa": 27,
+      "finqa_id": "CAG/2007/page_41.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 4,
+      "kapsama": 0.007
+    },
+    {
+      "fb_soru": "financebench_id_00394",
+      "fb_belge": "JPMORGAN_2022Q2_10Q",
+      "fb_sayfa": 20,
+      "finqa_id": "JPM/2016/page_141.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 4,
+      "kapsama": 0.007
+    },
+    {
+      "fb_soru": "financebench_id_06247",
+      "fb_belge": "WALMART_2018_10K",
+      "fb_sayfa": 56,
+      "finqa_id": "DRE/2007/page_56.pdf-3",
+      "finqa_bolum": "test",
+      "ortak_parca": 4,
+      "kapsama": 0.007
+    },
+    {
+      "fb_soru": "financebench_id_06741",
+      "fb_belge": "WALMART_2020_10K",
+      "fb_sayfa": 50,
+      "finqa_id": "DRE/2007/page_56.pdf-3",
+      "finqa_bolum": "test",
+      "ortak_parca": 4,
+      "kapsama": 0.007
+    },
+    {
+      "fb_soru": "financebench_id_00757",
+      "fb_belge": "AMD_2022_10K",
+      "fb_sayfa": 11,
+      "finqa_id": "HIG/2014/page_126.pdf-3",
+      "finqa_bolum": "train",
+      "ortak_parca": 2,
+      "kapsama": 0.006
+    },
+    {
+      "fb_soru": "financebench_id_10285",
+      "fb_belge": "BOEING_2018_10K",
+      "fb_sayfa": 51,
+      "finqa_id": "AWK/2018/page_103.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.006
+    },
+    {
+      "fb_soru": "financebench_id_00563",
+      "fb_belge": "AMD_2022_10K",
+      "fb_sayfa": 47,
+      "finqa_id": "TMUS/2016/page_32.pdf-3",
+      "finqa_bolum": "train",
+      "ortak_parca": 2,
+      "kapsama": 0.005
+    },
+    {
+      "fb_soru": "financebench_id_00517",
+      "fb_belge": "BOEING_2022_10K",
+      "fb_sayfa": 61,
+      "finqa_id": "FITB/2008/page_96.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.005
+    },
+    {
+      "fb_soru": "financebench_id_01226",
+      "fb_belge": "3M_2022_10K",
+      "fb_sayfa": 26,
+      "finqa_id": "MMM/2013/page_26.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 3,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_01079",
+      "fb_belge": "AMCOR_2023_10K",
+      "fb_sayfa": 63,
+      "finqa_id": "HOLX/2007/page_126.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 2,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_05718",
+      "fb_belge": "AMERICANWATERWORKS_2020_10K",
+      "fb_sayfa": 85,
+      "finqa_id": "PM/2017/page_99.pdf-1",
+      "finqa_bolum": "dev",
+      "ortak_parca": 1,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_04254",
+      "fb_belge": "AMERICANWATERWORKS_2021_10K",
+      "fb_sayfa": 87,
+      "finqa_id": "PM/2017/page_99.pdf-1",
+      "finqa_bolum": "dev",
+      "ortak_parca": 1,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_03838",
+      "fb_belge": "BLOCK_2020_10K",
+      "fb_sayfa": 85,
+      "finqa_id": "ILMN/2007/page_78.pdf-4",
+      "finqa_bolum": "dev",
+      "ortak_parca": 2,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_01107",
+      "fb_belge": "CVSHEALTH_2022_10K",
+      "fb_sayfa": 172,
+      "finqa_id": "ABC/2005/page_49.pdf-4",
+      "finqa_bolum": "test",
+      "ortak_parca": 4,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_01107",
+      "fb_belge": "CVSHEALTH_2022_10K",
+      "fb_sayfa": 172,
+      "finqa_id": "ABC/2005/page_49.pdf-4",
+      "finqa_bolum": "test",
+      "ortak_parca": 4,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_03849",
+      "fb_belge": "MGMRESORTS_2020_10K",
+      "fb_sayfa": 64,
+      "finqa_id": "ILMN/2007/page_78.pdf-4",
+      "finqa_bolum": "dev",
+      "ortak_parca": 2,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_00407",
+      "fb_belge": "MGMRESORTS_2023Q2_10Q",
+      "fb_sayfa": 10,
+      "finqa_id": "DVN/2014/page_85.pdf-1",
+      "finqa_bolum": "dev",
+      "ortak_parca": 1,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_04700",
+      "fb_belge": "MICROSOFT_2016_10K",
+      "fb_sayfa": 51,
+      "finqa_id": "HII/2017/page_47.pdf-1",
+      "finqa_bolum": "dev",
+      "ortak_parca": 1,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_04458",
+      "fb_belge": "NETFLIX_2015_10K",
+      "fb_sayfa": 39,
+      "finqa_id": "ILMN/2007/page_78.pdf-4",
+      "finqa_bolum": "dev",
+      "ortak_parca": 2,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_02024",
+      "fb_belge": "VERIZON_2021_10K",
+      "fb_sayfa": 93,
+      "finqa_id": "RSG/2013/page_137.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 2,
+      "kapsama": 0.004
+    },
+    {
+      "fb_soru": "financebench_id_01865",
+      "fb_belge": "3M_2022_10K",
+      "fb_sayfa": 24,
+      "finqa_id": "IP/2018/page_50.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 2,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_00288",
+      "fb_belge": "BESTBUY_2024Q2_10Q",
+      "fb_sayfa": 19,
+      "finqa_id": "INTC/2013/page_33.pdf-2",
+      "finqa_bolum": "dev",
+      "ortak_parca": 2,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_05915",
+      "fb_belge": "CVSHEALTH_2018_10K",
+      "fb_sayfa": 301,
+      "finqa_id": "RSG/2018/page_139.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_05915",
+      "fb_belge": "CVSHEALTH_2018_10K",
+      "fb_sayfa": 303,
+      "finqa_id": "RSG/2018/page_139.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_00651",
+      "fb_belge": "JOHNSON_JOHNSON_2022Q4_EARNINGS",
+      "fb_sayfa": 0,
+      "finqa_id": "EOG/2017/page_85.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_01488",
+      "fb_belge": "JOHNSON_JOHNSON_2023_8K_dated-2023-08-30",
+      "fb_sayfa": 3,
+      "finqa_id": "EOG/2017/page_85.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_01490",
+      "fb_belge": "JOHNSON_JOHNSON_2023_8K_dated-2023-08-30",
+      "fb_sayfa": 3,
+      "finqa_id": "EOG/2017/page_85.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_01491",
+      "fb_belge": "JOHNSON_JOHNSON_2023_8K_dated-2023-08-30",
+      "fb_sayfa": 3,
+      "finqa_id": "EOG/2017/page_85.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_02416",
+      "fb_belge": "PFIZER_2021_10K",
+      "fb_sayfa": 69,
+      "finqa_id": "LMT/2016/page_83.pdf-4",
+      "finqa_bolum": "train",
+      "ortak_parca": 2,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_00566",
+      "fb_belge": "VERIZON_2022_10K",
+      "fb_sayfa": 76,
+      "finqa_id": "MA/2008/page_116.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 2,
+      "kapsama": 0.003
+    },
+    {
+      "fb_soru": "financebench_id_00591",
+      "fb_belge": "ADOBE_2022_10K",
+      "fb_sayfa": 56,
+      "finqa_id": "HST/2017/page_142.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_00540",
+      "fb_belge": "AES_2022_10K",
+      "fb_sayfa": 129,
+      "finqa_id": "RSG/2012/page_93.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_10420",
+      "fb_belge": "AES_2022_10K",
+      "fb_sayfa": 129,
+      "finqa_id": "RSG/2012/page_93.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_01936",
+      "fb_belge": "AMCOR_2023Q2_10Q",
+      "fb_sayfa": 14,
+      "finqa_id": "AES/2011/page_260.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_01279",
+      "fb_belge": "AMD_2022_10K",
+      "fb_sayfa": 57,
+      "finqa_id": "IPG/2013/page_35.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_01981",
+      "fb_belge": "AMERICANEXPRESS_2022_10K",
+      "fb_sayfa": 44,
+      "finqa_id": "AAL/2015/page_83.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_04660",
+      "fb_belge": "BLOCK_2016_10K",
+      "fb_sayfa": 67,
+      "finqa_id": "ADBE/1999/page_64.pdf-3",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_01290",
+      "fb_belge": "BOEING_2022_10K",
+      "fb_sayfa": 9,
+      "finqa_id": "UA/2015/page_71.pdf-1",
+      "finqa_bolum": "dev",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_00494",
+      "fb_belge": "BOEING_2022_10K",
+      "fb_sayfa": 8,
+      "finqa_id": "NCLH/2017/page_57.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_06272",
+      "fb_belge": "COCACOLA_2022_10K",
+      "fb_sayfa": 65,
+      "finqa_id": "IPG/2018/page_39.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_00005",
+      "fb_belge": "CORNING_2022_10K",
+      "fb_sayfa": 59,
+      "finqa_id": "RSG/2010/page_114.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_00839",
+      "fb_belge": "FOOTLOCKER_2022_8K_dated_2022-08-19",
+      "fb_sayfa": 1,
+      "finqa_id": "HWM/2018/page_110.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_04103",
+      "fb_belge": "GENERALMILLS_2019_10K",
+      "fb_sayfa": 54,
+      "finqa_id": "IPG/2015/page_38.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_03471",
+      "fb_belge": "GENERALMILLS_2020_10K",
+      "fb_sayfa": 49,
+      "finqa_id": "IPG/2014/page_37.pdf-3",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_00711",
+      "fb_belge": "JOHNSON_JOHNSON_2022_10K",
+      "fb_sayfa": 45,
+      "finqa_id": "RSG/2010/page_114.pdf-2",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_10499",
+      "fb_belge": "KRAFTHEINZ_2019_10K",
+      "fb_sayfa": 51,
+      "finqa_id": "MMM/2005/page_53.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_00552",
+      "fb_belge": "MICROSOFT_2023_10K",
+      "fb_sayfa": 59,
+      "finqa_id": "RSG/2012/page_93.pdf-2",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_04458",
+      "fb_belge": "NETFLIX_2015_10K",
+      "fb_sayfa": 41,
+      "finqa_id": "IPG/2015/page_38.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_03282",
+      "fb_belge": "NETFLIX_2017_10K",
+      "fb_sayfa": 44,
+      "finqa_id": "ADBE/1999/page_64.pdf-3",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_04302",
+      "fb_belge": "NIKE_2018_10K",
+      "fb_sayfa": 45,
+      "finqa_id": "NKE/2009/page_43.pdf-1",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_03531",
+      "fb_belge": "NIKE_2019_10K",
+      "fb_sayfa": 53,
+      "finqa_id": "NKE/2009/page_43.pdf-1",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_04080",
+      "fb_belge": "NIKE_2021_10K",
+      "fb_sayfa": 58,
+      "finqa_id": "NKE/2009/page_43.pdf-1",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_04080",
+      "fb_belge": "NIKE_2021_10K",
+      "fb_sayfa": 60,
+      "finqa_id": "NKE/2009/page_43.pdf-1",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_01163",
+      "fb_belge": "NIKE_2023_10K",
+      "fb_sayfa": 61,
+      "finqa_id": "NKE/2009/page_43.pdf-1",
+      "finqa_bolum": "test",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_01474",
+      "fb_belge": "PEPSICO_2023Q1_EARNINGS",
+      "fb_sayfa": 0,
+      "finqa_id": "UNP/2006/page_33.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_01476",
+      "fb_belge": "PEPSICO_2023Q1_EARNINGS",
+      "fb_sayfa": 0,
+      "finqa_id": "UNP/2006/page_33.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.002
+    },
+    {
+      "fb_soru": "financebench_id_01319",
+      "fb_belge": "AES_2022_10K",
+      "fb_sayfa": 131,
+      "finqa_id": "AES/2017/page_157.pdf-1",
+      "finqa_bolum": "dev",
+      "ortak_parca": 1,
+      "kapsama": 0.001
+    },
+    {
+      "fb_soru": "financebench_id_00540",
+      "fb_belge": "AES_2022_10K",
+      "fb_sayfa": 131,
+      "finqa_id": "AES/2017/page_157.pdf-1",
+      "finqa_bolum": "dev",
+      "ortak_parca": 1,
+      "kapsama": 0.001
+    },
+    {
+      "fb_soru": "financebench_id_10420",
+      "fb_belge": "AES_2022_10K",
+      "fb_sayfa": 131,
+      "finqa_id": "AES/2017/page_157.pdf-1",
+      "finqa_bolum": "dev",
+      "ortak_parca": 1,
+      "kapsama": 0.001
+    },
+    {
+      "fb_soru": "financebench_id_03473",
+      "fb_belge": "COCACOLA_2017_10K",
+      "fb_sayfa": 73,
+      "finqa_id": "PNC/2012/page_157.pdf-5",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.001
+    },
+    {
+      "fb_soru": "financebench_id_09724",
+      "fb_belge": "COCACOLA_2021_10K",
+      "fb_sayfa": 61,
+      "finqa_id": "BLK/2013/page_57.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.001
+    },
+    {
+      "fb_soru": "financebench_id_06272",
+      "fb_belge": "COCACOLA_2022_10K",
+      "fb_sayfa": 62,
+      "finqa_id": "BLK/2013/page_57.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.001
+    },
+    {
+      "fb_soru": "financebench_id_00705",
+      "fb_belge": "PEPSICO_2023_8K_dated-2023-05-30",
+      "fb_sayfa": 1,
+      "finqa_id": "ZBH/2013/page_68.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.001
+    },
+    {
+      "fb_soru": "financebench_id_00882",
+      "fb_belge": "PEPSICO_2023_8K_dated-2023-05-30",
+      "fb_sayfa": 1,
+      "finqa_id": "ZBH/2013/page_68.pdf-1",
+      "finqa_bolum": "train",
+      "ortak_parca": 1,
+      "kapsama": 0.001
+    }
+  ]
+}
