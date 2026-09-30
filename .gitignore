@@ -1,0 +1,28 @@
+# Ham veri repoya girmez.
+# FinanceBench CC-BY-NC-4.0 lisansli; PDF'lerin yeniden dagitimi yapilmaz.
+# FinQA ve SEC dosyalari da lokalde tutulur, src/veri_indir.py ile indirilir.
+data/ham/*
+!data/ham/.gitkeep
+data/islenmis/*
+!data/islenmis/.gitkeep
+
+# Model agirliklari ve kontrol noktalari
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+*.engine
+checkpoints/
+
+# Ortam
+.venv/
+venv/
+__pycache__/
+*.pyc
+.env
+.ipynb_checkpoints/
+
+# Isletim sistemi
+Thumbs.db
+.DS_Store
