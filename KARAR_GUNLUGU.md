@@ -655,3 +655,48 @@ sayfada da geçiyorsa (örneğin 10-K'da özet ve ayrıntılı tablo) o sayfayı
 sayılır. Sayfa Recall'u bu yüzden gerçek retrieval başarısını olduğundan düşük gösterebilir;
 cevap düzeyi ölçümü (Karar 2) bunu tamamlar.
 
+---
+
+## Deney 4: Chunk boyutu ve örtüşme (gün 2) — ÖN KAYIT, SONUÇ BEKLENİYOR
+
+**Sonuçlardan ÖNCE yazıldı (2026-10-01).** Varsayım: kullanıcı tasarımı itirazsız onayladı
+(üç onay sorusuna ayrıca yanıt vermedi, Karar 2/4'ün ertelenmesiyle devam etmemizi istedi).
+
+**Gözlem:** tek belgede çoğu kaçırma yakın kaçırma (kanıt sayfası 6-50. sırada: 39 / 127);
+chunk tasarımı hiç araştırılmadı, yalnızca 200 kelimelik baz kullanıldı.
+
+**Metrik tuzağı:** Recall@k "ilk k chunk" demek; chunk büyüdükçe k chunk daha çok metin demektir
+ve üretimde daha çok bağlam tüketir. Chunk sayısına göre kıyaslarsak büyük chunk haksız
+kazanır. **Ana metrik eşit bağlam bütçesi:** sıralı chunk'lar, birikmiş kelime sayısı 1000'e
+ulaşana kadar alınır (chunk, başlamadan önce birikim < 1000 ise dahil edilir; tam 200
+kelimelik chunk'larda bu tam 5 chunk = Recall@5). Kanıt sayfasından chunk bu pencerede mi
+= **Recall@1000w**.
+
+**Varyantlar (sabit, hepsi sayfa sınırını aşmaz):**
+
+| Etiket | Chunk | Rerank derinliği (≈10.000 kelime aday) |
+|---|---|---|
+| c100 | 100 kelime, örtüşme yok | 100 |
+| **c200 (baz)** | 200 kelime, örtüşme yok | 50 |
+| c200o50 | 200 kelime, 50 kelime örtüşme | 50 |
+| c300 | 300 kelime, örtüşme yok | 33 |
+
+Sayfa başına tek chunk **bilerek dışarıda**: ~700 token, 512 sınırlı modellerde ve
+reranker'da kesilir, adil kıyas olmaz.
+
+**Modeller:** bge-base-en ve e5-base (künyesiz), ilk aşama ve ilk aşama + reranker
+(bge-reranker-v2-m3, Deney 2 ile aynı). Her iki arama uzayı, geliştirme kümesi.
+
+**Hipotez H4:** en az bir varyant, C200'e göre eşit bütçe Recall'unu artırır.
+**Ölçüt (sabit):** bir varyant, **reranker sonrası** Recall@1000w'de C200'ü eşleştirilmiş
+bootstrap (%95, 10.000 tekrar) ile **4/4** karşılaştırmada (2 model × 2 uzay) anlamlı
+pozitif farkla geçerse kazanır. Aksi hâlde C200 kalır. Üç varyant birden denendiği için
+ölçüt bilerek sıkıdır.
+
+**Açık beklenti (tahmin, ölçülmedi):** hiçbir varyantın 4/4 ölçütünü geçmesini beklemiyorum;
+C200 kalacak diye tahmin ediyorum. Ölçüt bu tahmine göre değil, sabit eşiğe göre değerlendirilir.
+
+**Ek raporlama (ölçüte dahil değil):** chunk sayısı, 512 sınırlı modellerde kesilen chunk
+oranı, Recall@k (chunk sayısı), ilk aşama bütçe Recall'u, MRR, metin kapsama (büyük chunk'a
+yanlı olduğu bilinir), gömme süresi.
+
