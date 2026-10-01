@@ -194,6 +194,30 @@ bağımsızdır: dört model birebir aynı chunk'ları görür.
 - Bedel: chunk sayısı ~1,4 kat arttı, chunk başına bağlam azaldı. Bu bir sıfır noktasıdır;
   chunk boyutu gün 2'de ayrıca karşılaştırılacak.
 
+**Ölçüm 1: BM25 baseline (2026-10-01, `src/bm25_baseline.py`, geliştirme kümesi: 99 soru, 127 kanıt)**
+
+Ayarsız: küçük harf + alfanumerik tokenizasyon, stopword/stemming yok, k1=1,5, b=0,75.
+Köşeli parantez: %95 bootstrap aralığı.
+
+| Arama uzayı | Recall@1 | Recall@5 | Recall@10 | Recall@50 | MRR |
+|---|---|---|---|---|---|
+| Ortak havuz (başlık) | 0,008 | **0,031** [0,007-0,066] | 0,039 | 0,118 | 0,024 |
+| Tek belge (teşhis) | 0,094 | **0,157** [0,092-0,227] | 0,205 | 0,370 | 0,130 |
+
+**Hat doğrulaması:** sorgu olarak sorunun yerine kanıt metni verilince Recall@5 = 0,974
+(30 soru örneği). Chunk-sayfa eşlemesi, BM25 ve ölçüm kodu doğru; düşük sayılar hat
+hatası değil, gerçek bulgudur.
+
+**Bulgular:**
+
+- Ortak havuzdan tek belgeye geçince Recall@5 0,031 → 0,157. Büyük kısmı "yanlış belge
+  bulma" hatası; ama doğru belge verilse bile BM25 Recall@5 yalnızca 0,157.
+- Örnek (Coca-Cola temettü oranı): soruda şirket adı var, doğru sayfanın metninde
+  genelde yok (ad kapakta/başlıkta). BM25 3M ve PepsiCo sayfalarını getirdi.
+  **Hipotez (ölçülecek):** chunk metnine belge künyesi (şirket, yıl, tür) eklemek
+  ortak havuz sonuçlarını belirgin iyileştirir. Gün 2'nin ilk deneyi.
+- Bu bir "iyi sistem" değil sıfır noktasıdır; sonraki her karar bu sayılara karşı ölçülür.
+
 ---
 
 ## Karar 6: Kanıt eşleştirme kuralı — KAPANDI
