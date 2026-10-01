@@ -1,0 +1,82 @@
+{
+  "c200|bge-base-en|ortak": {
+    "sayfa_isabeti": 0.362,
+    "birlesim_kapsama": 0.327,
+    "ort_farkli_sayfa": 5.45
+  },
+  "c200|bge-base-en|tek": {
+    "sayfa_isabeti": 0.646,
+    "birlesim_kapsama": 0.527,
+    "ort_farkli_sayfa": 5.31
+  },
+  "c200|e5-base|ortak": {
+    "sayfa_isabeti": 0.409,
+    "birlesim_kapsama": 0.375,
+    "ort_farkli_sayfa": 5.46
+  },
+  "c200|e5-base|tek": {
+    "sayfa_isabeti": 0.646,
+    "birlesim_kapsama": 0.534,
+    "ort_farkli_sayfa": 5.28
+  },
+  "c100|bge-base-en|ortak": {
+    "sayfa_isabeti": 0.409,
+    "birlesim_kapsama": 0.238,
+    "ort_farkli_sayfa": 9.93
+  },
+  "c100|bge-base-en|tek": {
+    "sayfa_isabeti": 0.74,
+    "birlesim_kapsama": 0.418,
+    "ort_farkli_sayfa": 8.77
+  },
+  "c100|e5-base|ortak": {
+    "sayfa_isabeti": 0.441,
+    "birlesim_kapsama": 0.256,
+    "ort_farkli_sayfa": 10.01
+  },
+  "c100|e5-base|tek": {
+    "sayfa_isabeti": 0.74,
+    "birlesim_kapsama": 0.412,
+    "ort_farkli_sayfa": 8.72
+  },
+  "c200o50|bge-base-en|ortak": {
+    "sayfa_isabeti": 0.346,
+    "birlesim_kapsama": 0.326,
+    "ort_farkli_sayfa": 5.24
+  },
+  "c200o50|bge-base-en|tek": {
+    "sayfa_isabeti": 0.63,
+    "birlesim_kapsama": 0.535,
+    "ort_farkli_sayfa": 4.98
+  },
+  "c200o50|e5-base|ortak": {
+    "sayfa_isabeti": 0.409,
+    "birlesim_kapsama": 0.389,
+    "ort_farkli_sayfa": 5.28
+  },
+  "c200o50|e5-base|tek": {
+    "sayfa_isabeti": 0.622,
+    "birlesim_kapsama": 0.527,
+    "ort_farkli_sayfa": 4.99
+  },
+  "c300|bge-base-en|ortak": {
+    "sayfa_isabeti": 0.315,
+    "birlesim_kapsama": 0.318,
+    "ort_farkli_sayfa": 4.22
+  },
+  "c300|bge-base-en|tek": {
+    "sayfa_isabeti": 0.669,
+    "birlesim_kapsama": 0.608,
+    "ort_farkli_sayfa": 4.13
+  },
+  "c300|e5-base|ortak": {
+    "sayfa_isabeti": 0.417,
+    "birlesim_kapsama": 0.433,
+    "ort_farkli_sayfa": 4.26
+  },
+  "c300|e5-base|tek": {
+    "sayfa_isabeti": 0.646,
+    "birlesim_kapsama": 0.589,
+    "ort_farkli_sayfa": 4.14
+  }
+}
