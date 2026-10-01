@@ -1096,8 +1096,13 @@ cevaplandığı anlamına gelir, bu sınırlılık olarak raporlanır.
 - Çalıştırmadan önce toplam token tahmini ve fiyat gösterilir, kullanıcı onayı alınır.
 - **Veri ve katman notu:** Gemini kredilerinin ücretsiz mi ücretli katmanda olduğu kullanıcı tarafından
   kontrol edilecek (dokümantasyona göre ücretsiz katmanda içerik ürün iyileştirmede kullanılabilir,
-  ücretli katmanda kullanılmaz). Sonuç: ____ (kullanıcı doldurur). FinanceBench CC-BY-NC lisanslıdır;
-  kullanım ticari olmayan araştırmadır.
+  ücretli katmanda kullanılmaz). **Kullanıcı bildirimi (2026-10-01):** krediler TL bakiyesi olarak var
+  (Credit balance: TRY 496,48); bu, faturalama ile ilişkili ücretli bir hesaba işaret eden bir
+  göstergedir ama katman doğrulaması DEĞİLDİR. Kesin doğrulama: anahtarın bağlı olduğu projenin planı
+  (AI Studio) kullanıcı tarafından teyit edilecek. FinanceBench CC-BY-NC lisanslıdır; kullanım ticari
+  olmayan araştırmadır.
+- **Harcama tavanı:** çalıştırmadan önce token tahmini TL'ye çevrilip gösterilir; kullanıcı onayı ve
+  bakiyeyi aşmayan bir tavan konur (toplam harcama tavanı: kullanıcı belirler).
 - Fiyat bilgisi (2026-10-01 dokümantasyon özeti): `gemini-3.8-flash` $0,75 / $3,75 (1M giriş / çıkış
   token, 31.12.2026'ya kadar), `gemini-3.5-flash-lite` $0,30 / $2,50; ilk çağrıdan önce panelden
   doğrulanacak.
