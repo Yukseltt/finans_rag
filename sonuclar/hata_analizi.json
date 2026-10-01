@@ -1,0 +1,98 @@
+{
+  "siralama": "dense_e5-base_rerank",
+  "kume": "gelistirme",
+  "ortak": {
+    "soru_turu_R5": {
+      "metrics-generated": {
+        "bulunan": 27,
+        "toplam": 49,
+        "oran": 0.551
+      },
+      "domain-relevant": {
+        "bulunan": 9,
+        "toplam": 42,
+        "oran": 0.214
+      },
+      "novel-generated": {
+        "bulunan": 14,
+        "toplam": 36,
+        "oran": 0.389
+      }
+    },
+    "kanit_sayisi_R5(3=3+)": {
+      "1": {
+        "bulunan": 34,
+        "toplam": 75,
+        "oran": 0.453
+      },
+      "2": {
+        "bulunan": 16,
+        "toplam": 40,
+        "oran": 0.4
+      },
+      "3": {
+        "bulunan": 0,
+        "toplam": 12,
+        "oran": 0.0
+      }
+    },
+    "kanit_sirasi": {
+      "<=5": 50,
+      "6-10": 13,
+      "yok(>100)": 33,
+      "51-100": 18,
+      "11-50": 13
+    },
+    "rakam_orani_medyan": {
+      "bulunan": 0.157,
+      "kacirilan": 0.144
+    }
+  },
+  "tek": {
+    "soru_turu_R5": {
+      "metrics-generated": {
+        "bulunan": 35,
+        "toplam": 49,
+        "oran": 0.714
+      },
+      "domain-relevant": {
+        "bulunan": 22,
+        "toplam": 42,
+        "oran": 0.524
+      },
+      "novel-generated": {
+        "bulunan": 23,
+        "toplam": 36,
+        "oran": 0.639
+      }
+    },
+    "kanit_sayisi_R5(3=3+)": {
+      "1": {
+        "bulunan": 54,
+        "toplam": 75,
+        "oran": 0.72
+      },
+      "2": {
+        "bulunan": 26,
+        "toplam": 40,
+        "oran": 0.65
+      },
+      "3": {
+        "bulunan": 0,
+        "toplam": 12,
+        "oran": 0.0
+      }
+    },
+    "kanit_sirasi": {
+      "<=5": 80,
+      "51-100": 5,
+      "11-50": 21,
+      "yok(>100)": 3,
+      "6-10": 18
+    },
+    "rakam_orani_medyan": {
+      "bulunan": 0.15,
+      "kacirilan": 0.152
+    }
+  }
+}

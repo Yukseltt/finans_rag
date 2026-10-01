@@ -80,15 +80,27 @@ sonradan değişirse önceki tüm ölçümler geçersiz olur.
 Her karar `KARAR_GUNLUGU.md` dosyasında, gerekçesiyle birlikte kaydedilir.
 Her karar gerekçesiyle kayıtlıdır.
 
-## Açık sorular
+## Durum (2026-10-01)
 
-- FinanceBench PDF'lerinin kaç şirketi kapsadığı ve parse zorluğu
-- **FinQA ile FinanceBench arasında şirket-yıl örtüşmesi var mı** — ikisi de SEC
-  dosyalarından türüyor. Aynı şirket-yıl hem eğitimde hem testte varsa sızıntı
-  olur ve "dağılım kaymasını ölçtük" iddiası çürür. Gün 1'de kesiştir.
-- SEC EDGAR gerçekten gerekli mi? FinanceBench kendi PDF'leriyle geliyorsa
-  EDGAR kapsam dışı bırakılabilir. Bir haftalık projede belirsiz kapsam en
-  büyük risk.
+Ayrıntılı gerekçe, ön kayıtlı deneyler ve tüm sayılar `KARAR_GUNLUGU.md` içinde.
+
+| Konu | Sonuç |
+|---|---|
+| Veri | FinanceBench 150 soru, 32 şirket (sorularda), 360 belge, 53.399 sayfa; FinQA 8.281 örnek |
+| Sızıntı | Aynı sayfa/metin örtüşmesi yok (metin yöntemi doğrulandı); aynı rapor: 2 soru, FinQA'dan 22 örnek eğitimden çıkarılır |
+| Değerlendirme | FinanceBench 99 geliştirme + 51 kilitli (şirket bazında); kilitli küme final ölçüme kadar kullanılmaz |
+| Dense vs BM25 | Dense net üstün; dört dense model birbirinden ayırt edilemiyor |
+| Reranker | Anlamlı kazanç (ortak havuz 5/5, tek belge 4/5) |
+| Künye, hibrit (BM25) | İkisi de ön kayıtlı ölçütle **reddedildi** |
+| Hat | dense ilk aşama + bge-reranker-v2-m3 |
+
+Açık: chunking karşılaştırması, fine-tune, cevap üretimi ve metriği (Karar 2 revize edilecek),
+SEC EDGAR kararı (varsayılan: kapsam dışı), kilitli test ölçümü.
+
+Sınırlılıklar: 99 soruluk geliştirme kümesi küçük (güven aralıkları geniş); ön-eğitilmiş
+modellerin SEC metnini görmüş olma ihtimali doğrulanamaz; geliştirme kümesi çok sayıda
+karşılaştırmada kullanıldı; reponun belge listesinde olmayan 8 ek PDF korpusa alınmadı
+(hiçbir soru onlara bağlı değil).
 
 ## Negatif sonuç da bir sonuçtur
 
@@ -116,13 +128,14 @@ Bu satır buraya, gün 5'te sonucu zorlama baskısı doğmasın diye yazıldı.
 
 ```
 finans_rag/
-├── README.md              bu dosya: plan ve kısıtlar
-├── KARAR_GUNLUGU.md       her kararın gerekçesi
+├── README.md              bu dosya: plan, kısıtlar, durum
+├── KARAR_GUNLUGU.md       her kararın ve deneyin gerekçesi, ön kayıtlar, sonuçlar
 ├── requirements.txt
 ├── data/
 │   ├── ham/               indirilen veri (gitignore)
-│   └── islenmis/          parse ve chunk çıktıları (gitignore)
-├── src/                   indirme, parse, index, eval betikleri
+│   └── islenmis/          sayfa metinleri, chunk'lar, gömüler, sıralamalar (gitignore)
+├── src/                   indirme, parse, chunk, retrieval, rerank, değerlendirme betikleri
+├── tests/                 değerlendirme ve RRF kodunun doğruluk testleri
 ├── notebooks/             Colab defterleri
-└── sonuclar/              metrik tabloları, veri manifestosu, grafikler
+└── sonuclar/              ölçümler, veri manifestosu, sızıntı raporları, ortam kaydı
 ```
