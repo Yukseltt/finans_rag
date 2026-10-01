@@ -27,7 +27,9 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D2 | Deney 2: reranker | DESTEKLENDİ (H2) |
 | D3 | Deney 3: hibrit BM25 + dense | REDDEDİLDİ (H3, H3b) |
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
+| 13 | Vektör veritabanı | KAPANDI: Chroma; doğrulanırsa K1'in ilk aşaması (Deney 6) |
 | D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | ÖN KAYIT YAZILDI, çalıştırılmadı |
+| D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | ÖN KAYIT YAZILDI, çalıştırılmadı |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
 cevap düzeyinde ölçüm, kilitli test ölçümü. Fine-tune isteğe bağlı ek (Karar 11). Ayrıntı: "İnceleme
@@ -1118,4 +1120,93 @@ cevaplandığı anlamına gelir, bu sınırlılık olarak raporlanır.
 
 **Raporlama:** tüm koşullar ve okuyucular, sonuç ne olursa olsun; çoklu karşılaştırma uyarısıyla
 (ölçütler tutarlılık arar). Olumsuz sonuç (ör. c300'ün c200'ü geçememesi) bu proje için bulgudur.
+
+---
+
+## Karar 13: Vektör veritabanı — KAPANDI (2026-10-02)
+
+**Soru (kullanıcı):** RAG sistemlerinde vektör veritabanı kullanmamız gerekmiyor mu? **Mevcut durum:**
+chunk gömüleri `embeddings/*.npy` dosyalarında, arama `Q @ E.T` + `torch.topk` ile **tam (kaba kuvvet,
+flat)** yapılıyor; işlevsel olarak bir flat vektör deposu. Ölçüm (e5-base, 163.543 vektör, 1 sorgu):
+CPU 13,9 ms, GPU 1,6 ms. Bu ölçekte tam arama hızlı ve yaklaşıklık hatası taşımaz; tüm önceki
+ölçümler bu yüzden birebir tekrarlanabilir. Vektör veritabanlarının asıl değeri: yaklaşık indeksler
+(milyon+ ölçek), kalıcılık, ekleme/silme, metadata filtreleme, servis.
+
+**Karar (kullanıcı): gerçek bir vektör veritabanı kullanılacak.** Seçenekler (bu makinede doğrulandı):
+
+| Aday | Bu makinede | Gerçek indeks | Not |
+|---|---|---|---|
+| **Chroma 1.5.9** | Hazır paket (Py 3.13/Windows); numpy ve torch'a dokunmaz; onnxruntime, protobuf, pydantic yükler | HNSW (cosine; varsayılan ef_construction 100, ef_search 100, max_neighbors 16) | Gömülü, kalıcı, altyapısız. Dokümanda tam arama seçeneği yok |
+| Qdrant 1.19.1 | İstemci hazır; sunucu için **Docker gerekir, kurulu değil** | Sunucuda evet | Yerel modu dokümana göre geliştirme/prototip/test içindir |
+| LanceDB 0.39.0 | Hazır paket | Evet | Daha az yaygın |
+| pgvector | PostgreSQL kurulu değil | Evet | Ek altyapı |
+
+**Seçim: Chroma.** Gerekçe: altyapı gerektirmez, gerçek HNSW indeksi sunar, bu makinede hemen
+çalışır. Bir soyutlama katmanı (`vektor_deposu`) ileride Qdrant'a geçişi kolaylaştırır. Chroma'nın
+metadata filtreleme ve kalıcı istemci desteği dokümantasyon sayfasında görülemedi; **uygulamada
+çalıştırılarak doğrulanacak**.
+
+**Entegrasyon derinliği (kullanıcı): doğrulanırsa K1'in ilk aşaması.** DB doğrudan K1'in yerine
+konmaz; önce Deney 6'da tam aramayla karşılaştırılır. Ölçüt geçerse final hattı DB üzerinden çalışır;
+geçmezse DB ayrı bir demo/sorgu yolu olarak kalır ve neden raporlanır.
+
+**Bilimsel risk (açık):** vektör veritabanları **yaklaşık** arama yapar. "Tek belge" teşhis ölçümü
+yüksek seçicilikte filtre gerektirir (bir belgenin ~460 chunk'ı / 163.543 = %0,3); filtreli HNSW
+bilinen bir zayıf durumdur ve isabeti düşürebilir.
+
+---
+
+## Deney 6: Vektör veritabanı (Chroma, HNSW) vs tam arama — ÖN KAYIT, ÇALIŞTIRILMADI
+
+**Sonuçlardan ÖNCE yazıldı (2026-10-02).** Hiçbir Chroma kurulumu/ölçümü yapılmadı.
+
+**Soru:** yaklaşık (HNSW) arama, tam aramanın ürettiği retrieval kalitesini koruyor mu; ve bu, filtreli
+(tek belge) aramada da geçerli mi? Cevap evetse final hattı DB üzerinden çalışabilir.
+
+**Kurulum (sabit):** `chromadb==1.5.9`, kalıcı istemci (`data/islenmis/chroma/`, repoya girmez);
+koleksiyon mesafesi **cosine**; koleksiyon, **e5-base-v2 c200 künyesiz gömüleriyle** (`embeddings/e5-base.npy`,
+163.543 vektör) kurulur, vektörler birebir aynı (yeniden gömme yok). Metadata: `chunk_id`, `doc`,
+`sayfa_idx`. İndeks kurulum parametreleri **varsayılan** (ef_construction 100, max_neighbors 16).
+Sorgu vektörleri tam aramadakiyle aynı (query: öneki, normalize).
+
+**Arama uzayları (Karar 9):** ortak havuz (filtresiz, ilk 100) ve tek belge (`doc == sorunun belgesi`
+filtresi, ilk 100). Geliştirme kümesi, 99 soru.
+
+**Ölçümler:**
+
+1. **Küme örtüşmesi:** soru başına |DB ilk-50 ∩ tam ilk-50| / 50 ortalaması (ayrıca ilk-5 ve ilk-100).
+2. **Retrieval kalitesi:** Recall@1000w ve Recall@50, DB sıralaması vs tam arama (eşleştirilmiş,
+   şirket-kümeli bootstrap).
+3. **Reranker sonrası:** Deney 2'deki aynı reranker ve derinlik 50 ile Recall@1000w, DB vs tam arama.
+4. **Gecikme ve maliyet:** sorgu başına ms (medyan ve p95) tam arama (GPU, CPU) vs Chroma; indeksleme
+   süresi; disk boyutu.
+
+**Ölçüt (sabit): DB, final hattında kullanılabilir sayılır ancak aşağıdakilerin TÜMÜ sağlanırsa:**
+
+- (a) ortak havuzda ortalama ilk-50 örtüşmesi **≥ 0,95**;
+- (b) tek belgede (filtreli) ortalama ilk-50 örtüşmesi **≥ 0,95**;
+- (c) reranker sonrası Recall@1000w farkının (DB − tam) %95 aralığının **alt sınırı ≥ −0,05**, her iki
+  arama uzayında ("aşağı olmama": en fazla 5 puan kayıp kabul edilir);
+- (d) filtreli aramada sorgu başına istenen 100 sonucun hepsi dönüyor (eksik sonuç yok).
+
+**Tek ayar adımı (ön tanımlı):** (a)-(d) sağlanmazsa **yalnızca `ef_search`** sırayla 100 → 400 → 1000
+yapılır (indeks yeniden kurulmaz); ilk sağlanan ayar seçilir, üçü de raporlanır. Hiçbiri sağlamazsa DB
+final hattında kullanılmaz, demo yolu olarak kalır ve neden raporlanır. Başka ayar (M, ef_construction,
+filtre stratejisi) bu deneyde denenmez.
+
+**Açık beklenti (tahmin, ölçülmedi):** filtresiz ortak havuzda varsayılan ayarla yüksek örtüşme (≥0,95)
+bekliyorum; **tek belge filtreli aramada en büyük kaybı bekliyorum** (seçici filtre, %0,3) ve
+ef_search artırımının gerekebileceğini tahmin ediyorum. Ölçüt bu tahmine göre değil sabit eşiğe göre
+değerlendirilir.
+
+**Doğrulama zorunlulukları (uygulama sırasında):** Chroma'nın cosine mesafesinin yorumu (1 − cos)
+tam aramayla küçük bir örnekte tutarlılık testiyle doğrulanır; filtre ve kalıcılık davranışı çalıştırılarak
+teyit edilir; yeniden başlatmadan sonra koleksiyonun aynı sonuçları verdiği test edilir.
+
+**Raporlama:** üç ef_search ayarı × iki arama uzayı, tüm ölçümler, sonuç ne olursa olsun. Olumsuz sonuç
+("HNSW filtreli aramada kaybettiriyor") bu proje için bulgudur.
+
+**Final hatta etkisi:** ölçüt geçerse Deney 5'teki K1 (getirilen) bağlamı DB üzerinden üretilir ve
+bu, Deney 5 ön kaydındaki "ortak havuz, e5-base, reranker" tanımıyla uyumludur (aynı vektörler, aynı
+reranker); geçmezse K1 tam aramayla üretilir.
 
