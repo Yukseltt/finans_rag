@@ -533,3 +533,35 @@ MRR de her yöntemde ve iki uzayda anlamlı arttı.
 yöntem × 2 uzay), ama sonuç tek bir anlamlı fark değil tutarlı bir örüntü (10/10 yönde
 pozitif, 9/10 anlamlı). Reranker fine-tune edilmedi, ayarlanmadı.
 
+---
+
+## Deney 3: Hibrit arama, BM25 + dense (Karar 7, adım 2) — ÖN KAYIT, SONUÇ BEKLENİYOR
+
+**Sonuçlardan ÖNCE yazıldı (2026-10-01).**
+
+**Gözlem:** BM25 bu veride dense'ten çok zayıf (ortak havuz R@5 0,03; en iyi dense 0,21).
+Sözcük eşleşmesinin dense'in kaçırdığı sayfaları tamamlayıp tamamlamadığı bilinmiyor.
+
+**Müdahale:** Reciprocal Rank Fusion (RRF): skor = Σ 1/(k + sıra), **k = 60** (yaygın
+varsayılan; ayarlanmayacak). BM25 sıralaması ile her bir dense modelin sıralaması
+birleştirilir (4 hibrit), birleşik ilk 100 tutulur. Künyesiz. Her iki arama uzayında,
+geliştirme kümesinde.
+
+Ek, ölçüte dahil olmayan keşif varyantı: `rrf_hepsi` = BM25 + 4 dense (5 liste).
+
+**H3:** hibrit, tek başına dense'e göre Recall@5'i artırır.
+**Ölçüt 1 (sabit):** eşleştirilmiş bootstrap farkı (%95, 10.000 tekrar) 0'ı içermeyen
+pozitif; **her uzayda ayrı ayrı**, 4 hibritin **en az 3'ünde**.
+
+**H3b:** hibrit + reranker (derinlik 50, Deney 2 ile aynı), dense + reranker'a göre
+Recall@5'i artırır.
+**Ölçüt 2 (sabit):** aynı biçimde, her uzayda ayrı ayrı, 4 hibritin en az 3'ünde anlamlı
+pozitif fark.
+
+**Açık beklenti (tahmin, ölçülmedi):** BM25 çok zayıf olduğundan hibritin kazancının küçük
+ya da anlamsız olmasını, hatta zayıf BM25 listesinin sıralamayı bozmasını bekliyorum.
+Ölçüt bu beklentiye göre değil, yukarıdaki sabit eşiğe göre değerlendirilecek.
+
+**Raporlama:** 4 hibrit + keşif varyantı × 2 uzay, fark ve aralıklarıyla, sonuç ne olursa
+olsun. Çoklu karşılaştırma uyarısı: ölçütler tutarlılık arar (≥3/4).
+
