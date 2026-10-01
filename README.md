@@ -8,8 +8,8 @@ kararın **neden** verildiğini ölçümle gösterebilmek.
 
 | Konu | Değer |
 |---|---|
-| Süre | En fazla 1 hafta |
-| GPU | Google Colab T4 (kredili) |
+| Süre | Sınır yok (başlangıçta 1 hafta; 2026-10-01'de kaldırıldı) |
+| Donanım | Yerel RTX 2060 6 GB (gömme, reranker çıkarımı); Colab T4 kredili (fine-tune); M4 MacBook Air 16 GB (yerel okuyucu LLM); Gemini kredileri (ikinci okuyucu) |
 | Dil | İngilizce |
 | Çalışma biçimi | Kararlar birlikte alınır: seçenekler, takaslar, öneri, sonra karar |
 | Sonraki proje | Küçük dolandırıcılık tespiti projesi (LightGBM, PR-AUC, ONNX). Bu proje bittikten sonra |
@@ -25,9 +25,9 @@ kararın **neden** verildiğini ölçümle gösterebilmek.
 
 | Veri | Rol | Lisans | Doğrulama durumu |
 |---|---|---|---|
-| FinanceBench | Değerlendirme. 150 soru, cevap, kanıt alıntısı, 10-K/10-Q/8-K PDF'leri | CC-BY-NC-4.0 (ticari kullanım yok) | Sayfadan doğrulandı. Açık kaynak sürüm 150 örnek. **Şirket sayısı sayfada verilmiyor**, tam istatistik için Patronus AI'ya yazmak gerekiyor |
+| FinanceBench | Değerlendirme. 150 soru, cevap, kanıt alıntısı, 10-K/10-Q/8-K PDF'leri | CC-BY-NC-4.0 (ticari kullanım yok) | **Doğrulandı:** 150 soru; sorularda 32 şirket, belge listesinde 40 şirket ve 360 belge (53.399 sayfa) |
 | FinQA | Fine-tune eğitim verisi. Soru, tablo, metin, kanıt satırı indeksi | MIT | **Doğrulandı:** train 6.251, validation 883, test 1.147 — toplam 8.281 |
-| SEC EDGAR API | Ham korpus (filing metadata, XBRL) | Kamuya açık | **Doğrulandı:** saniyede en fazla 10 istek. Zorunlu başlıklar: `User-Agent: İsim eposta@alan.com`, `Accept-Encoding: gzip, deflate`, `Host: www.sec.gov`. Botnet ve toplu tarama yasak |
+| SEC EDGAR API | Ham korpus (filing metadata, XBRL) | Kamuya açık | **Kapsam dışı (Karar 4).** Kurallar doğrulanmıştı ama kullanılmıyor: saniyede en fazla 10 istek. Zorunlu başlıklar: `User-Agent: İsim eposta@alan.com`, `Accept-Encoding: gzip, deflate`, `Host: www.sec.gov`. Botnet ve toplu tarama yasak |
 
 ### Veri repoya konmaz
 
@@ -43,15 +43,15 @@ temizlemek zorunda kaldığımız için baştan konuyor.
 
 Sıra bilerek böyle: **baseline ölçülmeden hiçbir tasarım kararı verilmez.**
 
-| Gün | İş | Karar |
-|---|---|---|
-| 1 | Kurulum, veri, **kaba baseline**, fizibilite | Hangi veri, kaç şirket, baseline hattı, cevap metriği |
-| 2 | Chunking ve parse | Sabit boy mu, yapıya göre mi. Tablolar nasıl tutulur |
-| 3 | Retrieval | Yoğun (BGE-M3), BM25 veya hibrit. Reranker gerekli mi |
-| 4 | Metrik setini genişletme | Recall@k, MRR, nDCG, cevap doğruluğu — hepsi tek protokolde |
-| 5 | Fine-tune | Fayda var mı, hangi veriyle, hangi kayıp fonksiyonu |
-| 6 | Üretim | Hangi LLM (T4 sınırında), prompt, atıf gösterimi |
-| 7 | Toparlama | Hata analizi, README, `cv_dogrulama.md` kaydı, CV maddesi |
+| Gün | İş | Karar | Durum (2026-10-01) |
+|---|---|---|---|
+| 1 | Kurulum, veri, **kaba baseline**, fizibilite | Hangi veri, kaç şirket, baseline hattı, cevap metriği | Veri, sızıntı denetimi, bölme, baseline tamam. **Batch fizibilitesi yapılmadı** |
+| 2 | Chunking ve parse | Sabit boy mu, yapıya göre mi. Tablolar nasıl tutulur | Boy ve örtüşme karşılaştırıldı (c200 kalır), künye reddedildi. Yapıya göre bölme ve tablo yönetimi denenmedi |
+| 3 | Retrieval | Yoğun (BGE-M3), BM25 veya hibrit. Reranker gerekli mi | Tamam: dense + reranker; hibrit BM25 reddedildi |
+| 4 | Metrik setini genişletme | Recall@k, MRR, nDCG, cevap doğruluğu — hepsi tek protokolde | Recall, MRR, bütçe Recall'u, metin kapsama, eşleştirilmiş bootstrap tamam; nDCG yok. Cevap metriği kodu hazır, okuyucu hattı yok |
+| 5 | Fine-tune | Fayda var mı, hangi veriyle, hangi kayıp fonksiyonu | Başlamadı (strateji ayrı karar) |
+| 6 | Üretim | Hangi LLM, prompt, atıf gösterimi | Başlamadı. Okuyucu: yerel (M4) + Gemini (Karar 10) |
+| 7 | Toparlama | Hata analizi, README, `cv_dogrulama.md` kaydı, CV maddesi | Başlamadı |
 
 ### Gün 1 neden bu kadar dolu
 
@@ -62,12 +62,16 @@ Bu bir "iyi sistem" değil, bir **sıfır noktası**. Gün 2 ve 3'teki her karar
 sayıya karşı ölçülür. Baseline gün 4'te kurulursa, gün 2-3 kararları ölçüsüz
 verilmiş olur.
 
+*Güncelleme (2026-10-01): baseline sonunda 512 token yerine sabit 200 kelime chunk kullanıldı; BM25 ve dört dense model ayrı ayrı ölçüldü (Karar 5 revizesi).*
+
 **Fine-tune fizibilitesi.** BGE-M3, XLM-RoBERTa-large tabanlı (~568M parametre).
 Kontrastif eğitimde batch size doğrudan in-batch negatif sayısı demektir; T4'ün
 16 GB'ında gradient checkpointing ve FP16 ile sığar ama batch küçük kalabilir.
 20 dakikalık bir koşuyla azami batch'i **şimdi** ölç. Sığmazsa yedek plan
 `bge-base` veya `bge-small` — daha küçük model, daha büyük batch, muhtemelen
 daha iyi sonuç.
+
+*Güncelleme (2026-10-01): bu ölçüm hâlâ yapılmadı; yerel RTX 2060 (6 GB) BGE-M3 fine-tune için yetersiz, Colab T4'te yapılacak.*
 
 Gün 5'e gelip "sığmıyor" demek projeyi çökertir.
 
@@ -94,10 +98,14 @@ Ayrıntılı gerekçe, ön kayıtlı deneyler ve tüm sayılar `KARAR_GUNLUGU.md
 | Künye, hibrit (BM25) | İkisi de ön kayıtlı ölçütle **reddedildi** |
 | Hat | dense ilk aşama + bge-reranker-v2-m3 |
 
-Açık: cevap üretimi ve ölçümü (Karar 2 revize edildi, Karar 10), fine-tune, kilitli test ölçümü.
+Cevap metriği: katmanlı, önce deterministik (Karar 2 revizesi); kod ve gerçekçi cevap testleri tamam.
 Chunking karşılaştırması tamamlandı (Deney 4): c200 kalır.
 
-Sınırlılıklar: 99 soruluk geliştirme kümesi küçük (güven aralıkları geniş); ön-eğitilmiş
+Açık: azami batch ölçümü, fine-tune stratejisi ve fine-tune, cevap üretimi (okuyucu hattı, Karar 10),
+final protokolün ön kaydı, kilitli test ölçümü.
+
+Sınırlılıklar: 99 soruluk geliştirme kümesi küçük ve yalnızca 21 şirkete dağılıyor (güven aralıkları geniş; aynı şirketin
+soruları bağımsız olmadığından sonraki ön kayıtlarda şirket-kümeli bootstrap kullanılacak); ön-eğitilmiş
 modellerin SEC metnini görmüş olma ihtimali doğrulanamaz; geliştirme kümesi çok sayıda
 karşılaştırmada kullanıldı; reponun belge listesinde olmayan 8 ek PDF korpusa alınmadı
 (hiçbir soru onlara bağlı değil).

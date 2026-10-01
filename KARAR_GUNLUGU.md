@@ -6,21 +6,28 @@ değil, bir ölçüm olmalı.
 **Kayıt biçimi:** seçenekler → takaslar → karar → gerekçe → (varsa) ölçüm.
 Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 
-**Durum özeti (2026-09-30)**
+**Durum özeti (2026-10-01, ikinci gözden geçirme sonrası)**
 
 | # | Konu | Durum |
 |---|---|---|
-| 1 | Korpus ve değerlendirme seti | KAPANDI: c, sıkı sızıntı denetimiyle |
-| 2 | Cevap doğruluğu metriği | KAPANDI (b + a); eşik ve ayrıntı veriyle teyit edilecek |
-| 3 | Fine-tune modeli ve batch | KISMEN: birden çok model denenecek; aday listesi ve batch ölçümü bekliyor |
+| 1 | Korpus ve değerlendirme seti | KAPANDI: c, sıkı sızıntı denetimiyle. FinQA ile fine-tune'ın faydası henüz sınanmadı |
+| 2 | Cevap doğruluğu metriği | İlk hâli (b + a) yetersiz çıktı, **2r ile revize edildi** |
+| 2r | Karar 2 revizesi | KAPANDI: katmanlı, önce deterministik; kod ve gerçekçi cevap testleri tamam (`src/cevap_metrik.py`) |
+| 3 | Fine-tune modeli ve batch | AÇIK: aday listesi kapandı; **azami batch ölçümü hâlâ yapılmadı**; fine-tune stratejisi ayrı karar gerektiriyor |
 | 4 | SEC EDGAR dahil mi | KAPANDI: kapsam dışı |
-| 5 | Baseline hattı | KAPANDI: önce ayrı ayrı, sonra birleştirilmiş |
+| 5 | Baseline hattı | KAPANDI: 200 kelime chunk (revize), BM25 ve dense ayrı ölçüldü |
 | 6 | Kanıt eşleştirme kuralı | KAPANDI: c (sayfa ana metrik, metin ikincil) |
-| 7 | Retrieval mimarisi | PLAN ONAYLANDI: sıra belli, her adım ölçümle kapanacak |
-| 8 | Kilitli test seti | KAPANDI: FinanceBench 99 geliştirme + 51 kilitli, şirket bazında |
+| 7 | Retrieval mimarisi | ÖLÇÜMLE SONUÇLANDI: dense ilk aşama + reranker (Deney 2, 3). Hangi dense model: ayırt edilemiyor, seçim açık |
+| 8 | Kilitli test seti | KAPANDI: 99 geliştirme + 51 kilitli, şirket bazında. 51 soru / 11 şirket yalnızca büyük farkları ayırt eder |
 | 9 | Arama uzayı | KAPANDI: başlık ortak havuz (360 belge), teşhis için tek belge |
-| 2r | Karar 2 revizesi | KAPANDI (yapı): katmanlı, önce deterministik; ayrıntılar kodda ve veriyle |
-| 10 | Okuyucu model ve bağlam koşulları | KISMEN KAPANDI: üç koşul; okuyucu = yerel (M4) + Gemini; model adları doğrulanacak |
+| 10 | Okuyucu model ve bağlam koşulları | KISMEN KAPANDI: üç koşul; okuyucu = yerel (M4) + Gemini; model adları ve prompt açık |
+| D1 | Deney 1: belge künyesi | REDDEDİLDİ (H1 desteklenmedi) |
+| D2 | Deney 2: reranker | DESTEKLENDİ (H2) |
+| D3 | Deney 3: hibrit BM25 + dense | REDDEDİLDİ (H3, H3b) |
+| D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
+
+Bekleyen işler: azami batch ölçümü, fine-tune stratejisi kararı, final protokolün ön kaydı,
+okuyucu hattı (prompt, Mac ve Gemini), kilitli test ölçümü. Ayrıntı: "İnceleme notları" bölümü.
 
 ---
 
@@ -88,6 +95,10 @@ uyum oranı raporlanır).
 
 **Veriyle teyit edilecek:** 150 cevabın kaçı sayısal, %1 eşiği uygun mu, birim ve
 ölçek (milyon/milyar) normalizasyonu nasıl yapılacak.
+
+**Revize edildi (2026-10-01):** bu karar yetersiz çıktı; geliştirme kümesinde 99 cevabın yalnızca
+34'ü kısa sayısal cevap. Katmanlı revize hâli için bkz. "Karar 4 kapanış ve Karar 2 revizesi"
+bölümü ve `src/cevap_metrik.py`.
 
 ---
 
@@ -182,6 +193,8 @@ RTX 2060 (6 GB).
 - Tek belgede R@50 ≈ 0,89-0,95, R@5 ≈ 0,43-0,57: doğru sayfa ilk 50'de hemen hep var,
   ilk 5'te yarısı. Reranker için alan var (Karar 7, hipotez destekleniyor).
 - Ortak havuzda tüm modeller düşük (R@5 ≈ 0,16-0,21): darboğaz doğru belgeyi bulmak.
+  **Revize notu (2026-10-01):** bu çıkarım Deney 1'de ölçümle çürütüldü: künyesiz bile belge düzeyi
+  isabet @5 = 0,5-0,8; baskın zorluk belge içinde doğru sayfayı bulmak.
 - gte kodu sabit commit'lerle (model ve kod) çalıştırıldı.
 
 ---
@@ -191,6 +204,7 @@ RTX 2060 (6 GB).
 FinanceBench kendi PDF'leriyle geliyorsa EDGAR'a gerek olmayabilir. Bir haftalık
 projede belirsiz kapsam en büyük risk.
 
+**(Eski durum; 2026-10-01'de kapandı: kapsam dışı. Aşağıdaki "Karar 4 kapanış" bölümüne bkz.)**
 **Karar:** şimdilik verilmedi. PDF'ler indirilip incelendikten sonra (1A) karar
 verilecek. Varsayılan eğilim: PDF'ler yeterliyse EDGAR kapsam dışı, gerekçesi
 README'de. EDGAR kuralları zaten doğrulandı: saniyede 10 istek, zorunlu
@@ -256,6 +270,9 @@ hatası değil, gerçek bulgudur.
 
 - Ortak havuzdan tek belgeye geçince Recall@5 0,031 → 0,157. Büyük kısmı "yanlış belge
   bulma" hatası; ama doğru belge verilse bile BM25 Recall@5 yalnızca 0,157.
+  **Revize notu (2026-10-01):** "büyük kısmı yanlış belge bulma" iddiası Deney 1'de abartılı bulundu
+  (belge isabeti @5 BM25 için 0,22 ama dense için 0,5-0,8); hata iki aşamalı ve sayfa bulma
+  daha baskın.
 - Örnek (Coca-Cola temettü oranı): soruda şirket adı var, doğru sayfanın metninde
   genelde yok (ad kapakta/başlıkta). BM25 3M ve PepsiCo sayfalarını getirdi.
   **Hipotez (ölçülecek):** chunk metnine belge künyesi (şirket, yıl, tür) eklemek
@@ -299,7 +316,7 @@ hatası olmadan düşük çıkabilir; raporda belirtilir.
 
 ---
 
-## Karar 7: Retrieval mimarisi — PLAN ONAYLANDI, ÖLÇÜMLE KAPANACAK
+## Karar 7: Retrieval mimarisi — ÖLÇÜMLE SONUÇLANDI (Deney 2 ve 3)
 
 Classic, multi-query, reranking ve RAG-Fusion birbirini dışlayan "türler" değil,
 hattın farklı noktalarına eklenen bileşenler.
@@ -336,6 +353,12 @@ hata analizine bağlı opsiyonel.
 
 **Kapanış koşulu:** yukarıdaki ölçüm tablosu çıkınca karar, sayılarla revize
 edilir ya da doğrulanır.
+
+**Kapanış (2026-10-01):** adım 1-3 ölçüldü. Dense ilk aşama BM25'ten net iyi; reranker anlamlı
+kazanç veriyor (Deney 2); hibrit BM25 eklemek kaybettiriyor (Deney 3). **Hat: dense ilk aşama +
+bge-reranker-v2-m3.** Açık kalan: hangi dense model (dört model reranker sonrası ayırt
+edilemiyor; seçim ön kayıtlı bir final protokolde yapılmalı) ve adım 4 (fine-tune). Multi-query
+denenmedi (hata analizi gerekçelendirmedi).
 
 ---
 
@@ -385,7 +408,7 @@ korpusta 360 belge ve 53.399 sayfa var.
 - Reranker etkisi (Karar 7) b'de daha net görünür; benzer belgelerin karışması onun çözdüğü sorundur.
 
 **Not:** FinanceBench reposunda belge listesinde olmayan 8 ek PDF vardı; indirilmedi,
-korpus 360 belge. Soruların hiçbiri o 8 belgeye bağlı değil. README'de belirtilecek.
+korpus 360 belge. Soruların hiçbiri o 8 belgeye bağlı değil. README'de belirtildi (Durum bölümü).
 
 ---
 
@@ -629,6 +652,9 @@ aşama + reranker. Fine-tune (adım 4) bu hat üzerinde ölçülecek.
 
 - En zor tür domain-relevant. 3+ kanıtlı sorularda R@5 = 0/12, ama 12 kanıt çok az soruya
   ait olabilir; örneklem küçük, sonuç yönlendirici.
+  **Düzeltme (2026-10-01):** bu 12 kanıt yalnızca **4 soruya** ait ve ikisinde aynı sayfa iki kez
+  kanıt olarak sayılmış (CVS s.172, MGM s.3); bağımsız sayfa sayısı 10. "0/12" bu yüzden
+  kesin bir bulgu değil, 4 sorunun gözlemi.
 - Ortak havuzda kanıtların ~%40'ı ilk 50 dışında (ilk aşama tavanı); tek belgede çoğu
   kaçırma yakın kaçırma (6-50. sıra).
 - Kanıt metnindeki rakam oranı bulunanlarda 0,150, kaçırılanlarda 0,152: "tablolar zor
@@ -646,10 +672,10 @@ ama yalnızca 34'ü kısa (<40 karakter) sayısal cevap; medyan cevap uzunluğu 
 Çoğu cevap serbest metin ("No, the company is managing its CAPEX … which is evident from
 …"). Karar 2'deki "sayısal tolerans + normalize eşleşme" cevapların yaklaşık üçte birini
 kapsar; kalanı için LLM-judge (insan kalibrasyonlu) ya da anahtar-olgu kontrolü gerekir.
-Cevap üretimi öncesinde yeniden karara bağlanacak.
+Cevap üretimi öncesinde yeniden karara bağlanacak (karar verildi: "Karar 2 revizesi" bölümü).
 
 **Karar 4 (EDGAR):** PDF'ler 150 sorunun tüm belgelerini kapsıyor ve 360/360 belge parse
-edildi; EDGAR'a ihtiyaç görünmüyor. Kapatılması kullanıcı onayına bırakıldı.
+edildi; EDGAR'a ihtiyaç görünmüyor. Kapatılması kullanıcı onayına bırakıldı (sonra kapandı: kapsam dışı).
 
 **Değerlendirme sınırı (not):** metrik tek bir gold sayfaya bakar; aynı bilgi başka bir
 sayfada da geçiyorsa (örneğin 10-K'da özet ve ayrıntılı tablo) o sayfayı getirmek hata
@@ -819,3 +845,66 @@ Gemini daha güçlü bir üst sınır sunar.
 **Hâlâ açık:** model adları ve sürümleri, prompt, çalışma ortamı (Ollama / llama.cpp / MLX),
 sıcaklık (0 öneriliyor), bağlam penceresi, yargıç modeli seçimi.
 
+---
+
+## İnceleme notları (2026-10-01, ikinci gözden geçirme)
+
+Kapsam: günlüğün tamamı, README, ölçüm / bölme / cevap metriği / dense retrieval kodu okundu;
+dört şüphe veriyle sınandı. Bu bölüm bulguları ve yapılan düzeltmeleri kaydeder.
+
+**1. Cevap metriği gerçek model cevaplarında hatalıydı (düzeltildi).** İlk sürümün testi yalnızca
+"gold'u tahmin olarak ver, kabul etmeli" idi; iki taraf aynı hatayla ayrıştırıldığı için gerçek
+model biçimlerindeki hataları göremiyordu. Gerçekçi cevaplarla yedi vakanın yedisi yanlış sayıldı:
+
+| Vaka | Kök neden | Çözüm |
+|---|---|---|
+| `0.96x` → 0 | Sondaki sözcük sınırı sayıyı ondalıkta bölüyordu | Sayıya bitişik harf/rakam olmasın, `x` çarpan kabul |
+| `($1.8 bn)` → negatif | Açılış parantezi eksi sayılıyordu | Parantez eksi değil (gold'larda muhasebe negatifi yok) |
+| satır başı `-100%` → negatif | Madde işareti eksi sayılıyordu | Satır başı / kelimeye bitişik `-` işaret değil |
+| "In FY2018 … $1,577" → 2018 | İlk sayı seçiliyordu; `FY2018` içinde 2018 ayrışıyordu | Harfe bitişik sayı sayı değil; yıl benzeri tam sayılar aday dışı |
+| "…, no, 3M is not …" | Yalnızca cevap başındaki Yes/No bakılıyordu | İlk 12 kelimede noktalamayla biten yes/no de kabul |
+| `0.125` → `0.12` | Python yuvarlaması çifte yuvarlar | Yarım-yukarı yuvarlama (Decimal) |
+| "3M's capex …" → 3 | Şirket adı `3M` ölçekli sayı sanıldı | Sayıya bitişik büyük harf M/K ($ olmadan) sayı değil |
+
+Yeni şablon testi iki hata daha yakaladı: "10-K" içindeki 10 aday seçiliyordu (form adları artık
+aday değil), ve model `$` işaretini bırakınca "ilk sayı" kuralı sayfa numarasını seçiyordu (artık
+gold'un biçimine en çok uyan aday seçiliyor: $, %, ondalık). `tests/test_cevap_metrik.py` artık
+her geliştirme gold'u için gerçekçi cevap şablonları (1.114 kabul), bozulmuş cevaplar (68 ret),
+270 hüküm şablonu ve 38 anahtar-sayı şablonu içerir. **Hiçbir model sonucu etkilenmedi**: metrik
+henüz hiçbir model çıktısında kullanılmamıştı. Bilinen sınırlar: birim dönüşümü yalnızca soru
+"in USD millions/billions/thousands" diyorsa yapılır; yüzdeyi kesir yazmak (0.019 vs 1.9%)
+eşleşmez; parantezli negatifler okunmaz.
+
+**2. Güven aralıkları şirket bağımlılığını yok sayıyordu (kontrol edildi).** 99 geliştirme sorusu
+yalnızca **21 şirkete** dağılıyor (şirket başına 1-9 soru, medyan 4); aynı şirketin soruları
+bağımsız değil. Reranker karşılaştırmaları şirket-kümeli bootstrap ile yeniden hesaplandı:
+sonuç aynı kaldı (10 karşılaştırmadan 9'u yine anlamlı pozitif; e5 tek belge yine anlamsız;
+örn. bge-base ortak havuz: soru-bazlı [+0,116; +0,283], şirket-bazlı [+0,120; +0,292]).
+**Karar:** bundan sonraki ön kayıtlarda şirket-kümeli bootstrap standarttır. Önceki deneylerin
+ölçütleri soru-bazlı idi ve yalnızca reranker için yeniden doğrulandı.
+
+**3. fp16 skorlama (kontrol edildi).** e5-base ortak havuz: 14/99 soruda ilk-5 kümesi fp16 ile
+fp32 arasında değişiyor ama Recall@5 farkı +0,008 [-0,017; +0,039], yani gürültü. Gelecekteki
+skorlamada fp32'ye geçmek bedava ve önerilir.
+
+**4. Günlük tutarlılığı (düzeltildi).** Çürütülen iddialar ("darboğaz doğru belgeyi bulmak",
+"büyük kısmı yanlış belge bulma"), yanlış okunabilecek "0/12" ifadesi (gerçekte 4 soru) ve eski
+durum satırları (Karar 4 "şimdilik verilmedi", Karar 7 "plan onaylandı", durum tablosunun
+tarihi) revize notlarıyla işaretlendi; durum tablosu deney sonuçlarıyla güncellendi.
+
+**5. Kısıtlar değişti.** README'deki "en fazla 1 hafta" ve "Colab T4" kısıtları artık geçerli
+değil: zaman kısıtı yok; kaynaklar yerel RTX 2060 (6 GB), Colab T4 (fine-tune), M4 MacBook Air
+(yerel okuyucu LLM) ve Gemini kredileri. README güncellendi.
+
+**Açık ve karar gerektiren konular (henüz yapılmadı):**
+
+- **Azami batch ölçümü** (Karar 3, README gün 1) hâlâ yok; yerel 6 GB yetersiz, Colab T4'te yapılmalı.
+- **Fine-tune stratejisi.** Reranker sonrası dört embedding modelinin farkı büyük ölçüde siliniyor,
+  bu yüzden embedding fine-tune'ının uçtan uca etkisi küçük kalabilir. FinQA tek sayfalık sayısal
+  sorulardan oluşuyor (en iyi olduğumuz tür: metrics-generated); en zayıf tür domain-relevant
+  FinQA tarafından kapsanmıyor. FinQA metni de küçük harfli ve kelimelere bölünmüş
+  ("company 2019s common stock"), PDF chunk'larımıza benzemiyor. Seçenekler: (a) FinQA ile embedding,
+  (b) reranker fine-tune, (c) korpus belgelerinden sentetik sorgu. Ayrı karar olarak konuşulacak.
+- **Final protokolün ön kaydı:** hangi dense model, kilitli testte ölçülecek en fazla 3 sistem,
+  küme bootstrap, 51 soru / 11 şirketin gücü (yalnızca ~0,1 ve üstü farklar ayırt edilebilir).
+- **Okuyucu hattı:** prompt şablonu ve "Final answer:" biçimi, Mac ve Gemini betikleri, yargıç modeli.
