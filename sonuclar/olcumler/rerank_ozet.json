@@ -3,9 +3,8 @@
   "derinlik": 50,
   "tarih": "2026-10-01",
   "kume": "gelistirme",
-  "hesaplanan_cift": 26193,
-  "sure_sn": 364,
-  "benzersiz_cift": 26193,
+  "hesaplanan_cift": 0,
+  "sure_sn": null,
   "sonuclar": {
     "bm25": {
       "ortak": {

@@ -9,6 +9,8 @@
 # Model: BAAI/bge-reranker-v2-m3. Girdi (soru, ORIJINAL chunk metni); kunye yok, fine-tune yok, ayar yok.
 # Derinligin otesindeki adaylar orijinal siralariyla listenin sonunda kalir.
 # Sadece gelistirme kumesi.
+#
+# skor_hazirla ve yeniden_sirala baska betiklerden (hibrit.py) da kullanilir; ayni onbellek paylasilir.
 import json
 import time
 from datetime import date
@@ -32,24 +34,18 @@ def anahtar(soru_id, chunk_id):
     return f"{soru_id}||{chunk_id}"
 
 
-def main():
-    sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
-    bilgi = d.yukle_chunk_bilgi()
+def skor_hazirla(sorular, bilgi, siralama_listesi, derinlik=DERINLIK):
+    # Verilen siralamalarin ilk `derinlik` adayi icin (soru, chunk) skorlarini onbellekten alir,
+    # eksikleri hesaplar ve diske yazar. Doner: (skorlar, hesaplanan_cift, sure_sn)
     soru_metni = {s["id"]: s["soru"] for s in sorular}
-
-    siralamalar = {(a, u): json.load(open(SIRA / f"{a}_{u}.json", encoding="utf-8"))
-                   for a in ILK_ASAMALAR for u in UZAYLAR}
     skorlar = json.load(open(ONBELLEK, encoding="utf-8")) if ONBELLEK.exists() else {}
-
-    # Gereken tum benzersiz (soru, chunk) ciftleri; yontemler arasi ortusen adaylar bir kez hesaplanir.
     gerekli = {}
-    for (a, u), sr in siralamalar.items():
+    for sr in siralama_listesi:
         for s in sorular:
-            for c in sr[s["id"]][:DERINLIK]:
+            for c in sr[s["id"]][:derinlik]:
                 gerekli[anahtar(s["id"], c)] = (s["id"], c)
     eksik = [k for k in gerekli if k not in skorlar]
     print(f"gereken cift: {len(gerekli)}, onbellekte: {len(gerekli) - len(eksik)}, hesaplanacak: {len(eksik)}")
-
     sure = None
     if eksik:
         model = CrossEncoder(MODEL, max_length=512, device="cuda")
@@ -64,21 +60,34 @@ def main():
             for k, v in zip(parca, sonuc):
                 skorlar[k] = float(v)
             ONBELLEK.write_text(json.dumps(skorlar), encoding="utf-8")
-            gecen = time.time() - t0
-            print(f"  {bas + len(parca)}/{len(eksik)} cift ({gecen:.0f} sn)", flush=True)
+            print(f"  {bas + len(parca)}/{len(eksik)} cift ({time.time() - t0:.0f} sn)", flush=True)
         sure = round(time.time() - t0)
+    return skorlar, len(eksik), sure
+
+
+def yeniden_sirala(sorular, siralama, skorlar, derinlik=DERINLIK):
+    yeni = {}
+    for s in sorular:
+        aday = siralama[s["id"]][:derinlik]
+        sirali = sorted(aday, key=lambda c: -skorlar[anahtar(s["id"], c)])
+        yeni[s["id"]] = sirali + siralama[s["id"]][derinlik:]
+    return yeni
+
+
+def main():
+    sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
+    bilgi = d.yukle_chunk_bilgi()
+    siralamalar = {(a, u): json.load(open(SIRA / f"{a}_{u}.json", encoding="utf-8"))
+                   for a in ILK_ASAMALAR for u in UZAYLAR}
+    skorlar, hesaplanan, sure = skor_hazirla(sorular, bilgi, list(siralamalar.values()))
 
     ozet = {"model": MODEL, "derinlik": DERINLIK, "tarih": date.today().isoformat(), "kume": "gelistirme",
-            "hesaplanan_cift": len(eksik), "sure_sn": sure, "benzersiz_cift": len(gerekli), "sonuclar": {}}
+            "hesaplanan_cift": hesaplanan, "sure_sn": sure, "sonuclar": {}}
     for a in ILK_ASAMALAR:
         ozet["sonuclar"][a] = {}
         for u in UZAYLAR:
             eski = siralamalar[(a, u)]
-            yeni = {}
-            for s in sorular:
-                aday = eski[s["id"]][:DERINLIK]
-                sirali = sorted(aday, key=lambda c: -skorlar[anahtar(s["id"], c)])
-                yeni[s["id"]] = sirali + eski[s["id"]][DERINLIK:]
+            yeni = yeniden_sirala(sorular, eski, skorlar)
             (SIRA / f"{a}_rerank_{u}.json").write_text(json.dumps(yeni), encoding="utf-8")
             r = d.olc(yeni, sorular, bilgi)
             fark = {f"{m}@{k}" if m != "mrr" else "mrr":
