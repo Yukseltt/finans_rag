@@ -165,7 +165,7 @@ Gün 1 sonunda çalışır olmalı. Bu bir "iyi sistem" değil, **sıfır noktas
 **Gerekçe:** Birleştirmeyi baştan yaparsak gün 3'te neyin neyi iyileştirdiğini
 ayırt edemeyiz. Sonraki her karar bu sayılara karşı ölçülür.
 
-**Revize edildi (2026-10-01):** "sabit 512 token" yerine **sabit ~300 kelime**.
+**Revize edildi (2026-10-01):** "sabit 512 token" yerine **sabit 200 kelime** (ilk öneri 300 idi, ölçümle 200'e indi; aşağıya bkz.).
 Token, her modelin tokenizer'ında farklı sayıda çıkar; token bazlı kesersek ya her
 modelin chunk'ları farklı olur (karşılaştırma bozulur) ya da tek tokenizer'a göre
 kesilen chunk, 512 sınırlı bir modelde sessizce kesilir. Kelime sayısı model
@@ -176,6 +176,23 @@ bağımsızdır: dört model birebir aynı chunk'ları görür.
   chunking gün 2'nin karşılaştırma konusu.
 - Doğrulama zorunlu: her modelin tokenizer'ıyla en uzun chunk token olarak ölçülür;
   512 sınırlı modellerde kesilen chunk çıkarsa kelime sayısı düşürülür.
+
+**Doğrulama sonucu (`src/chunk_kontrol.py`, 2026-10-01):**
+
+| Kelime | Chunk | bge-base-en / e5 (sınır 512) aşan | BGE-M3 / gte (sınır 8192) aşan |
+|---|---|---|---|
+| 300 | 117.240 | %3,13 / %3,22 | 0 |
+| **200** | **163.543** | **%0,24 / %0,25** | **0** |
+
+- 300 kelimede kesilmenin nedeni sayı yoğun tablolardır: sınırı aşan chunk'larda
+  token/kelime oranı 2,14 (genel 1,38). Finans cevapları çoğunlukla bu tablolarda
+  olduğundan 512 sınırlı modeller haksız dezavantaja düşerdi.
+- Noktalı çizgi (içindekiler/ek listesi) sadeleştirmesi denendi: en uzun chunk 4614 →
+  1124 token oldu ama sınırı aşan oranı yalnızca %3,13 → %2,97. Kazancı yok, uygulanmadı.
+- Kalan sınırlılık: 200 kelimede bile ~%0,25 chunk (≈400) 512 sınırlı modellerde
+  kesilir; en uzun chunk'lar noktalı çizgili listeler. Raporda belirtilir.
+- Bedel: chunk sayısı ~1,4 kat arttı, chunk başına bağlam azaldı. Bu bir sıfır noktasıdır;
+  chunk boyutu gün 2'de ayrıca karşılaştırılacak.
 
 ---
 
