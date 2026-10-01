@@ -1210,3 +1210,19 @@ teyit edilir; yeniden başlatmadan sonra koleksiyonun aynı sonuçları verdiği
 bu, Deney 5 ön kaydındaki "ortak havuz, e5-base, reranker" tanımıyla uyumludur (aynı vektörler, aynı
 reranker); geçmezse K1 tam aramayla üretilir.
 
+**Protokol notu (çalıştırmadan ÖNCE, 2026-10-02): ölçüt (d) ve referans düzeltmesi.** Ön kayıtta (d)
+"istenen 100 sonucun hepsi dönüyor" yazıyordu; bu küçük belgeler için yanlış tanımlanmıştı. Geliştirme
+kümesinde 17/99 sorunun belgesi 100 chunk'tan küçük (7'si 50'den küçük; ör. Amcor 8-K: 23 chunk). Doğru
+tanım: **(d) filtreli aramada sorgu başına min(100, belgedeki chunk sayısı) sonuç dönmeli, ve dönen
+sonuçların hepsi filtredeki belgeye ait olmalı.** Örtüşme ölçümlerinde tek belge referansı (tam arama)
+da yalnızca belge içi chunk'lara kırpılır. Ölçütlerin eşikleri (0,95; −0,05) ve ef_search merdiveni
+değişmedi.
+
+**Önceki sonuçlar hakkında bulgu (etki yok):** önceki tek belge sıralamaları (`dense_baseline.py`,
+`bm25_baseline.py`), belgesi 100 chunk'tan küçük 17 soruda belge dışı chunk'larla **dolduruluyordu**
+(toplam 785 yabancı chunk). Yabancı chunk'lar atılıp metrikler yeniden hesaplandığında Recall@5 ve
+Recall@1000w (e5, bge-base, BGE-M3; ilk aşama ve reranker sonrası) **birebir aynı** çıktı (fark 0,0000):
+gold sayfa daima belge içi chunk'lar arasında ve dolgu yalnızca onlardan sonra geliyor. Hiçbir sonuç
+değişmedi; yine de gelecekte tek belge sıralamaları belge içi chunk'larla sınırlanmalıdır (Deney 6'da
+bu uygulanıyor).
+
