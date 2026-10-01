@@ -9,17 +9,21 @@ kararın **neden** verildiğini ölçümle gösterebilmek.
 | Konu | Değer |
 |---|---|
 | Süre | Sınır yok (başlangıçta 1 hafta; 2026-10-01'de kaldırıldı) |
-| Donanım | Yerel RTX 2060 6 GB (gömme, reranker çıkarımı); Colab T4 kredili (fine-tune); M4 MacBook Air 16 GB (yerel okuyucu LLM); Gemini kredileri (ikinci okuyucu) |
+| Donanım | Yerel RTX 2060 6 GB (gömme, reranker çıkarımı); Colab T4 kredili (fine-tune); Gemini kredileri (API okuyucu, Karar 10) |
 | Dil | İngilizce |
 | Çalışma biçimi | Kararlar birlikte alınır: seçenekler, takaslar, öneri, sonra karar |
 | Sonraki proje | Küçük dolandırıcılık tespiti projesi (LightGBM, PR-AUC, ONNX). Bu proje bittikten sonra |
 
-## CV'ye kazandıracağı şey
+## Hedef ve CV'ye kazandıracağı şey
 
-- Var olan BGE-M3 fine-tune deneyiminin finans alanında tekrarı ve ölçülmesi
-- Retrieval ve cevap kalitesi için gerçek metrikler (recall@k, MRR, cevap doğruluğu)
-- Fine-tune öncesi ve sonrası karşılaştırma, mümkünse seed'li ve anlamlılık testli
-- Eğitim ve test dağılımının bilerek ayrılması
+**Asıl hedef:** çalışan, ölçülmüş bir finans RAG sistemi: arama + API tabanlı üretim + cevap düzeyinde
+ölçüm. Önceki RAG projesinden farkı: orada llama ile yerelde çalışılmıştı, burada üretim API anahtarıyla
+(Gemini) yapılır. Fine-tune isteğe bağlı bir ektir (Karar 11).
+
+- Retrieval ve cevap kalitesi için gerçek metrikler (recall@k, MRR, cevap doğruluğu, atıf doğruluğu)
+- Her mimari kararın ön kayıtlı deneyle sayıyla savunulması (künye ve hibrit gibi olumsuz sonuçlar dahil)
+- Eğitim ve test dağılımının bilerek ayrılması; dokunulmamış kilitli test
+- İsteğe bağlı: BGE-M3 fine-tune deneyiminin finans alanında tekrarı, öncesi/sonrası karşılaştırma
 
 ## Veri
 
@@ -49,8 +53,8 @@ Sıra bilerek böyle: **baseline ölçülmeden hiçbir tasarım kararı verilmez
 | 2 | Chunking ve parse | Sabit boy mu, yapıya göre mi. Tablolar nasıl tutulur | Boy ve örtüşme karşılaştırıldı (c200 kalır), künye reddedildi. Yapıya göre bölme ve tablo yönetimi denenmedi |
 | 3 | Retrieval | Yoğun (BGE-M3), BM25 veya hibrit. Reranker gerekli mi | Tamam: dense + reranker; hibrit BM25 reddedildi |
 | 4 | Metrik setini genişletme | Recall@k, MRR, nDCG, cevap doğruluğu — hepsi tek protokolde | Recall, MRR, bütçe Recall'u, metin kapsama, eşleştirilmiş bootstrap tamam; nDCG yok. Cevap metriği kodu hazır, okuyucu hattı yok |
-| 5 | Fine-tune | Fayda var mı, hangi veriyle, hangi kayıp fonksiyonu | Başlamadı (strateji ayrı karar) |
-| 6 | Üretim | Hangi LLM, prompt, atıf gösterimi | Başlamadı. Okuyucu: yerel (M4) + Gemini (Karar 10) |
+| 5 | Fine-tune | Fayda var mı, hangi veriyle, hangi kayıp fonksiyonu | İsteğe bağlı ek, çekirdek sonrası (Karar 11) |
+| 6 | Üretim | Hangi LLM, prompt, atıf gösterimi | Başlamadı. Okuyucu: Gemini API, iki model katmanı (Karar 10) |
 | 7 | Toparlama | Hata analizi, README, `cv_dogrulama.md` kaydı, CV maddesi | Başlamadı |
 
 ### Gün 1 neden bu kadar dolu
@@ -101,8 +105,8 @@ Ayrıntılı gerekçe, ön kayıtlı deneyler ve tüm sayılar `KARAR_GUNLUGU.md
 Cevap metriği: katmanlı, önce deterministik (Karar 2 revizesi); kod ve gerçekçi cevap testleri tamam.
 Chunking karşılaştırması tamamlandı (Deney 4): c200 kalır.
 
-Açık: azami batch ölçümü, fine-tune stratejisi ve fine-tune, cevap üretimi (okuyucu hattı, Karar 10),
-final protokolün ön kaydı, kilitli test ölçümü.
+Açık (çekirdek): final protokolün ön kaydı, üretim hattı (Gemini API, atıf), cevap düzeyinde ölçüm,
+kilitli test ölçümü. Fine-tune isteğe bağlı ek (Karar 11). Dense model: e5-base-v2 (Karar 12).
 
 Sınırlılıklar: 99 soruluk geliştirme kümesi küçük ve yalnızca 21 şirkete dağılıyor (güven aralıkları geniş; aynı şirketin
 soruları bağımsız olmadığından sonraki ön kayıtlarda şirket-kümeli bootstrap kullanılacak); ön-eğitilmiş

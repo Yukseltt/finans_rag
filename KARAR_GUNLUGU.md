@@ -13,21 +13,24 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | 1 | Korpus ve değerlendirme seti | KAPANDI: c, sıkı sızıntı denetimiyle. FinQA ile fine-tune'ın faydası henüz sınanmadı |
 | 2 | Cevap doğruluğu metriği | İlk hâli (b + a) yetersiz çıktı, **2r ile revize edildi** |
 | 2r | Karar 2 revizesi | KAPANDI: katmanlı, önce deterministik; kod ve gerçekçi cevap testleri tamam (`src/cevap_metrik.py`) |
-| 3 | Fine-tune modeli ve batch | AÇIK: aday listesi kapandı; **azami batch ölçümü hâlâ yapılmadı**; fine-tune stratejisi ayrı karar gerektiriyor |
+| 3 | Fine-tune modeli ve batch | İSTEĞE BAĞLI EK (Karar 11): aday listesi kapandı; batch ölçümü ve strateji yalnızca fine-tune yapılırsa gerekir |
 | 4 | SEC EDGAR dahil mi | KAPANDI: kapsam dışı |
 | 5 | Baseline hattı | KAPANDI: 200 kelime chunk (revize), BM25 ve dense ayrı ölçüldü |
 | 6 | Kanıt eşleştirme kuralı | KAPANDI: c (sayfa ana metrik, metin ikincil) |
-| 7 | Retrieval mimarisi | ÖLÇÜMLE SONUÇLANDI: dense ilk aşama + reranker (Deney 2, 3). Hangi dense model: ayırt edilemiyor, seçim açık |
+| 7 | Retrieval mimarisi | ÖLÇÜMLE SONUÇLANDI: dense ilk aşama + reranker (Deney 2, 3). Dense model: e5-base-v2 (Karar 12) |
 | 8 | Kilitli test seti | KAPANDI: 99 geliştirme + 51 kilitli, şirket bazında. 51 soru / 11 şirket yalnızca büyük farkları ayırt eder |
 | 9 | Arama uzayı | KAPANDI: başlık ortak havuz (360 belge), teşhis için tek belge |
-| 10 | Okuyucu model ve bağlam koşulları | KISMEN KAPANDI: üç koşul; okuyucu = yerel (M4) + Gemini; model adları ve prompt açık |
+| 10 | Okuyucu model ve bağlam koşulları | REVİZE EDİLDİ: üç koşul; okuyucu = yalnızca API, iki Gemini katı; model adları ve prompt açık |
+| 11 | Proje hedefi ve fine-tune'ın yeri | KAPANDI: asıl hedef finans RAG; fine-tune isteğe bağlı ek, çekirdek sonrası |
+| 12 | Final protokolde dense model | KAPANDI: e5-base-v2 (seçim nokta tahmini ve verimlilikle; farklar anlamlı değil) |
 | D1 | Deney 1: belge künyesi | REDDEDİLDİ (H1 desteklenmedi) |
 | D2 | Deney 2: reranker | DESTEKLENDİ (H2) |
 | D3 | Deney 3: hibrit BM25 + dense | REDDEDİLDİ (H3, H3b) |
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
 
-Bekleyen işler: azami batch ölçümü, fine-tune stratejisi kararı, final protokolün ön kaydı,
-okuyucu hattı (prompt, Mac ve Gemini), kilitli test ölçümü. Ayrıntı: "İnceleme notları" bölümü.
+Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
+cevap düzeyinde ölçüm, kilitli test ölçümü. Fine-tune isteğe bağlı ek (Karar 11). Ayrıntı: "İnceleme
+notları" ve Karar 10-12.
 
 ---
 
@@ -908,3 +911,73 @@ değil: zaman kısıtı yok; kaynaklar yerel RTX 2060 (6 GB), Colab T4 (fine-tun
 - **Final protokolün ön kaydı:** hangi dense model, kilitli testte ölçülecek en fazla 3 sistem,
   küme bootstrap, 51 soru / 11 şirketin gücü (yalnızca ~0,1 ve üstü farklar ayırt edilebilir).
 - **Okuyucu hattı:** prompt şablonu ve "Final answer:" biçimi, Mac ve Gemini betikleri, yargıç modeli.
+
+---
+
+## Karar 11: Proje hedefi ve fine-tune'ın yeri — KAPANDI (2026-10-01)
+
+**Hedefin netleştirilmesi (kullanıcı):** projenin asıl hedefi **finans RAG sistemi geliştirmek**.
+Fine-tune "olursa iyi olur" bir ektir; CV'de BGE-M3 fine-tune deneyimi zaten mevcut. Bu projenin
+önceki RAG projesinden farkı: orada llama ile yerelde çalışılmıştı, burada **üretim API anahtarıyla**
+(Gemini kredileri) yapılacak.
+
+**Düzeltme notu:** ikinci gözden geçirmede fine-tune merkeze konmuştu, çünkü README'deki "CV'ye
+kazandıracağı şey" listesi ve gün 5 planı onu öne çıkarıyordu. Kullanıcının önceliği RAG;
+README bu çerçeveye göre güncellendi.
+
+**Mevcut durum, RAG'ın dört parçası:**
+
+| Parça | Durum |
+|---|---|
+| Belge işleme (PDF → sayfa → chunk) | Tamam |
+| Arama (dense + reranker) | Tamam, ölçüldü |
+| **Üretim (LLM cevabı, atıf)** | **Başlamadı** |
+| **Cevap düzeyinde ölçüm** | Metrik kodu hazır; hiçbir model cevabında kullanılmadı |
+
+**Karar:** fine-tune **isteğe bağlı ek, çekirdek sonrası**, bir karar kapısı arkasında:
+
+1. Kapı koşulu: üretim hattı, cevap düzeyinde ölçüm ve kilitli test ölçümü tamamlanmış olmalı.
+2. Kullanıcı o noktada fine-tune'a ilgi ve gerek görürse başlanır.
+3. Yapılırsa en ucuz anlamlı biçim: bge-base-en'i FinQA ile eğitip öncesi/sonrasını hem ilk aşamada
+   hem reranker sonrası ölçmek; olumsuz sonuç da raporlanır. Azami batch ölçümü (Karar 3) o zaman
+   yapılır; şimdi bloklamıyor.
+4. Beklenti (ölçülmedi): reranker baskın olduğundan embedding fine-tune'ının uçtan uca etkisi küçük
+   kalabilir.
+
+## Karar 10 revizesi — okuyucu LLM (2026-10-01)
+
+**Revize edildi:** okuyucu **yalnızca API (Gemini kredileri), iki model katmanı** (hızlı ve güçlü;
+"sonuçlar okuyucudan bağımsız mı?" sorusu için). Yerel M4 okuyucu kapsamdan çıktı (önceki projede
+yapılmıştı; bu projenin farkı API). Üç bağlam koşulu (kapalı kitap / getirilen / oracle) aynen
+kalır.
+
+- **Serbest metin cevaplar** (geliştirmede 7/99) **kullanıcı tarafından elle puanlanır**; LLM yargıç
+  ve onun yanlılığı/kalibrasyonu gerekmez. Kısa bir puanlama sayfası hazırlanacak.
+- **Tekrarlanabilirlik:** API sıcaklık 0'da bile birebir aynı cevap vermeyebilir. Her ham cevap
+  diske önbelleklenir, model sürümü sabitlenir, sonuçlar önbellekten yeniden hesaplanabilir.
+- **Güvenlik:** API anahtarı depoya girmez, ortam değişkeninden okunur; kullanıcı kendi
+  terminalinde ayarlar.
+- **Veri:** FinanceBench CC-BY-NC lisanslı; API'ye göndermek ticari olmayan araştırma kullanımıdır
+  ve karar kullanıcıya aittir.
+- **Maliyet:** yaklaşık birkaç milyon token öngörülüyor (99 soru × 3 koşul × birkaç yapılandırma);
+  fiyat güncel listeden doğrulanacak, tahminle yazılmadı.
+- **Hâlâ açık:** model adları ve sürümleri (güncel dokümantasyondan doğrulanacak), prompt şablonu,
+  "Final answer:" ve atıf biçimi, bağlam bütçesi.
+
+## Karar 12: Final protokolde dense model — KAPANDI (2026-10-01)
+
+**Karar: e5-base-v2.**
+
+| Model | Ortak havuz R@5 (ilk aşama → +reranker) | Tek belge R@5 (ilk aşama → +reranker) | Gömme |
+|---|---|---|---|
+| bge-base-en | 0,157 → 0,354 | 0,480 → 0,630 | 620 sn |
+| **e5-base** | **0,213 → 0,394** | **0,567 → 0,630** | 627 sn |
+| gte-base-en | 0,189 → 0,323 | 0,449 → 0,630 | 919 sn |
+| BGE-M3 | 0,197 → 0,323 | 0,433 → 0,606 | 1671 sn |
+
+**Gerekçe ve sınır (açık):** e5-base nokta tahminiyle iki arama uzayında da önde veya eşit ve
+küçük/hızlı. **Dört model arasındaki farklar istatistiksel olarak anlamlı değil**; seçim nokta tahmini
+ve verimlilik üzerine yapıldı, bunun "e5 daha iyi" kanıtı olmadığı raporlanır. Seçim yalnızca
+geliştirme sonuçlarına dayanır (kilitli kümeye bakılmadı). Künye ile e5'in belirgin bozulması
+(Deney 1) künye kullanılmadığı için bu seçimi etkilemez.
+
