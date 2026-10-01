@@ -33,8 +33,11 @@ MODELLER = {
                     "sorgu_onek": "Represent this sentence for searching relevant passages: ", "pasaj_onek": ""},
     "bge-m3": {"id": "BAAI/bge-m3", "maks": 1024, "sorgu_onek": "", "pasaj_onek": ""},
     "e5-base": {"id": "intfloat/e5-base-v2", "maks": 512, "sorgu_onek": "query: ", "pasaj_onek": "passage: "},
+    # gte uzak kod kullanir. Hem model hem kod deposu sabit commit'e baglanir; kod 2026-10-01'de
+    # incelendi (KARAR_GUNLUGU.md, Karar 3): alt surec/ag/eval/pickle yok, xformers istege bagli.
     "gte-base-en": {"id": "Alibaba-NLP/gte-base-en-v1.5", "maks": 1024, "sorgu_onek": "", "pasaj_onek": "",
-                    "uzak_kod": True},
+                    "revision": "a829fd0e060bb84554da0dfd354d0de0f7712b7f",
+                    "kod_revision": "40ced75c3017eb27626c9d4ea981bde21a2662f4"},
 }
 
 
@@ -44,9 +47,6 @@ def main():
     ap.add_argument("--batch", type=int, default=64)
     args = ap.parse_args()
     m = MODELLER[args.model]
-    if m.get("uzak_kod"):
-        # gte'nin kodu ayri bir depoda (Karar 3 notu): code_revision sabitlenip kod incelenmeden calistirilmaz.
-        raise SystemExit("gte-base-en: uzak kod henuz incelenip sabitlenmedi, calistirilmiyor.")
 
     sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
     chunk_idler, belgeler, metinler = [], [], []
@@ -57,7 +57,12 @@ def main():
             belgeler.append(c["doc"])
             metinler.append(c["metin"])
 
-    model = SentenceTransformer(m["id"], device="cuda")
+    if "kod_revision" in m:
+        kod = {"code_revision": m["kod_revision"]}
+        model = SentenceTransformer(m["id"], device="cuda", trust_remote_code=True, revision=m["revision"],
+                                    config_kwargs=kod, model_kwargs=kod)
+    else:
+        model = SentenceTransformer(m["id"], device="cuda")
     model.half()
     model.max_seq_length = m["maks"]
 

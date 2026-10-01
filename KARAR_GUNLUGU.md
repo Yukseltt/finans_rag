@@ -121,6 +121,20 @@ sabitlemez; yüklerken `code_revision` ile kod deposunun commit'i de sabitlenmel
 çalıştırmadan önce incelenmelidir. Model deposunun doğrulanacak son commit'i
 (2026-10-01'de görülen): `a829fd0e060bb84554da0dfd354d0de0f7712b7f`.
 
+**gte kod incelemesi (2026-10-01, sonuç: temiz):**
+
+| | |
+|---|---|
+| Model deposu | `Alibaba-NLP/gte-base-en-v1.5`, commit `a829fd0e060bb84554da0dfd354d0de0f7712b7f`. Ağırlıklar `safetensors` (pickle yok) |
+| Kod deposu | `Alibaba-NLP/new-impl`, commit `40ced75c3017eb27626c9d4ea981bde21a2662f4`, 2 dosya: `configuration.py` (145 satır), `modeling.py` (1418 satır) |
+| sha256 | configuration.py `3411088045ffb8a9a0aa9936eae275896b39983a2ee5b08f091b44e6289e4fe4`, modeling.py `374670b416fcc82f081c9cd28b5fd61c2bd91bbe18eb4798fcc48a81f9c250a0` |
+| Taranan riskli desenler | `subprocess`, `os.system/popen`, `eval/exec`, `__import__`, `pickle`, `socket`, `urllib`, `requests`, `open(`, `shutil`, `importlib`, `base64`, `ctypes`, `environ`, `torch.load`: **yok** (eşleşenler yalnızca yorumdaki bağlantılar) |
+| Bağımlılıklar | `torch`, `transformers`; `xformers` isteğe bağlı (import hatasında `None`, ilgili ayar varsayılan kapalı) |
+
+Sınır: tarama desen aramasıdır, satır satır tam okuma değil; ağ/dosya/süreç erişimi
+olmaması ve ağırlıkların safetensors olması riski düşürür ama sıfırlamaz. Kod,
+`dense_baseline.py` içinde her iki commit'e sabitlenmiştir.
+
 **Her modelin öneki:** kodda modele özel sorgu/pasaj öneki tablosu tutulur ve
 sonuçlarda belirtilir; yanlış önek modeli haksız yere düşürür.
 
