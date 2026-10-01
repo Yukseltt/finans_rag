@@ -1,0 +1,425 @@
+{
+  "tarih": "2026-10-02",
+  "kume": "gelistirme",
+  "koleksiyon": "chunks_e5_c200",
+  "vektor_sayisi": 163543,
+  "chromadb": "1.5.9",
+  "hnsw": {
+    "space": "cosine",
+    "ef_construction": 100,
+    "max_neighbors": 16
+  },
+  "kurulum_sn": null,
+  "disk_mb": 2018,
+  "gecikme_tam_ms": {
+    "gpu": {
+      "medyan": 1.47,
+      "p95": 1.71
+    },
+    "cpu": {
+      "medyan": 14.28,
+      "p95": 14.67
+    }
+  },
+  "ef_merdiveni": {
+    "100": {
+      "gecikme_ms": {
+        "ortak": {
+          "medyan": 3.38,
+          "p95": 3.92
+        },
+        "tek_filtreli": {
+          "medyan": 97.04,
+          "p95": 103.76
+        }
+      },
+      "d_ihlal_soru_sayisi": 0,
+      "ortusme": {
+        "ortak": {
+          "@5": 0.9717,
+          "@50": 0.9824,
+          "@100": 0.9833
+        },
+        "tek": {
+          "@5": 0.9838,
+          "@50": 0.9919,
+          "@100": 0.9965
+        }
+      },
+      "rerank_oncesi": {
+        "ortak": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.25196850393700787,
+            "b": 0.25984251968503935,
+            "fark": 0.007874015748031482,
+            "ci95": [
+              -0.01834862385321101,
+              0.03305785123966942
+            ],
+            "anlamli": false
+          },
+          "recall@50": {
+            "metrik": "recall@50",
+            "a": 0.5984251968503937,
+            "b": 0.6141732283464567,
+            "fark": 0.015748031496062964,
+            "ci95": [
+              0.0,
+              0.051724137931034475
+            ],
+            "anlamli": false
+          }
+        },
+        "tek": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.5826771653543307,
+            "b": 0.5905511811023622,
+            "fark": 0.007874015748031482,
+            "ci95": [
+              0.0,
+              0.02752293577981657
+            ],
+            "anlamli": false
+          },
+          "recall@50": {
+            "metrik": "recall@50",
+            "a": 0.937007874015748,
+            "b": 0.937007874015748,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          }
+        }
+      },
+      "rerank_sonrasi": {
+        "ortak": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.4094488188976378,
+            "b": 0.4094488188976378,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          },
+          "recall@5": {
+            "metrik": "recall@5",
+            "a": 0.3937007874015748,
+            "b": 0.4015748031496063,
+            "fark": 0.007874015748031482,
+            "ci95": [
+              0.0,
+              0.028037383177570097
+            ],
+            "anlamli": false
+          }
+        },
+        "tek": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.6456692913385826,
+            "b": 0.6456692913385826,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          },
+          "recall@5": {
+            "metrik": "recall@5",
+            "a": 0.6299212598425197,
+            "b": 0.6299212598425197,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          }
+        }
+      },
+      "olcut": {
+        "a_ortak_ortusme50": true,
+        "b_tek_ortusme50": true,
+        "c_rerank_sonrasi_alt_sinir": true,
+        "d_filtre_tam_donus": true
+      },
+      "olcut_saglandi": true
+    },
+    "400": {
+      "gecikme_ms": {
+        "ortak": {
+          "medyan": 3.4,
+          "p95": 3.97
+        },
+        "tek_filtreli": {
+          "medyan": 97.05,
+          "p95": 101.99
+        }
+      },
+      "d_ihlal_soru_sayisi": 0,
+      "ortusme": {
+        "ortak": {
+          "@5": 0.9717,
+          "@50": 0.9824,
+          "@100": 0.9833
+        },
+        "tek": {
+          "@5": 0.9838,
+          "@50": 0.9919,
+          "@100": 0.9965
+        }
+      },
+      "rerank_oncesi": {
+        "ortak": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.25196850393700787,
+            "b": 0.25984251968503935,
+            "fark": 0.007874015748031482,
+            "ci95": [
+              -0.01834862385321101,
+              0.03305785123966942
+            ],
+            "anlamli": false
+          },
+          "recall@50": {
+            "metrik": "recall@50",
+            "a": 0.5984251968503937,
+            "b": 0.6141732283464567,
+            "fark": 0.015748031496062964,
+            "ci95": [
+              0.0,
+              0.051724137931034475
+            ],
+            "anlamli": false
+          }
+        },
+        "tek": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.5826771653543307,
+            "b": 0.5905511811023622,
+            "fark": 0.007874015748031482,
+            "ci95": [
+              0.0,
+              0.02752293577981657
+            ],
+            "anlamli": false
+          },
+          "recall@50": {
+            "metrik": "recall@50",
+            "a": 0.937007874015748,
+            "b": 0.937007874015748,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          }
+        }
+      },
+      "rerank_sonrasi": {
+        "ortak": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.4094488188976378,
+            "b": 0.4094488188976378,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          },
+          "recall@5": {
+            "metrik": "recall@5",
+            "a": 0.3937007874015748,
+            "b": 0.4015748031496063,
+            "fark": 0.007874015748031482,
+            "ci95": [
+              0.0,
+              0.028037383177570097
+            ],
+            "anlamli": false
+          }
+        },
+        "tek": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.6456692913385826,
+            "b": 0.6456692913385826,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          },
+          "recall@5": {
+            "metrik": "recall@5",
+            "a": 0.6299212598425197,
+            "b": 0.6299212598425197,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          }
+        }
+      },
+      "olcut": {
+        "a_ortak_ortusme50": true,
+        "b_tek_ortusme50": true,
+        "c_rerank_sonrasi_alt_sinir": true,
+        "d_filtre_tam_donus": true
+      },
+      "olcut_saglandi": true
+    },
+    "1000": {
+      "gecikme_ms": {
+        "ortak": {
+          "medyan": 3.42,
+          "p95": 3.93
+        },
+        "tek_filtreli": {
+          "medyan": 97.49,
+          "p95": 104.61
+        }
+      },
+      "d_ihlal_soru_sayisi": 0,
+      "ortusme": {
+        "ortak": {
+          "@5": 0.9717,
+          "@50": 0.9824,
+          "@100": 0.9833
+        },
+        "tek": {
+          "@5": 0.9838,
+          "@50": 0.9919,
+          "@100": 0.9965
+        }
+      },
+      "rerank_oncesi": {
+        "ortak": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.25196850393700787,
+            "b": 0.25984251968503935,
+            "fark": 0.007874015748031482,
+            "ci95": [
+              -0.01834862385321101,
+              0.03305785123966942
+            ],
+            "anlamli": false
+          },
+          "recall@50": {
+            "metrik": "recall@50",
+            "a": 0.5984251968503937,
+            "b": 0.6141732283464567,
+            "fark": 0.015748031496062964,
+            "ci95": [
+              0.0,
+              0.051724137931034475
+            ],
+            "anlamli": false
+          }
+        },
+        "tek": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.5826771653543307,
+            "b": 0.5905511811023622,
+            "fark": 0.007874015748031482,
+            "ci95": [
+              0.0,
+              0.02752293577981657
+            ],
+            "anlamli": false
+          },
+          "recall@50": {
+            "metrik": "recall@50",
+            "a": 0.937007874015748,
+            "b": 0.937007874015748,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          }
+        }
+      },
+      "rerank_sonrasi": {
+        "ortak": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.4094488188976378,
+            "b": 0.4094488188976378,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          },
+          "recall@5": {
+            "metrik": "recall@5",
+            "a": 0.3937007874015748,
+            "b": 0.4015748031496063,
+            "fark": 0.007874015748031482,
+            "ci95": [
+              0.0,
+              0.028037383177570097
+            ],
+            "anlamli": false
+          }
+        },
+        "tek": {
+          "butce": {
+            "metrik": "butce",
+            "a": 0.6456692913385826,
+            "b": 0.6456692913385826,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          },
+          "recall@5": {
+            "metrik": "recall@5",
+            "a": 0.6299212598425197,
+            "b": 0.6299212598425197,
+            "fark": 0.0,
+            "ci95": [
+              0.0,
+              0.0
+            ],
+            "anlamli": false
+          }
+        }
+      },
+      "olcut": {
+        "a_ortak_ortusme50": true,
+        "b_tek_ortusme50": true,
+        "c_rerank_sonrasi_alt_sinir": true,
+        "d_filtre_tam_donus": true
+      },
+      "olcut_saglandi": true
+    }
+  },
+  "secilen_ef_search": 100,
+  "karar": "DB final hatta kullanilabilir",
+  "rerank_hesaplanan_cift": 9
+}

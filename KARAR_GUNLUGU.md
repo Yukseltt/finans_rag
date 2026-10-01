@@ -29,7 +29,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
 | 13 | Vektör veritabanı | KAPANDI: Chroma; doğrulanırsa K1'in ilk aşaması (Deney 6) |
 | D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | ÖN KAYIT YAZILDI, çalıştırılmadı |
-| D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | ÖN KAYIT YAZILDI, çalıştırılmadı |
+| D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İLK KOŞU BAŞARISIZ (ortak örtüşme 0,916); yeniden açılmış koleksiyonda geçti; 6b ile doğrulanıyor |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
 cevap düzeyinde ölçüm, kilitli test ölçümü. Fine-tune isteğe bağlı ek (Karar 11). Ayrıntı: "İnceleme
@@ -1225,4 +1225,49 @@ Recall@1000w (e5, bge-base, BGE-M3; ilk aşama ve reranker sonrası) **birebir a
 gold sayfa daima belge içi chunk'lar arasında ve dolgu yalnızca onlardan sonra geliyor. Hiçbir sonuç
 değişmedi; yine de gelecekte tek belge sıralamaları belge içi chunk'larla sınırlanmalıdır (Deney 6'da
 bu uygulanıyor).
+
+**SONUÇ, Deney 6 ilk koşu (2026-10-02; `src/deney6_vdb.py`, koleksiyon kurulduktan HEMEN SONRA ölçüldü)**
+
+Kurulum 652 sn, 163.543 vektör, disk **2018 MB** (ham vektörler yalnızca 240 MB: chunk metinleri, HNSW
+grafiği ve SQLite eklenir).
+
+| ef_search | Örtüşme@50 ortak | Örtüşme@50 tek (filtreli) | Reranker sonrası Recall@1000w farkı (DB − tam), ortak | tek | (d) ihlali |
+|---|---|---|---|---|---|
+| 100 / 400 / 1000 (üçü aynı) | **0,916** | 0,990 | -0,008 [-0,025; 0,000] | 0,000 [0,000; 0,000] | 0 |
+
+**Ön kayıtlı ölçüt: (a) başarısız** (0,916 < 0,95), (b), (c), (d) sağlandı. Merdivenin üç basamağı da
+aynı sonucu verdi. **Karar (ön kayda göre): DB bu koşuyla final hatta kullanılmaz.**
+
+**Yan bulgular (açıklayıcı, ölçüt dışı):**
+
+- **ef_search bu ölçekte etkisiz:** ayar gerçekten uygulanıyor (yapılandırma 10, 100, 1000 olarak
+  okundu) ama sonuç değişmiyor; HNSW bu ölçekte doygun.
+- **Referansın kendisi gürültülü (`src/deney6_tani.py`, post hoc):** fp16 tam arama ile fp32 tam arama
+  arasında bile ilk-50 örtüşmesi 0,988 (@5: 0,972). Yani 0,95 eşiği "tam arama kendisiyle"
+  kıyasında bile hassasiyet tavanının yakınındaydı; yaklaşıklığı ölçerken referans hassasiyeti ayrı
+  tutulmalıydı (ön kayıtta öngörülmemiş bir tasarım zayıflığı).
+- **Tutarsızlık:** aynı koleksiyonu kapatıp yeniden açınca (aynı veri, aynı sorgular) ortak örtüşme **0,982**
+  çıktı (tani ve `tekrar` koşusu). Kurulumdan hemen sonraki durum ile yeniden açılmış durum farklı
+  davranıyor. Neden: bilinmiyor. Hipotez (ölçülmedi): bulk ekleme sonrasında bellekteki indeks
+  henüz tam değil (daha hızlı ama daha az isabetli: ilk koşuda ortak sorgu 1,2 ms, yeniden açılmışta
+  3,4 ms).
+- **Gecikme (medyan, run'lar arası büyük oynama var):** Chroma ortak 1,2-3,4 ms; **filtreli tek belge
+  35-97 ms, yani filtresiz aramadan ~30 kat yavaş**; tam arama GPU 1,5-9,4 ms (ilk koşuda ölçümde
+  başka yük vardı), CPU ~14 ms.
+
+### Deney 6b: yeniden açılmış koleksiyonla doğrulama — ÖN KAYIT (SONRADAN YAZILDI)
+
+**Şeffaflık notu:** bu bölüm, ilk koşunun başarısızlığı ve 0,982'lik yeniden açılmış sonuçlar **görüldükten
+sonra** yazıldı; bu yüzden ayrı bir deneydir ve ilk koşuyu geçersiz kılmaz, tamamlar. Gerekçe: final hat
+koleksiyonu her zaman diskten yeniden açarak kullanacaktır (kurulum bir kez yapılır), dolayısıyla
+**yeniden açılmış durum** operasyonel olarak ilgili durumdur.
+
+**Protokol:** koleksiyon kurulur ve kapatılır (yapıldı); ölçüm **üç ayrı yeni Python sürecinde**, her biri
+koleksiyonu diskten açarak, Deney 6 ile **aynı betik ve aynı dört ölçütle**, `ef_search=100`. (1) `tekrar`
+(yapıldı), (2) `tekrar2`, (3) `tekrar3` yeni süreçlerde. **Ölçüt:** üç koşunun üçünde de (a)-(d) sağlanır.
+Referans fp16 tam arama olarak kalır (değiştirilmedi); referans gürültüsü yukarıda raporlandı.
+
+**Karar kuralı:** 6b ölçütü sağlanırsa Chroma, final hatta **yeniden açılmış koleksiyon olarak** kullanılabilir
+ve K1 DB üzerinden üretilir; sağlanmazsa K1 tam aramayla üretilir ve DB demo yolu olarak kalır.
+Her iki durumda ilk koşunun (kurulum hemen sonrası) başarısızlığı raporda yer alır.
 
