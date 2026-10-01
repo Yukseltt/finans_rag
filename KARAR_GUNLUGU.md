@@ -13,13 +13,14 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | 1 | Korpus ve değerlendirme seti | KAPANDI: c, sıkı sızıntı denetimiyle |
 | 2 | Cevap doğruluğu metriği | KAPANDI (b + a); eşik ve ayrıntı veriyle teyit edilecek |
 | 3 | Fine-tune modeli ve batch | KISMEN: birden çok model denenecek; aday listesi ve batch ölçümü bekliyor |
-| 4 | SEC EDGAR dahil mi | ERTELENDİ: PDF'ler incelenince karar verilecek |
+| 4 | SEC EDGAR dahil mi | KAPANDI: kapsam dışı |
 | 5 | Baseline hattı | KAPANDI: önce ayrı ayrı, sonra birleştirilmiş |
 | 6 | Kanıt eşleştirme kuralı | KAPANDI: c (sayfa ana metrik, metin ikincil) |
 | 7 | Retrieval mimarisi | PLAN ONAYLANDI: sıra belli, her adım ölçümle kapanacak |
 | 8 | Kilitli test seti | KAPANDI: FinanceBench 99 geliştirme + 51 kilitli, şirket bazında |
 | 9 | Arama uzayı | KAPANDI: başlık ortak havuz (360 belge), teşhis için tek belge |
-| - | Karar 2 revizesi | AÇIK: cevapların çoğu serbest metin, sayısal tolerans yetmiyor (aşağıda) |
+| 2r | Karar 2 revizesi | KAPANDI (yapı): katmanlı, önce deterministik; ayrıntılar kodda ve veriyle |
+| 10 | Okuyucu model ve bağlam koşulları | KISMEN KAPANDI: üç koşul; okuyucu = yerel (M4) + Gemini; model adları doğrulanacak |
 
 ---
 
@@ -185,7 +186,7 @@ RTX 2060 (6 GB).
 
 ---
 
-## Karar 4: SEC EDGAR kapsama dahil mi — ERTELENDİ
+## Karar 4: SEC EDGAR kapsama dahil mi — KAPANDI (2026-10-01): kapsam dışı
 
 FinanceBench kendi PDF'leriyle geliyorsa EDGAR'a gerek olmayabilir. Bir haftalık
 projede belirsiz kapsam en büyük risk.
@@ -759,4 +760,62 @@ yargı cevap düzeyinde ölçümle verilmelidir. Bu, Karar 2'nin ertelenmiş rev
 **Sınırlar:** iki model, geliştirme kümesi (99 soru); c100/c300 farkları ölçüte takıldığı için
 "baz kalır" kararı sağlam, ama c100'ün ayrı bir hat olarak (ör. küçük chunk ilk aşama + büyük
 bağlam penceresi) değeri bu deneyle test edilmedi.
+
+---
+
+## Karar 4 kapanış ve Karar 2 revizesi (2026-10-01)
+
+**Karar 4 — KAPANDI: EDGAR kapsam dışı.** Gerekçe: FinanceBench PDF'leri 150 sorunun tüm
+belgelerini kapsıyor, 360/360 belge parse edildi, sorular zaten bu PDF'lerden yazılmış.
+EDGAR ek bir istemci, hız sınırı yönetimi ve doğrulama yüzeyi getirirdi.
+
+**Karar 2 revizesi — KAPANDI (yapı):** geliştirme kümesinde 99 cevabın türleri:
+
+| Tür | Adet | Nerede |
+|---|---|---|
+| Salt sayı | 34 | neredeyse tamamı metrics-generated |
+| Evet/hayır + açıklama | 30 | domain-relevant, novel-generated |
+| Metin içinde sayı | 28 | domain-relevant, novel-generated |
+| Serbest metin (sayı yok) | 7 | çoğunlukla domain-relevant |
+
+Orijinal Karar 2 ("sayısal tolerans + normalize eşleşme") cevapların yaklaşık üçte birini
+kapsıyordu. **Revize (karar): katmanlı, önce deterministik metrik:**
+
+| Tür | Metrik |
+|---|---|
+| Salt sayı | Sayıyı ayrıştır, birim/ölçek normalize et; **gold'un gösterdiği hassasiyette eşleşme** (birincil) ve %1 göreli tolerans (ikincil); ikisi de raporlanır |
+| Evet/hayır + açıklama | **Hüküm** (Yes/No) tam eşleşme; açıklama kalitesi ikincil |
+| Metin içinde sayı | Gold'daki anahtar sayıların cevapta bulunması |
+| Serbest metin | LLM-yargıç, 30-50 örnekte insan kalibrasyonlu; yalnızca birkaç soru |
+
+Yargıç kullanılırsa okuyucudan farklı bir model olmalı (kendi çıktısını kayırma riski),
+uyum oranı (insanla) raporlanır. %65'e yakın cevap yargıç olmadan ölçülür.
+
+## Karar 10: Okuyucu model ve bağlam koşulları — KISMEN KAPANDI
+
+**Üç bağlam koşulu (karar, aynı soru ve prompt ile):**
+
+1. **Kapalı kitap:** bağlam yok.
+2. **Getirilen bağlam:** hat (dense + reranker, c200) ilk 1000 kelime.
+3. **Oracle bağlam:** gold kanıt sayfası(ları).
+
+Ayrıştırma: oracle − getirilen = retrieval kaybı; oracle ve 100 arası = okuyucu kaybı;
+getirilen − kapalı kitap = retrieval'ın kattığı değer. Chunk seçimi (c100/c200/c300) ve
+fine-tune faydası da cevap düzeyinde bu çerçevede sınanır.
+
+**Okuyucu LLM (karar):** iki okuyucu, aynı prompt ve bağlamlarla:
+
+- **Yerel açık model:** kullanıcının M4 MacBook Air (16 GB birleşik bellek) makinesinde;
+  önceki llama deneyimi var. Fizibilite (hangi model, hangi çalışma ortamı, bağlam uzunluğu,
+  hız) çalıştırmadan önce doğrulanacak.
+- **Gemini:** kullanıcının mevcut kredileriyle. Model adı ve sürümü, güncel dokümantasyondan
+  doğrulanıp sabitlenecek (tekrarlanabilirlik). Verinin API'ye gönderilmesi (FinanceBench
+  CC-BY-NC) kullanıcının değerlendirmesinde; API anahtarı depoya girmez (ortam değişkeni).
+
+**Gerekçe:** iki farklı okuyucu proje çeşitliliği sağlar ve "retrieval sonuçları okuyucu modelden
+bağımsız mı?" sorusunu cevaplar. Yerel model tam tekrarlanabilir açık yığın hikâyesi verir,
+Gemini daha güçlü bir üst sınır sunar.
+
+**Hâlâ açık:** model adları ve sürümleri, prompt, çalışma ortamı (Ollama / llama.cpp / MLX),
+sıcaklık (0 öneriliyor), bağlam penceresi, yargıç modeli seçimi.
 

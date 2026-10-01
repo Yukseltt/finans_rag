@@ -94,8 +94,8 @@ Ayrıntılı gerekçe, ön kayıtlı deneyler ve tüm sayılar `KARAR_GUNLUGU.md
 | Künye, hibrit (BM25) | İkisi de ön kayıtlı ölçütle **reddedildi** |
 | Hat | dense ilk aşama + bge-reranker-v2-m3 |
 
-Açık: chunking karşılaştırması, fine-tune, cevap üretimi ve metriği (Karar 2 revize edilecek),
-SEC EDGAR kararı (varsayılan: kapsam dışı), kilitli test ölçümü.
+Açık: cevap üretimi ve ölçümü (Karar 2 revize edildi, Karar 10), fine-tune, kilitli test ölçümü.
+Chunking karşılaştırması tamamlandı (Deney 4): c200 kalır.
 
 Sınırlılıklar: 99 soruluk geliştirme kümesi küçük (güven aralıkları geniş); ön-eğitilmiş
 modellerin SEC metnini görmüş olma ihtimali doğrulanamaz; geliştirme kümesi çok sayıda
@@ -123,6 +123,7 @@ Bu satır buraya, gün 5'te sonucu zorlama baskısı doğmasın diye yazıldı.
 - Türkçe finans verisi
 - Ticari kullanım (FinanceBench lisansı yasaklıyor)
 - Ham verinin repoya eklenmesi
+- SEC EDGAR'dan veri çekme (FinanceBench PDF'leri 150 sorunun tüm belgelerini kapsıyor)
 
 ## Klasör düzeni
 
