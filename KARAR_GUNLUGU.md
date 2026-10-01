@@ -18,6 +18,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | 6 | Kanıt eşleştirme kuralı | KAPANDI: c (sayfa ana metrik, metin ikincil) |
 | 7 | Retrieval mimarisi | PLAN ONAYLANDI: sıra belli, her adım ölçümle kapanacak |
 | 8 | Kilitli test seti | KAPANDI: FinanceBench 99 geliştirme + 51 kilitli, şirket bazında |
+| 9 | Arama uzayı | KAPANDI: başlık ortak havuz (360 belge), teşhis için tek belge |
 
 ---
 
@@ -239,3 +240,28 @@ farklar ayırt edilemeyebilir. Bootstrap aralığıyla bu açıkça gösterilir.
 
 **Not:** `04103` (General Mills 2019, aynı rapor sızıntısı) kilitli kümeye düştü.
 Bu soru için eğitimden çıkarma politikası (Karar 1) zaten uygulanıyor.
+
+---
+
+## Karar 9: Arama uzayı — KAPANDI
+
+Soru: retrieval bir soruyu cevaplarken nerede arama yapar? 150 soru 84 belgeye bağlı;
+korpusta 360 belge ve 53.399 sayfa var.
+
+| Seçenek | Artı | Eksi |
+|---|---|---|
+| a) Tek belge: sorunun belgesinde ara | Retriever ve chunking kalitesini izole ölçer, hızlı | Doğru belgeyi önceden söylemiş oluruz; gerçek sistemde bu yok. ~150 sayfa içinde sayılar yüksek, yöntemler ayırt edilemez |
+| b) Ortak havuz: 360 belgenin tüm sayfaları tek indeks | Gerçekçi, zor, yöntemler arası fark belirgin | Aynı şirketin farklı yılları karışır, sayılar düşük |
+| c) İkisi de: b başlık, a teşhis | Hatanın "yanlış belge" mi "doğru belge yanlış sayfa" mı olduğunu gösterir | İki ölçüm; indeks küçük olduğundan ek maliyet düşük |
+
+**Karar: c, başlık olarak b.**
+
+**Gerekçe:**
+
+- Gerçek sistemde belge önceden bilinmez; b'nin sayıları savunulabilir olandır.
+- a, hatanın belge bulmada mı sayfa bulmada mı olduğunu ayırır.
+- Başlık baştan sabitlenir (Karar 6'daki gibi): sonuçlara göre seçim yapılmaz.
+- Reranker etkisi (Karar 7) b'de daha net görünür; benzer belgelerin karışması onun çözdüğü sorundur.
+
+**Not:** FinanceBench reposunda belge listesinde olmayan 8 ek PDF vardı; indirilmedi,
+korpus 360 belge. Soruların hiçbiri o 8 belgeye bağlı değil. README'de belirtilecek.
