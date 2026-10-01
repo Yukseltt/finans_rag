@@ -27,9 +27,9 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D2 | Deney 2: reranker | DESTEKLENDİ (H2) |
 | D3 | Deney 3: hibrit BM25 + dense | REDDEDİLDİ (H3, H3b) |
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
-| 13 | Vektör veritabanı | KAPANDI: Chroma; doğrulanırsa K1'in ilk aşaması (Deney 6) |
+| 13 | Vektör veritabanı | KAPANDI: Chroma; Deney 6b ile doğrulandı, K1'in ilk aşaması (yeniden açılmış koleksiyon) |
 | D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | ÖN KAYIT YAZILDI, çalıştırılmadı |
-| D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İLK KOŞU BAŞARISIZ (ortak örtüşme 0,916); yeniden açılmış koleksiyonda geçti; 6b ile doğrulanıyor |
+| D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
 cevap düzeyinde ölçüm, kilitli test ölçümü. Fine-tune isteğe bağlı ek (Karar 11). Ayrıntı: "İnceleme
@@ -1000,6 +1000,7 @@ mu, (2) retrieval ne kadar kayıp yaratıyor (okuyucu sınırı mı, arama sın�
 ### Sistem (sabit)
 
 - **Arama:** künyesiz chunk'lar, **ortak havuz** (360 belge), `intfloat/e5-base-v2` (Karar 12),
+  **Chroma vektör veritabanı üzerinden (yeniden açılmış kalıcı koleksiyon, Karar 13 / Deney 6b)**,
   ardından `BAAI/bge-reranker-v2-m3`. Rerank derinliği ≈10.000 kelime aday: c200 için 50, c300 için 33.
 - **Bağlam:** reranker sırasıyla chunk'lar birleştirilir, **tam 1000 kelimede kesilir** (sınırı aşan
   chunk'ın kalanı atılır). Böylece c200 ve c300 aynı kelime miktarını görür (Deney 4'teki bütçe kuralı
@@ -1270,4 +1271,36 @@ Referans fp16 tam arama olarak kalır (değiştirilmedi); referans gürültüsü
 **Karar kuralı:** 6b ölçütü sağlanırsa Chroma, final hatta **yeniden açılmış koleksiyon olarak** kullanılabilir
 ve K1 DB üzerinden üretilir; sağlanmazsa K1 tam aramayla üretilir ve DB demo yolu olarak kalır.
 Her iki durumda ilk koşunun (kurulum hemen sonrası) başarısızlığı raporda yer alır.
+
+**SONUÇ, Deney 6b (2026-10-02; üç bağımsız süreç, koleksiyon her seferinde diskten açıldı)**
+
+| Koşu | Örtüşme@50 ortak | Örtüşme@50 tek (filtreli) | Reranker sonrası Recall@1000w farkı (DB − tam) ortak / tek | Ölçüt (a)-(d) |
+|---|---|---|---|---|
+| tekrar | 0,982 | 0,992 | 0,000 [0,000; 0,000] / 0,000 [0,000; 0,000] | Sağlandı |
+| tekrar2 | 0,982 | 0,992 | aynı | Sağlandı |
+| tekrar3 | 0,982 | 0,992 | aynı | Sağlandı |
+
+**6b ölçütü sağlandı (3/3).** Sonuçlar koşular arasında birebir kararlı. `ef_search=100` yeterli (400 ve 1000
+aynı sonucu verir).
+
+**Karar: Chroma final hatta kullanılabilir, yeniden açılmış (kalıcı) koleksiyon olarak.** Deney 5'teki K1
+(getirilen) bağlamı Chroma üzerinden üretilir; vektörler ve reranker Deney 5 ön kaydıyla aynı olduğundan
+tanım değişmez. Raporda şu üç şey birlikte verilir:
+
+1. **İlk koşu (kurulum hemen sonrası) başarısızdı** (ortak örtüşme 0,916); nedeni bilinmiyor
+   (hipotez: bulk eklemeden sonra bellekteki indeks henüz tam değil). Operasyonel kural: **koleksiyon
+   kurulduktan sonra kapatılıp yeniden açılmadan kullanılmaz.**
+2. **Referans (fp16 tam arama) kendi içinde 0,988 örtüşme tavanına sahip;** 0,982 bu tavana çok
+   yakındır, yani HNSW kaybı hassasiyet gürültüsünden ayırt edilemeyecek kadar küçüktür.
+3. **Bedeller:** disk 2018 MB (ham vektörler 240 MB); kurulum 652 sn; **filtreli arama ~97 ms**, filtresiz
+   aramadan ~30 kat yavaş (ortak ~3,4 ms; tam arama GPU ~1,5 ms, CPU ~14 ms).
+
+**Yorum:** bu ölçekte (163 bin vektör) vektör veritabanı **kaliteyi korur ama hız ya da basitlik kazandırmaz**;
+tam arama zaten milisaniye mertebesinde ve yaklaşıklık hatası taşımaz. Veritabanının değeri burada operasyonel:
+kalıcılık, metadata filtresi, ölçeklenebilirlik ve standart bir RAG yığınının parçası olması. Bu, README'de
+ölçümle gerekçelendirilir.
+
+**Not (6b'nin sınırı):** üç koşu aynı koleksiyonu aynı makinede aynı sorgularla açar; bağımsız bir koleksiyon
+kurulumu (yeniden indeksleme) ve başka bir makine ölçülmedi. Kurulum sonrası tutarsızlığın nedeni
+çözülmemiştir.
 

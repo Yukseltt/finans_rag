@@ -100,7 +100,7 @@ Ayrıntılı gerekçe, ön kayıtlı deneyler ve tüm sayılar `KARAR_GUNLUGU.md
 | Dense vs BM25 | Dense net üstün; dört dense model birbirinden ayırt edilemiyor |
 | Reranker | Anlamlı kazanç (ortak havuz 5/5, tek belge 4/5) |
 | Künye, hibrit (BM25) | İkisi de ön kayıtlı ölçütle **reddedildi** |
-| Hat | dense ilk aşama + bge-reranker-v2-m3 |
+| Hat | e5-base-v2 + Chroma vektör veritabanı (HNSW, doğrulandı: tam aramayla ilk-50 örtüşmesi 0,98) → bge-reranker-v2-m3 |
 
 Cevap metriği: katmanlı, önce deterministik (Karar 2 revizesi); kod ve gerçekçi cevap testleri tamam.
 Chunking karşılaştırması tamamlandı (Deney 4): c200 kalır.
