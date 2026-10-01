@@ -99,12 +99,38 @@ size**: in-batch negatif sayısı doğrudan batch'e bağlı.
 kullanıldı, aşinalık var), ama başka modeller de eklenerek çeşitlilik sağlanır.
 Bu, "neden bu model?" sorusuna ölçümle cevap verir.
 
+**Aday listesi (model kartlarından doğrulandı, 2026-10-01):**
+
+| Model | Parametre | Boyut | Maks. uzunluk | Lisans | Not |
+|---|---|---|---|---|---|
+| BGE-M3 | kartta yok (~568M, XLM-R large) | 1024 | 8192 | MIT | Çok dilli; dense/sparse/ColBERT |
+| bge-base-en-v1.5 | 0,1B | 768 | 512 | MIT | Sorguya "Represent this sentence for searching relevant passages:" öneki |
+| e5-base-v2 | 0,1B | 768 | 512 | MIT | `query: ` / `passage: ` önekleri zorunlu |
+| gte-base-en-v1.5 | 137M | 768 | 8192 | Apache 2.0 | `trust_remote_code=True` gerekli |
+
+**Plan (karar):**
+
+- **Sıfır atış baseline:** dört model de.
+- **Fine-tune:** BGE-M3, bge-base-en-v1.5, gte-base-en-v1.5 (üç aile, farklı
+  boyut ve bağlam uzunluğu). e5-base-v2 yalnızca sıfır atışta kalır.
+- **Reranker (Karar 7 adım 3):** bge-reranker-v2-m3 (0,6B, Apache 2.0, maks. 512).
+
+**gte uzak kod notu:** modelin kodu kendi deposunda değil, ayrı bir depoda
+(`Alibaba-NLP/new-impl`; config'teki `auto_map`). Model sürümünü sabitlemek kodu
+sabitlemez; yüklerken `code_revision` ile kod deposunun commit'i de sabitlenmeli ve
+çalıştırmadan önce incelenmelidir. Model deposunun doğrulanacak son commit'i
+(2026-10-01'de görülen): `a829fd0e060bb84554da0dfd354d0de0f7712b7f`.
+
+**Her modelin öneki:** kodda modele özel sorgu/pasaj öneki tablosu tutulur ve
+sonuçlarda belirtilir; yanlış önek modeli haksız yere düşürür.
+
 **Hâlâ açık:**
 
-- Hangi ek modeller (aday listesi 1B'den önce birlikte seçilecek; ilk not: proje
-  İngilizce olduğundan İngilizce bir model de değerlendirilmeli).
 - Her aday için azami batch size ölçümü (dummy veriyle 50 adım, bellek taşmadan
   çıkılabilen en büyük batch).
+- Chunk'ın modeller arasında adil tanımı: "512 token" her tokenizer'da farklı
+  uzunluk eder ve 512 sınırlı modeller fazlasını keser. Öneri: chunk'ı kelime
+  sayısıyla tanımla (~300 kelime). Onay bekliyor; onaylanırsa Karar 5 revize edilir.
 
 | Sonuç | Karar |
 |---|---|
