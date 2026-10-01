@@ -15,7 +15,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | 3 | Fine-tune modeli ve batch | KISMEN: birden çok model denenecek; aday listesi ve batch ölçümü bekliyor |
 | 4 | SEC EDGAR dahil mi | ERTELENDİ: PDF'ler incelenince karar verilecek |
 | 5 | Baseline hattı | KAPANDI: önce ayrı ayrı, sonra birleştirilmiş |
-| 6 | Kanıt eşleştirme kuralı | ERTELENDİ: veri görülünce |
+| 6 | Kanıt eşleştirme kuralı | KAPANDI: c (sayfa ana metrik, metin ikincil) |
 | 7 | Retrieval mimarisi | PLAN ONAYLANDI: sıra belli, her adım ölçümle kapanacak |
 | 8 | Kilitli test seti | KAPANDI: FinanceBench 99 geliştirme + 51 kilitli, şirket bazında |
 
@@ -142,12 +142,38 @@ ayırt edemeyiz. Sonraki her karar bu sayılara karşı ölçülür.
 
 ---
 
-## Karar 6: Kanıt eşleştirme kuralı — ERTELENDİ
+## Karar 6: Kanıt eşleştirme kuralı — KAPANDI
 
-Bir chunk'ın "doğru" sayıldığı kural: sayfa numarası eşleşmesi mi, kanıt metniyle
-örtüşme oranı mı? Kural, chunking değiştiğinde sabit kalmalı; yoksa gün 2'deki
-karşılaştırmalar geçersiz olur. PDF'lerden ve kanıt alanlarından örnek
-görüldükten sonra (1B) karara bağlanacak.
+Bir chunk'ın "doğru" sayıldığı kural. Chunking değişse de sabit kalmalı; yoksa gün
+2'deki karşılaştırmalar geçersiz olur.
+
+**Doğrulama (PDF parse sonrası):** geliştirme kümesindeki 127 kanıtın 127'sinde,
+FinanceBench'in tam sayfa metnine en çok benzeyen PDF sayfası `evidence_page_num`
+ile birebir aynı. Yani sayfa numarası **0 tabanlı PDF sırası**, kayma yok. Medyan
+benzerlik 1,0; 8 kanıtta <0,6 (Best Buy, Corning; tablo düzeni farkı).
+
+| Seçenek | Artı | Eksi |
+|---|---|---|
+| a) Sayfa eşleşmesi | Net, doğrulandı, chunking'ten bağımsız | Chunk sayfadan küçükse aynı sayfadaki yanlış chunk da doğru sayılır |
+| b) Metin örtüşmesi | Chunk boyutundan bağımsız, ince | Eşik keyfi, tablo metni dağınık |
+| c) İkisi birden | Hem sağlam hem ince | İki metrik; başlık baştan sabitlenmezse esneklik doğar |
+
+**Karar: c.**
+
+| | Kural |
+|---|---|
+| Ana metrik (başlık) | Sayfa düzeyi: getirilen chunk kanıt sayfasındaysa doğru. Tüm raporlar bununla başlar |
+| İkincil metrik | Metin düzeyi: getirilen chunk'ın kanıt metninin 5-kelimelik parçalarının ne kadarını kapsadığı (0-1, sürekli) |
+| Eşik | Yok; ikincil metrik ikili değil, ortalama kapsama olarak raporlanır |
+| Kapsam | Geliştirme kümesi; kilitli test final ölçümde aynı iki metrikle |
+| Çoklu kanıt | Her kanıt ayrı sayılır; soru düzeyinde "tüm kanıtlar bulundu mu" ayrıca raporlanır |
+| Taşan chunk | Birden fazla sayfaya taşan chunk, kapsadığı tüm sayfalara ait sayılır |
+
+**Başlığın sabitlenme nedeni:** sonuçlar bir metrikte kaybedip diğerinde kazandığında
+hangisini sunacağımızı seçmek serbest kalmasın.
+
+**Sınırlılık:** ikincil metrik tablo düzeni farkı olan kanıtlarda (8/127) retrieval
+hatası olmadan düşük çıkabilir; raporda belirtilir.
 
 ---
 
