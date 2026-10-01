@@ -27,6 +27,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D2 | Deney 2: reranker | DESTEKLENDİ (H2) |
 | D3 | Deney 3: hibrit BM25 + dense | REDDEDİLDİ (H3, H3b) |
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
+| D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | ÖN KAYIT YAZILDI, çalıştırılmadı |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
 cevap düzeyinde ölçüm, kilitli test ölçümü. Fine-tune isteğe bağlı ek (Karar 11). Ayrıntı: "İnceleme
@@ -980,4 +981,136 @@ küçük/hızlı. **Dört model arasındaki farklar istatistiksel olarak anlaml�
 ve verimlilik üzerine yapıldı, bunun "e5 daha iyi" kanıtı olmadığı raporlanır. Seçim yalnızca
 geliştirme sonuçlarına dayanır (kilitli kümeye bakılmadı). Künye ile e5'in belirgin bozulması
 (Deney 1) künye kullanılmadığı için bu seçimi etkilemez.
+
+---
+
+## Deney 5: Uçtan uca RAG, cevap düzeyinde ölçüm (FİNAL PROTOKOL) — ÖN KAYIT, ÇALIŞTIRILMADI
+
+**Sonuçlardan ÖNCE yazıldı (2026-10-01).** Hiçbir okuyucu çağrısı yapılmadı. Bu bölüm sabitlendikten
+sonra değişiklik yalnızca "Protokol değişikliği" notuyla ve gerekçesiyle yapılır; sessiz düzeltme yok.
+
+### Amaç
+
+RAG sisteminin gerçek hedefini ölçmek: **doğru cevap**. Soruları: (1) retrieval cevaba değer katıyor
+mu, (2) retrieval ne kadar kayıp yaratıyor (okuyucu sınırı mı, arama sınırı mı), (3) chunk boyutu
+(Deney 4'te sayfa isabeti ve kanıt kapsaması ters yönlere işaret etti) cevap doğruluğunu nasıl etkiliyor.
+
+### Sistem (sabit)
+
+- **Arama:** künyesiz chunk'lar, **ortak havuz** (360 belge), `intfloat/e5-base-v2` (Karar 12),
+  ardından `BAAI/bge-reranker-v2-m3`. Rerank derinliği ≈10.000 kelime aday: c200 için 50, c300 için 33.
+- **Bağlam:** reranker sırasıyla chunk'lar birleştirilir, **tam 1000 kelimede kesilir** (sınırı aşan
+  chunk'ın kalanı atılır). Böylece c200 ve c300 aynı kelime miktarını görür (Deney 4'teki bütçe kuralı
+  c300'e ~1200 kelime verirdi, bu karıştırıcı bu yolla kaldırıldı). Her chunk bir etiketle verilir:
+  `[belge: <doc_name>, sayfa: <sayfa_idx>]` (etiket kelime sayılmaz); sayfa numarası gold'daki
+  `evidence_page_num` ile aynı tabandadır (0 tabanlı PDF sırası, Karar 6).
+- **Okuyucular (iki katman, kararlı sürüm):** `gemini-3.8-flash` (güçlü), `gemini-3.5-flash-lite`
+  (hızlı). Sıcaklık 0, tek çağrı (best-of yok), düşünme ve diğer parametreler API varsayılanında;
+  kullanılan token sayıları kaydedilir. Model kimliği her kayıtla birlikte yazılır.
+- **Prompt:** tek sabit şablon, pilotla biçim doğrulanıp **dondurulur** (aşağıda). Cevap biçimi:
+  kısa gerekçe, ardından `Final answer: ...` satırı, ardından `Sources: [belge, sayfa]; ...` satırı
+  (kapalı kitapta Sources yok).
+
+### Koşullar (aynı soru ve prompt iskeleti)
+
+| Kod | Koşul | Bağlam |
+|---|---|---|
+| K0 | Kapalı kitap | Yok |
+| K1 | Getirilen (gerçekçi RAG) | Yukarıdaki hat, ortak havuz, ilk 1000 kelime |
+| K2 | Oracle | Gold kanıt sayfalarının tam metni (çok kanıtlıysa hepsi) |
+
+K1 için chunk yapılandırması iki varyant: **c200** (baz) ve **c300**. K0 ve K2 chunk'tan bağımsızdır.
+Geliştirme kümesi çalıştırmaları: 2 okuyucu × (K0 + K2 + K1-c200 + K1-c300) = 8 çalıştırma × 99 soru.
+
+### Metrikler
+
+**Birincil: cevap doğruluğu** (`src/cevap_metrik.py`, Karar 2 revizesi); soru başına ikili:
+
+| Gold türü | Doğru sayılma kuralı |
+|---|---|
+| salt_sayi | `hassasiyet` (gold'un ondalık basamağında eşleşme); `tolerans` (%1) ikincil raporlanır |
+| hukum | Yes/No hükmü eşleşir |
+| anahtar_sayi | Gold'daki tüm anahtar sayılar bulunur (`hepsi`); bulunma oranı da raporlanır |
+| serbest | **Kullanıcı elle puanlar** (kör: koşul ve okuyucu etiketi gizli, sıra karıştırılmış) |
+
+Başlık sayısı: doğru soru / toplam soru, ayrıca gold türü bazında doğruluk.
+
+**İkincil:** (a) **atıf doğruluğu** (K1, K2): modelin `Sources` satırındaki (belge, sayfa) çiftlerinin
+gold sayfalarıyla örtüşmesi: *atıf isabeti* (en az biri gold sayfa) ve *atıf kesinliği* (anılan
+sayfaların gold olanları oranı); (b) maliyet: token, süre; (c) retrieval metrikleri (Recall@1000w
+vb.) mevcut kodla; (d) cevapsız/engellenmiş çağrı sayısı.
+
+### Hipotezler ve ön kayıtlı ölçütler
+
+Hepsi **eşleştirilmiş, şirket-kümeli bootstrap** ile (21 şirket kümesi, 10.000 tekrar, %95, tohum 0);
+"anlamlı" = aralık 0'ı içermiyor. Farklar soru bazında eşleştirilir.
+
+- **H5a (retrieval değer katıyor):** K1-c200 doğruluğu K0'dan yüksektir. **Ölçüt:** her iki okuyucuda
+  anlamlı pozitif fark (2/2).
+- **H5b (arama kaybı):** K2 (oracle) K1-c200'den yüksektir. Bu bir **ayrıştırma ölçümüdür**: fark,
+  retrieval'ın doğru sayfayı getirememesinin cevaba maliyetidir. Ölçüt yok, fark ve aralığı raporlanır.
+- **H5c (chunk boyutu):** K1-c300 doğruluğu K1-c200'den yüksektir. **Ölçüt:** her iki okuyucuda
+  anlamlı pozitif fark (2/2); aksi hâlde **c200 kalır.**
+- **H5d (okuyucudan bağımsızlık):** H5a ve H5c'nin yönü iki okuyucuda aynıdır (betimsel; testsiz).
+
+**Açık beklenti (tahmin, ölçülmedi):** K0'ın metrics-generated (şirkete ve yıla özgü sayılar)
+sorularında çok düşük, K1'in anlamlı yüksek olmasını bekliyorum (H5a destekleniyor). H5c için net
+bir beklentim yok; c300 kanıt kapsaması daha yüksek ama %3 kesilme ve ortak havuzda sayfa isabeti
+düşüşü var, 2/2 sıkı ölçütünü geçmesini çok olası görmüyorum. Ölçüt bu tahmine göre değil sabit
+eşiğe göre değerlendirilir.
+
+### Prompt dondurma kuralı
+
+1. Prompt şablonu bu ön kayıttan sonra yazılır ve ilk çalıştırmadan önce `sonuclar/` altına
+   sürüm numarasıyla kaydedilir.
+2. **Pilot:** 12 geliştirme sorusunda yalnızca **biçim** doğrulanır (`Final answer:` ve `Sources:`
+   ayrıştırma oranı, boş/engellenmiş çağrılar). Pilotta doğruluk **optimize edilmez**; doğruluk
+   görülse bile prompt'u doğruluğa göre ayarlamak yasaktır.
+3. Pilottan sonra prompt **dondurulur**, geliştirme kümesinde tüm çalıştırmalar donmuş prompt'la
+   tek seferde yapılır. Donduktan sonra prompt değişirse yeni sürüm sayılır, tüm çalıştırmalar
+   tekrarlanır ve sürüm sayısı raporlanır.
+
+### Kilitli test (Karar 8)
+
+- Geliştirme kümesinde tüm tasarım (prompt, bağlam, chunk seçimi) dondurulduktan sonra, **tek seferde**.
+- Kilitli kümede ölçülecek en fazla **3 sistem** (okuyucu başına): **K0, K1 (H5c sonucuna göre c200 ya da
+  c300), K2**. Başka yapılandırma eklenmez.
+- Sonuçlar ne olursa olsun raporlanır; kilitli test sonrası protokol değişmez. 51 soru / 11 şirketle
+  yalnızca büyük farklar (~0,1 ve üstü) ayırt edilebilir; sonuçlar bu çerçevede yorumlanır.
+- Kilitli kümede retrieval ilk kez bu aşamada çalıştırılır (`kilitli=True` yalnızca bu betikte).
+
+### Sızıntı politikası bu deneyde
+
+Fine-tune yapılmadığı sürece FinQA ile eğitim yoktur, yani Karar 1'in 22 örneği çıkarma politikası bu
+deney için devreye girmez (yalnızca fine-tune yapılırsa). Okuyucu modellerin SEC metnini ön-eğitimde
+görmüş olma ihtimali doğrulanamaz; **K0 (kapalı kitap) bunu doğrudan ölçen bir referanstır**:
+K0 yüksek çıkarsa ya soruların ezberlenmiş/bilinen bilgiye dayandığı ya da genel finans bilgisiyle
+cevaplandığı anlamına gelir, bu sınırlılık olarak raporlanır.
+
+### Uygulama kuralları
+
+- **API anahtarı** depoya girmez, ortam değişkeninden okunur; kullanıcı kendi terminalinde ayarlar.
+- Her **ham yanıt** (istek, yanıt, model kimliği, token sayıları, zaman) diske önbelleklenir
+  (`data/islenmis/cevaplar/`, repoya girmez); analiz önbellekten yeniden üretilebilir.
+- API hataları için sınırlı yeniden deneme; sonuçsuz kalan çağrı **yanlış** sayılır ve ayrıca raporlanır.
+- Çalıştırmadan önce toplam token tahmini ve fiyat gösterilir, kullanıcı onayı alınır.
+- **Veri ve katman notu:** Gemini kredilerinin ücretsiz mi ücretli katmanda olduğu kullanıcı tarafından
+  kontrol edilecek (dokümantasyona göre ücretsiz katmanda içerik ürün iyileştirmede kullanılabilir,
+  ücretli katmanda kullanılmaz). Sonuç: ____ (kullanıcı doldurur). FinanceBench CC-BY-NC lisanslıdır;
+  kullanım ticari olmayan araştırmadır.
+- Fiyat bilgisi (2026-10-01 dokümantasyon özeti): `gemini-3.8-flash` $0,75 / $3,75 (1M giriş / çıkış
+  token, 31.12.2026'ya kadar), `gemini-3.5-flash-lite` $0,30 / $2,50; ilk çağrıdan önce panelden
+  doğrulanacak.
+
+### Uygulama sırası
+
+1. Bağlam ve istek üretimi (K0, K1-c200, K1-c300, K2), prompt sürümü kaydı.
+2. Gemini okuyucu betiği (önbellek, yeniden deneme, anahtar ortam değişkeninden).
+3. Pilot (12 soru, yalnızca biçim) → prompt dondurma.
+4. Geliştirme kümesi çalıştırmaları (8 × 99), cevap puanlama, serbest metin elle puanlama sayfası.
+5. Küme bootstrap karşılaştırmaları (H5a-d), hata analizi (gold türü, soru türü, çok kanıtlı sorular).
+6. Kilitli test (tek sefer), rapor, README.
+
+**Raporlama:** tüm koşullar ve okuyucular, sonuç ne olursa olsun; çoklu karşılaştırma uyarısıyla
+(ölçütler tutarlılık arar). Olumsuz sonuç (ör. c300'ün c200'ü geçememesi) bu proje için bulgudur.
 
