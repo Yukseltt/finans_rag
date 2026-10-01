@@ -472,7 +472,7 @@ en az biri doğru belgeden mi):
 
 ---
 
-## Deney 2: Reranker (Karar 7, adım 3) — ÖN KAYIT, SONUÇ BEKLENİYOR
+## Deney 2: Reranker (Karar 7, adım 3) — TAMAMLANDI: H2 DESTEKLENDİ
 
 **Sonuçlardan ÖNCE yazıldı (2026-10-01).**
 
@@ -498,4 +498,38 @@ Recall@50 ve üstü bu deneyde bilgi vermez. BM25'in ortak havuz Recall@50'si d�
 
 **Raporlama:** 5 yöntem × 2 uzay, fark ve aralıklarıyla, sonuç ne olursa olsun. Ek olarak
 reranker maliyeti (soru başına çift sayısı, süre) raporlanır.
+
+**SONUÇ (2026-10-01; `src/rerank.py`, bge-reranker-v2-m3, derinlik 50, geliştirme kümesi)**
+
+Recall@5, A = ilk aşama, B = reranker sonrası; fark için eşleştirilmiş bootstrap %95
+aralığı (10.000 tekrar). `*` = aralık 0'ı içermiyor.
+
+| İlk aşama | Ortak havuz A → B | Fark [aralık] | Tek belge A → B | Fark [aralık] |
+|---|---|---|---|---|
+| BM25 | 0,031 → 0,087 | +0,055 [+0,016; +0,100] * | 0,157 → 0,268 | +0,110 [+0,041; +0,186] * |
+| bge-base-en | 0,157 → 0,354 | +0,197 [+0,117; +0,283] * | 0,480 → 0,630 | +0,150 [+0,062; +0,240] * |
+| e5-base | 0,213 → 0,394 | +0,181 [+0,103; +0,266] * | 0,567 → 0,630 | +0,063 [-0,023; +0,156] |
+| gte-base-en | 0,189 → 0,323 | +0,134 [+0,061; +0,212] * | 0,449 → 0,630 | +0,181 [+0,096; +0,268] * |
+| BGE-M3 | 0,197 → 0,323 | +0,126 [+0,060; +0,197] * | 0,433 → 0,606 | +0,173 [+0,062; +0,283] * |
+
+**Ön kayıtlı ölçüt:** ortak havuzda 5/5 (≥4 gerekliydi), tek belgede 4/5 → **sağlandı, H2 desteklendi.**
+MRR de her yöntemde ve iki uzayda anlamlı arttı.
+
+**Gözlemler:**
+
+- Reranker sonrası tek belge Recall@5 dense modellerde ~0,61-0,63'e yaklaştı (ilk aşamada
+  0,43-0,57). İlk aşama modelleri arasındaki fark büyük ölçüde silindi: bu ölçekte
+  belirleyici bileşen embedding modeli değil reranker.
+- e5-base (ilk aşamada en güçlü, tek belge R@5 0,567) tek belgede anlamlı kazanmadı; yukarı
+  çıkabileceği alan zaten dardı.
+- Hâlâ düşük: ortak havuz R@5 en iyi 0,394; tek belge ~0,63, oysa tek belge R@50 ~0,9.
+  Reranker boşluğun yalnızca bir kısmını kapatıyor.
+- BM25 ilk aşama olarak reranker ile de en zayıf (ortak havuz R@50 0,118, aday kümede doğru
+  sayfa çoğu zaman yok): tavan ilk aşama tarafından belirleniyor.
+- Maliyet: 26.193 benzersiz çift 364 sn (72 çift/sn, yerel RTX 2060, fp16); soru başına 50
+  çift ≈ 0,7 sn ek gecikme.
+
+**Sınırlar:** 99 soru, tek kümede ölçüm (kilitli test değil); 10 karşılaştırma yapıldı (5
+yöntem × 2 uzay), ama sonuç tek bir anlamlı fark değil tutarlı bir örüntü (10/10 yönde
+pozitif, 9/10 anlamlı). Reranker fine-tune edilmedi, ayarlanmadı.
 
