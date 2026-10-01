@@ -128,9 +128,7 @@ sonuçlarda belirtilir; yanlış önek modeli haksız yere düşürür.
 
 - Her aday için azami batch size ölçümü (dummy veriyle 50 adım, bellek taşmadan
   çıkılabilen en büyük batch).
-- Chunk'ın modeller arasında adil tanımı: "512 token" her tokenizer'da farklı
-  uzunluk eder ve 512 sınırlı modeller fazlasını keser. Öneri: chunk'ı kelime
-  sayısıyla tanımla (~300 kelime). Onay bekliyor; onaylanırsa Karar 5 revize edilir.
+- (Kapandı) Chunk tanımı: kelime sayısı, aşağıda ve Karar 5'te.
 
 | Sonuç | Karar |
 |---|---|
@@ -166,6 +164,18 @@ Gün 1 sonunda çalışır olmalı. Bu bir "iyi sistem" değil, **sıfır noktas
 
 **Gerekçe:** Birleştirmeyi baştan yaparsak gün 3'te neyin neyi iyileştirdiğini
 ayırt edemeyiz. Sonraki her karar bu sayılara karşı ölçülür.
+
+**Revize edildi (2026-10-01):** "sabit 512 token" yerine **sabit ~300 kelime**.
+Token, her modelin tokenizer'ında farklı sayıda çıkar; token bazlı kesersek ya her
+modelin chunk'ları farklı olur (karşılaştırma bozulur) ya da tek tokenizer'a göre
+kesilen chunk, 512 sınırlı bir modelde sessizce kesilir. Kelime sayısı model
+bağımsızdır: dört model birebir aynı chunk'ları görür.
+
+- Sayfa sınırı: baseline'da chunk sayfa sınırını **aşmaz** (her chunk tek sayfaya ait;
+  Karar 6'nın sayfa metriği belirsizlik taşımaz). Sayfa sınırını aşan yapıya saygılı
+  chunking gün 2'nin karşılaştırma konusu.
+- Doğrulama zorunlu: her modelin tokenizer'ıyla en uzun chunk token olarak ölçülür;
+  512 sınırlı modellerde kesilen chunk çıkarsa kelime sayısı düşürülür.
 
 ---
 
