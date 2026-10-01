@@ -1,0 +1,36 @@
+{
+  "BAAI/bge-m3": {
+    "sinir": 8192,
+    "medyan": 409,
+    "p99": 581,
+    "maks": 989,
+    "sinir_asan": 0,
+    "sinir_asan_oran": 0.0
+  },
+  "BAAI/bge-base-en-v1.5": {
+    "sinir": 512,
+    "medyan": 361,
+    "p99": 599,
+    "maks": 4614,
+    "sinir_asan": 3673,
+    "sinir_asan_oran": 0.0313
+  },
+  "intfloat/e5-base-v2": {
+    "sinir": 512,
+    "medyan": 363,
+    "p99": 601,
+    "maks": 4616,
+    "sinir_asan": 3773,
+    "sinir_asan_oran": 0.0322
+  },
+  "Alibaba-NLP/gte-base-en-v1.5": {
+    "sinir": 8192,
+    "medyan": 361,
+    "p99": 599,
+    "maks": 4614,
+    "sinir_asan": 0,
+    "sinir_asan_oran": 0.0
+  },
+  "_etiket": "c300",
+  "_chunk_sayisi": 117240
+}

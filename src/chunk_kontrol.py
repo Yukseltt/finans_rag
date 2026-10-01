@@ -1,21 +1,22 @@
 # Chunk'larin her modelin tokenizer'inda kac token ettigini olcer; 512 sinirli modellerde
 # kesilme olup olmadigini gosterir (Karar 5 revizesindeki zorunlu dogrulama).
 #
-# Kullanim: python src/chunk_kontrol.py
-# Girdi:    data/islenmis/chunks.jsonl
-# Cikti:    ekrana ozet + sonuclar/chunk_token_kontrol.json
+# Kullanim: python src/chunk_kontrol.py [etiket]      (etiket: c200 (varsayilan), c100, c200o50, c300)
+# Girdi:    data/islenmis/chunks[_etiket].jsonl
+# Cikti:    ekrana ozet + sonuclar/chunk_token_kontrol[_etiket].json
 #
 # Sadece tokenizer indirilir (model agirligi degil). Pasaj oneki de sayilir, cunku
 # e5 gibi modeller pasajin basina metin ekler ve bu da sinira dahildir.
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
 from transformers import AutoTokenizer
 
+from degerlendir import chunks_yolu, ek
+
 KOK = Path(__file__).resolve().parent.parent
-CHUNKS = KOK / "data" / "islenmis" / "chunks.jsonl"
-CIKTI = KOK / "sonuclar" / "chunk_token_kontrol.json"
 
 # (model, maks. uzunluk, pasaj oneki). Oneklerin kaynagi: model kartlari (Karar 3).
 MODELLER = [
@@ -27,8 +28,9 @@ MODELLER = [
 
 
 def main():
-    metinler = [json.loads(s)["metin"] for s in open(CHUNKS, encoding="utf-8")]
-    print(f"{len(metinler)} chunk")
+    etiket = sys.argv[1] if len(sys.argv) > 1 else "c200"
+    metinler = [json.loads(s)["metin"] for s in open(chunks_yolu(etiket), encoding="utf-8")]
+    print(f"{etiket}: {len(metinler)} chunk")
     rapor = {}
     for model, sinir, onek in MODELLER:
         tok = AutoTokenizer.from_pretrained(model)
@@ -40,7 +42,8 @@ def main():
         r = rapor[model]
         print(f"{model:32s} sinir={sinir:5d} medyan={r['medyan']:4d} p99={r['p99']:4d} maks={r['maks']:5d} "
               f"asan={asan} (%{100 * asan / len(uzunluk):.2f})")
-    CIKTI.write_text(json.dumps(rapor, indent=2), encoding="utf-8")
+    rapor["_etiket"], rapor["_chunk_sayisi"] = etiket, len(metinler)
+    (KOK / "sonuclar" / f"chunk_token_kontrol{ek(etiket)}.json").write_text(json.dumps(rapor, indent=2), encoding="utf-8")
 
 
 if __name__ == "__main__":

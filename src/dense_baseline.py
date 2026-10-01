@@ -47,13 +47,15 @@ def main():
     ap.add_argument("--model", required=True, choices=MODELLER)
     ap.add_argument("--batch", type=int, default=64)
     ap.add_argument("--kunye", action="store_true", help="chunk basina belge kunyesi ekle (Deney 1)")
+    ap.add_argument("--chunk", default="c200", help="chunk varyanti etiketi (Deney 4): c200 (baz), c100, c200o50, c300")
     args = ap.parse_args()
     m = MODELLER[args.model]
 
-    etiket = args.model + ("_kunye" if args.kunye else "")
+    etiket = args.model + ("_kunye" if args.kunye else "") + d.ek(args.chunk)
+    chunk_dosyasi = d.chunks_yolu(args.chunk)
     sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
     chunk_idler, belgeler, metinler = [], [], []
-    with open(d.CHUNKS, encoding="utf-8") as f:
+    with open(chunk_dosyasi, encoding="utf-8") as f:
         for satir in f:
             c = json.loads(satir)
             chunk_idler.append(c["chunk_id"])
@@ -102,11 +104,11 @@ def main():
         maskeli = torch.where(belge_idx == belge_no[s["doc"]], skor[i], torch.tensor(-1e9, device="cuda"))
         tek[s["id"]] = [chunk_idler[j] for j in torch.topk(maskeli, TOP).indices.tolist()]
 
-    bilgi = d.yukle_chunk_bilgi()
+    bilgi = d.yukle_chunk_bilgi(chunk_dosyasi)
     sonuc = {"yontem": f"dense:{m['id']}", "tarih": date.today().isoformat(),
              "konfigurasyon": {"model": m["id"], "sorgu_onek": m["sorgu_onek"], "pasaj_onek": m["pasaj_onek"],
                                "maks_token": m["maks"], "hassasiyet": "fp16", "benzerlik": "kosinus",
-                               "chunk_kelime": 200, "kume": "gelistirme", "top": TOP, "kunye": args.kunye,
+                               "chunk": args.chunk, "kume": "gelistirme", "top": TOP, "kunye": args.kunye,
                                "gomme_suresi_sn": gomme_sure}}
     for ad, siralama in (("ortak_havuz", ortak), ("tek_belge", tek)):
         r = d.olc(siralama, sorular, bilgi)

@@ -50,6 +50,25 @@ def main():
     assert r["metrikler"]["recall@50"]["deger"] == 0.0
     assert r["metrikler"]["mrr"]["deger"] == 0.0
 
+    # 2b) butce metrigi: kusursuz siralamada ~ recall@5'e yakin, kanit yokken 0, her zaman recall@1 <= butce <= recall@50
+    mk = d.olc(mukemmel, sorular, bilgi, n_boot=50)["metrikler"]
+    assert mk["recall@1"]["deger"] <= mk["recall_butce"]["deger"] <= mk["recall@50"]["deger"], mk["recall_butce"]
+    assert abs(mk["recall_butce"]["deger"] - mk["recall@5"]["deger"]) < 0.15, (mk["recall_butce"], mk["recall@5"])
+    assert d.olc(yok, sorular, bilgi, n_boot=50)["metrikler"]["recall_butce"]["deger"] == 0.0
+    # elle kontrol: tek soru, 3 chunk, kelime sayilari 600+300+300 -> butce 1000'de ilk iki chunk (birikim 600<1000, 900<1000, sonra 1200>=1000 -> uc chunk)
+    kucuk_bilgi = {"a": ("D", 1, "w " * 600), "b": ("D", 2, "w " * 300), "c": ("D", 3, "w " * 300), "e": ("D", 9, "w " * 10)}
+    kucuk_soru = [{"id": "q", "doc": "D", "tur": "t", "soru": "?", "kanitlar": [{"doc": "D", "sayfa": 3, "metin": "w w w w w w"}]}]
+    r = d.olc({"q": ["a", "b", "c", "e"]}, kucuk_soru, kucuk_bilgi, n_boot=5, kilitli=True)["metrikler"]
+    assert r["recall_butce"]["deger"] == 1.0, r["recall_butce"]  # c, birikim 900 < 1000 iken basliyor -> dahil
+    r = d.olc({"q": ["a", "c", "b", "e"]}, kucuk_soru, kucuk_bilgi, n_boot=5, kilitli=True)["metrikler"]
+    assert r["recall_butce"]["deger"] == 1.0                    # c ikinci: birikim 600 < 1000 -> dahil
+    # c'den once birikim tam 1000 (600+300+100): 1000 < 1000 degil -> c penceredisi, recall_butce 0
+    kucuk_bilgi["f"] = ("D", 8, "w " * 100)
+    r = d.olc({"q": ["a", "b", "f", "c"]}, kucuk_soru, kucuk_bilgi, n_boot=5, kilitli=True)["metrikler"]
+    assert r["recall_butce"]["deger"] == 0.0, r["recall_butce"]
+    # ayni siralama ama c'den once birikim 910 (<1000): c dahil -> 1.0
+    r = d.olc({"q": ["a", "b", "e", "c"]}, kucuk_soru, kucuk_bilgi, n_boot=5, kilitli=True)["metrikler"]
+    assert r["recall_butce"]["deger"] == 1.0, r["recall_butce"]
     # 3) rastgele: 163 bin chunk icinden 50 tane; beklenen recall@50 ~ 0.0003
     rastgele = {s["id"]: rng.sample(tum, 50) for s in sorular}
     r = d.olc(rastgele, sorular, bilgi, n_boot=200)

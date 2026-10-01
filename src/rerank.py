@@ -34,11 +34,12 @@ def anahtar(soru_id, chunk_id):
     return f"{soru_id}||{chunk_id}"
 
 
-def skor_hazirla(sorular, bilgi, siralama_listesi, derinlik=DERINLIK):
+def skor_hazirla(sorular, bilgi, siralama_listesi, derinlik=DERINLIK, onbellek=ONBELLEK):
     # Verilen siralamalarin ilk `derinlik` adayi icin (soru, chunk) skorlarini onbellekten alir,
     # eksikleri hesaplar ve diske yazar. Doner: (skorlar, hesaplanan_cift, sure_sn)
+    # onbellek: chunk varyantina ozgu dosya olmali (chunk_id varyantlar arasi ayni metni gostermez).
     soru_metni = {s["id"]: s["soru"] for s in sorular}
-    skorlar = json.load(open(ONBELLEK, encoding="utf-8")) if ONBELLEK.exists() else {}
+    skorlar = json.load(open(onbellek, encoding="utf-8")) if onbellek.exists() else {}
     gerekli = {}
     for sr in siralama_listesi:
         for s in sorular:
@@ -59,7 +60,7 @@ def skor_hazirla(sorular, bilgi, siralama_listesi, derinlik=DERINLIK):
                                   activation_fct=torch.nn.Identity())  # ham skor; siralama icin yeterli
             for k, v in zip(parca, sonuc):
                 skorlar[k] = float(v)
-            ONBELLEK.write_text(json.dumps(skorlar), encoding="utf-8")
+            onbellek.write_text(json.dumps(skorlar), encoding="utf-8")
             print(f"  {bas + len(parca)}/{len(eksik)} cift ({time.time() - t0:.0f} sn)", flush=True)
         sure = round(time.time() - t0)
     return skorlar, len(eksik), sure
