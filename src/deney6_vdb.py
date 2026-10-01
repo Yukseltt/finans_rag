@@ -1,6 +1,7 @@
 # Deney 6: Chroma (HNSW, yaklasik arama) vs tam arama (Karar 13; on kayit: KARAR_GUNLUGU.md).
 #
-# Kullanim: python src/deney6_vdb.py
+# Kullanim: python src/deney6_vdb.py            (ilk kosu: koleksiyonu kurar ve hemen olcer)
+#           python src/deney6_vdb.py tekrar     (kurulu/yeniden acilmis koleksiyonla tekrar; ayri dosyalara yazar)
 # Girdi:    data/islenmis/embeddings/e5-base.npy, data/islenmis/chunks.jsonl,
 #           data/islenmis/siralamalar/dense_e5-base_{ortak,tek}.json (tam arama referansi)
 # Cikti:    data/islenmis/chroma/                      (kalici Chroma koleksiyonu, repoya girmez)
@@ -17,6 +18,7 @@
 # Sadece gelistirme kumesi.
 import json
 import statistics
+import sys
 import time
 from datetime import date
 from pathlib import Path
@@ -53,6 +55,7 @@ def ms(liste):
 
 
 def main():
+    etiket = ("_" + sys.argv[1]) if len(sys.argv) > 1 else ""  # tekrar kosusu ilk kosunun uzerine yazmaz
     sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
     bilgi = d.yukle_chunk_bilgi()
     kume = d.soru_kumeleri(sorular)
@@ -162,11 +165,11 @@ def main():
             "secilen_ef_search": secilen,
             "karar": ("DB final hatta kullanilabilir" if secilen else "DB final hatta KULLANILMAZ (demo yolu)"),
             "rerank_hesaplanan_cift": hesaplanan}
-    (KOK / "sonuclar" / "olcumler" / "deney6_vdb.json").write_text(
+    (KOK / "sonuclar" / "olcumler" / f"deney6_vdb{etiket}.json").write_text(
         json.dumps(ozet, indent=2, ensure_ascii=False), encoding="utf-8")
     if secilen:
         for u in ("ortak", "tek"):
-            (SIRA / f"chroma_e5_{u}.json").write_text(json.dumps(siralamalar[secilen][u]), encoding="utf-8")
+            (SIRA / f"chroma_e5{etiket}_{u}.json").write_text(json.dumps(siralamalar[secilen][u]), encoding="utf-8")
     print(f"\nKARAR: {ozet['karar']}" + (f" (ef_search={secilen})" if secilen else ""))
     print(f"disk: {disk_mb:.0f} MB; tam arama gecikmesi (medyan): GPU {ozet['gecikme_tam_ms']['gpu']['medyan']} ms, CPU {ozet['gecikme_tam_ms']['cpu']['medyan']} ms")
 

@@ -1,0 +1,26 @@
+{
+  "eleman_sayisi": 163543,
+  "yapilandirma_ef_search_baslangic": 1000,
+  "ef": {
+    "10": {
+      "yapilandirma": 10,
+      "chroma_vs_fp32": 0.9873,
+      "chroma_vs_fp16": 0.9824
+    },
+    "100": {
+      "yapilandirma": 100,
+      "chroma_vs_fp32": 0.9873,
+      "chroma_vs_fp16": 0.9824
+    },
+    "1000": {
+      "yapilandirma": 1000,
+      "chroma_vs_fp32": 0.9873,
+      "chroma_vs_fp16": 0.9824
+    }
+  },
+  "fp16_vs_fp32_tam_arama": {
+    "@5": 0.9717,
+    "@50": 0.9877,
+    "@100": 0.9886
+  }
+}
