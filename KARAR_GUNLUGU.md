@@ -154,6 +154,34 @@ geçişten geçer ve birbirlerini görmez; accumulation gradient istatistiğini 
 batch'e benzetir, negatif havuzunu değil. Gerçekten daha çok negatif için
 GradCache gibi bir teknik gerekir.
 
+**Ölçüm 2: sıfır atış dense baseline (2026-10-01, `src/dense_baseline.py`)**
+
+Geliştirme kümesi (99 soru, 127 kanıt), chunk 200 kelime, fp16, kartın önerdiği öneklerle,
+başka ayar yok. Köşeli parantez: Recall@5 için %95 bootstrap aralığı. Gömme süresi yerel
+RTX 2060 (6 GB).
+
+| Yöntem | Ortak havuz R@5 | R@10 | R@50 | MRR | Tek belge R@5 | R@10 | R@50 | MRR | Gömme |
+|---|---|---|---|---|---|---|---|---|---|
+| BM25 | 0,031 [0,01-0,07] | 0,039 | 0,118 | 0,024 | 0,157 [0,09-0,23] | 0,205 | 0,370 | 0,130 | - |
+| bge-base-en | 0,157 [0,10-0,23] | 0,260 | 0,488 | 0,108 | 0,480 [0,39-0,57] | 0,661 | 0,953 | 0,371 | 620 sn |
+| e5-base | 0,213 [0,14-0,28] | 0,354 | 0,598 | 0,144 | 0,567 [0,48-0,65] | 0,709 | 0,937 | 0,339 | 627 sn |
+| BGE-M3 | 0,197 [0,13-0,27] | 0,268 | 0,535 | 0,157 | 0,433 [0,34-0,52] | 0,606 | 0,906 | 0,324 | 1671 sn |
+| gte-base-en | 0,189 [0,12-0,26] | 0,276 | 0,449 | 0,122 | 0,449 [0,36-0,54] | 0,567 | 0,890 | 0,358 | 919 sn |
+
+**Bulgular:**
+
+- Dört dense modelin hepsi BM25'in belirgin üstünde (aralıklar çakışmıyor).
+- Dense modeller birbirinden **istatistiksel olarak ayırt edilemiyor** (Recall@5
+  aralıkları büyük ölçüde çakışıyor). e5-base her iki uzayda sayısal olarak önde ama
+  fark anlamlı değil. "e5 daha iyi" iddiası bu veriyle yapılamaz.
+- BGE-M3 (en büyük, en yavaş: 1671 sn) sıfır atışta en iyi değil (tek belge R@5 en düşük
+  ikinci). Fine-tune için ana aday olmasının gerekçesi sıfır atış sonucu değil, önceki
+  deneyim ve fine-tune sonrası potansiyel olmalıdır; bu fine-tune ölçümüyle sınanacak.
+- Tek belgede R@50 ≈ 0,89-0,95, R@5 ≈ 0,43-0,57: doğru sayfa ilk 50'de hemen hep var,
+  ilk 5'te yarısı. Reranker için alan var (Karar 7, hipotez destekleniyor).
+- Ortak havuzda tüm modeller düşük (R@5 ≈ 0,16-0,21): darboğaz doğru belgeyi bulmak.
+- gte kodu sabit commit'lerle (model ve kod) çalıştırıldı.
+
 ---
 
 ## Karar 4: SEC EDGAR kapsama dahil mi — ERTELENDİ
