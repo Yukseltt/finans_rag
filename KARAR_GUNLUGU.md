@@ -384,3 +384,42 @@ korpusta 360 belge ve 53.399 sayfa var.
 
 **Not:** FinanceBench reposunda belge listesinde olmayan 8 ek PDF vardı; indirilmedi,
 korpus 360 belge. Soruların hiçbiri o 8 belgeye bağlı değil. README'de belirtilecek.
+
+---
+
+## Deney 1: Belge künyesi (gün 2 ön deneyi) — ÖN KAYIT, SONUÇ BEKLENİYOR
+
+**Sonuçlardan ÖNCE yazıldı (2026-10-01).** Amaç: sonuçlar gelince ölçütü kaydırmamak.
+
+**Gözlem:** ortak havuzda tüm yöntemler zayıf (Recall@5 ≈ 0,03-0,21), tek belgede çok
+daha iyi (≈ 0,16-0,57). Örnek: "Coca Cola FY2022 …" sorusuna BM25 3M ve PepsiCo sayfalarını
+getirdi; doğru sayfanın metninde şirket adı yoktu.
+
+**Müdahale:** her chunk'ın başına belge künyesi eklenir (`src/kunye.py`), ör.
+`"3M. 10-K annual report, fiscal year 2018."`. Künye yalnızca belge meta verisinden
+(şirket, tür, dönem) ve belge adından (çeyrek, tarih) üretilir; soru bilgisi kullanılmaz.
+Gerçek bir sistemde de her belge için mevcut bilgidir (sızıntı yok). Künye yalnızca
+gömme/indeks metnine eklenir; metin kapsama metriği orijinal chunk metniyle ölçülür.
+Chunk'ın kendisi (200 kelime) değişmez, künye ek ~15 token getirir.
+
+**Format tek ve sabit;** geliştirme sonuçlarına bakarak ayarlanmayacak (başka biçimler
+denenmeyecek, bu geliştirme kümesine uyarlamak olurdu).
+
+**Hipotez H1:** künye **ortak havuz** Recall@5'ini artırır.
+**Kontrol hipotezi H0-tek:** künye **tek belge** Recall@5'ini değiştirmez (künye aynı
+belgenin tüm chunk'larında aynı, belge içi sıralamayı ayırt etmez).
+
+**Başarı ölçütü (sabit):**
+
+1. Ortak havuz Recall@5'te, eşleştirilmiş bootstrap farkının (`degerlendir.karsilastir`,
+   10.000 tekrar, %95) aralığı 0'ı içermeyen pozitif fark: 5 yöntemden (BM25 + 4 dense)
+   **en az 4'ünde**.
+2. Kontrol: tek belge Recall@5'te |fark| < 0,05 ve anlamsız. Bu sağlanmazsa künye başka bir
+   mekanizmayla etki ediyor demektir ve sonuç ihtiyatla yorumlanır.
+
+**Raporlama:** 5 yöntem × 2 arama uzayı, fark ve aralıklarıyla, sonuç ne olursa olsun.
+10 karşılaştırma yapıldığından tek bir "anlamlı" sonuç tek başına güçlü kanıt sayılmaz;
+ölçüt 5 yöntemin çoğunda tutarlılık arar.
+
+**Maliyet:** dört modelin yeniden gömülmesi (~64 dk yerel GPU) + BM25 (~3 dk, CPU).
+

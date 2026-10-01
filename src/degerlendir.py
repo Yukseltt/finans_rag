@@ -146,6 +146,46 @@ def olc(siralamalar, sorular, bilgi, ks=KS, n_boot=2000, tohum=0, kilitli=False)
             "n_boot": n_boot, "tohum": tohum, "metrikler": metrikler}
 
 
+def karsilastir(siralama_a, siralama_b, sorular, bilgi, metrik="recall", k=5, n_boot=10000, tohum=0,
+                kilitli=False):
+    # Iki yontemin AYNI sorular uzerindeki farkini (B - A) olcer; fark icin %95 guven araligi
+    # ESLESTIRILMIS soru-bazli bootstrap ile hesaplanir: ayni yeniden orneklenen sorular iki
+    # yontemin ikisine de uygulanir. Zor/kolay sorular iki olcumde de ortak oldugundan
+    # ayri ayri aralik karsilastirmasindan daha dar ve daha dogru bir aralik verir.
+    # metrik: "recall" (kanit bazli @k), "soru_tum" (soru bazli @k) veya "mrr".
+    kilitli_idler = set(_bolme()["kilitli"]["idler"])
+    if not kilitli and any(s["id"] in kilitli_idler for s in sorular):
+        raise ValueError("Kilitli test kumesi sorulari var; kilitli=True yalnizca final olcum icin (Karar 8).")
+    ist_a = [_soru_istatistigi(s, siralama_a[s["id"]], bilgi, (k,)) for s in sorular]
+    ist_b = [_soru_istatistigi(s, siralama_b[s["id"]], bilgi, (k,)) for s in sorular]
+
+    def pay_payda(i):
+        if metrik == "recall":
+            return i["hit"][k], i["n_kanit"]
+        if metrik == "soru_tum":
+            return i["tum"][k], 1
+        if metrik == "mrr":
+            return i["rr"], i["n_kanit"]
+        raise ValueError(metrik)
+
+    def oran(liste, idx):
+        pay = sum(pay_payda(liste[j])[0] for j in idx)
+        payda = sum(pay_payda(liste[j])[1] for j in idx)
+        return pay / payda
+
+    tum = range(len(sorular))
+    a, b = oran(ist_a, tum), oran(ist_b, tum)
+    rng = random.Random(tohum)
+    farklar = []
+    for _ in range(n_boot):
+        idx = [rng.randrange(len(sorular)) for _ in sorular]
+        farklar.append(oran(ist_b, idx) - oran(ist_a, idx))
+    farklar.sort()
+    ci = [farklar[int(0.025 * n_boot)], farklar[min(int(0.975 * n_boot), n_boot - 1)]]
+    return {"metrik": f"{metrik}@{k}" if metrik != "mrr" else "mrr", "a": a, "b": b, "fark": b - a, "ci95": ci,
+            "anlamli": not (ci[0] <= 0 <= ci[1])}
+
+
 def yazdir(sonuc, baslik=""):
     print(f"{baslik}  ({sonuc['n_soru']} soru, {sonuc['n_kanit']} kanit)")
     m = sonuc["metrikler"]

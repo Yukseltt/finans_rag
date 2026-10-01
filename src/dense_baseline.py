@@ -21,6 +21,7 @@ import torch
 from sentence_transformers import SentenceTransformer
 
 import degerlendir as d
+import kunye as kunye_modulu
 
 KOK = Path(__file__).resolve().parent.parent
 TOP = 100
@@ -45,9 +46,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True, choices=MODELLER)
     ap.add_argument("--batch", type=int, default=64)
+    ap.add_argument("--kunye", action="store_true", help="chunk basina belge kunyesi ekle (Deney 1)")
     args = ap.parse_args()
     m = MODELLER[args.model]
 
+    etiket = args.model + ("_kunye" if args.kunye else "")
     sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
     chunk_idler, belgeler, metinler = [], [], []
     with open(d.CHUNKS, encoding="utf-8") as f:
@@ -56,6 +59,11 @@ def main():
             chunk_idler.append(c["chunk_id"])
             belgeler.append(c["doc"])
             metinler.append(c["metin"])
+
+    if args.kunye:
+        # kunye sadece gomme/indeks metnine eklenir; metin kapsama metrigi orijinal chunk metniyle olculur
+        kunyeler = kunye_modulu.kunye_sozlugu()
+        metinler = [kunyeler[b] + " " + t for b, t in zip(belgeler, metinler)]
 
     if "kod_revision" in m:
         kod = {"code_revision": m["kod_revision"]}
@@ -66,7 +74,7 @@ def main():
     model.half()
     model.max_seq_length = m["maks"]
 
-    emb_yol = KOK / "data" / "islenmis" / "embeddings" / f"{args.model}.npy"
+    emb_yol = KOK / "data" / "islenmis" / "embeddings" / f"{etiket}.npy"
     emb_yol.parent.mkdir(parents=True, exist_ok=True)
     if emb_yol.exists():
         E = np.load(emb_yol)
@@ -98,20 +106,20 @@ def main():
     sonuc = {"yontem": f"dense:{m['id']}", "tarih": date.today().isoformat(),
              "konfigurasyon": {"model": m["id"], "sorgu_onek": m["sorgu_onek"], "pasaj_onek": m["pasaj_onek"],
                                "maks_token": m["maks"], "hassasiyet": "fp16", "benzerlik": "kosinus",
-                               "chunk_kelime": 200, "kume": "gelistirme", "top": TOP,
+                               "chunk_kelime": 200, "kume": "gelistirme", "top": TOP, "kunye": args.kunye,
                                "gomme_suresi_sn": gomme_sure}}
     for ad, siralama in (("ortak_havuz", ortak), ("tek_belge", tek)):
         r = d.olc(siralama, sorular, bilgi)
-        d.yazdir(r, f"{args.model} {ad}")
+        d.yazdir(r, f"{etiket} {ad}")
         sonuc[ad] = r
 
     (KOK / "sonuclar" / "olcumler").mkdir(parents=True, exist_ok=True)
-    (KOK / "sonuclar" / "olcumler" / f"dense_{args.model}.json").write_text(
+    (KOK / "sonuclar" / "olcumler" / f"dense_{etiket}.json").write_text(
         json.dumps(sonuc, indent=2, ensure_ascii=False), encoding="utf-8")
     sira = KOK / "data" / "islenmis" / "siralamalar"
     sira.mkdir(parents=True, exist_ok=True)
-    (sira / f"dense_{args.model}_ortak.json").write_text(json.dumps(ortak), encoding="utf-8")
-    (sira / f"dense_{args.model}_tek.json").write_text(json.dumps(tek), encoding="utf-8")
+    (sira / f"dense_{etiket}_ortak.json").write_text(json.dumps(ortak), encoding="utf-8")
+    (sira / f"dense_{etiket}_tek.json").write_text(json.dumps(tek), encoding="utf-8")
 
 
 if __name__ == "__main__":

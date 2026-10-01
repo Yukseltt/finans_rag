@@ -56,6 +56,13 @@ def main():
     d.yazdir(r, "rastgele")
     assert r["metrikler"]["recall@50"]["deger"] < 0.05
 
+    # 3b) eslestirilmis karsilastirma: ayni sey kendisiyle -> fark 0; kusursuz vs rastgele -> pozitif ve anlamli
+    k = d.karsilastir(mukemmel, mukemmel, sorular, bilgi, k=5, n_boot=500)
+    assert k["fark"] == 0 and k["ci95"] == [0, 0] and not k["anlamli"], k
+    k = d.karsilastir(rastgele, mukemmel, sorular, bilgi, k=5, n_boot=500)
+    print("karsilastir (rastgele -> kusursuz, recall@5):", {a: (round(v, 3) if isinstance(v, float) else v) for a, v in k.items()})
+    assert k["fark"] > 0.9 and k["anlamli"]
+
     # 4) kilitli koruma
     kilitli_sorular = d.yukle_sorular(kilitli=True)
     try:
