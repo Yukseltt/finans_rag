@@ -82,6 +82,19 @@ def main():
     print("karsilastir (rastgele -> kusursuz, recall@5):", {a: (round(v, 3) if isinstance(v, float) else v) for a, v in k.items()})
     assert k["fark"] > 0.9 and k["anlamli"]
 
+    # 3c) sirket-kumeli bootstrap: kendisiyle karsilastirma 0; her soru ayri kume ise soru-bazliya yakin; kumeler daha genis aralik verir
+    kume = d.soru_kumeleri(sorular)
+    k = d.karsilastir(mukemmel, mukemmel, sorular, bilgi, k=5, n_boot=500, kume=kume)
+    assert k["fark"] == 0 and k["ci95"] == [0, 0], k
+    tek_kume = {s["id"]: s["id"] for s in sorular}
+    soru_bazli = d.karsilastir(rastgele, mukemmel, sorular, bilgi, k=5, n_boot=2000)
+    tekil = d.karsilastir(rastgele, mukemmel, sorular, bilgi, k=5, n_boot=2000, kume=tek_kume)
+    assert abs(soru_bazli["fark"] - tekil["fark"]) < 1e-12
+    assert abs(soru_bazli["ci95"][0] - tekil["ci95"][0]) < 0.03 and abs(soru_bazli["ci95"][1] - tekil["ci95"][1]) < 0.03
+    sirketli = d.karsilastir(rastgele, mukemmel, sorular, bilgi, k=5, n_boot=2000, kume=kume)
+    assert sirketli["fark"] == soru_bazli["fark"] and sirketli["anlamli"]
+    print("kume bootstrap: tamam (21 sirket kumesi,", len(set(kume.values())), "kume)")
+
     # 4) kilitli koruma
     kilitli_sorular = d.yukle_sorular(kilitli=True)
     try:

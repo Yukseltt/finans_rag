@@ -80,6 +80,23 @@ def yukle_chunk_bilgi(yol=None):
     return bilgi
 
 
+def sirket_haritasi():
+    # doc_name -> sirket (belgeler.jsonl). Sirket-kumeli bootstrap icin: ayni sirketin sorulari bagimsiz degildir.
+    harita = {}
+    with open(HAM / "financebench" / "belgeler.jsonl", encoding="utf-8") as f:
+        for satir in f:
+            if satir.strip():
+                b = json.loads(satir)
+                harita[b["doc_name"]] = b["company"]
+    return harita
+
+
+def soru_kumeleri(sorular):
+    # soru_id -> sirket (kume anahtari)
+    harita = sirket_haritasi()
+    return {s["id"]: harita[s["doc"]] for s in sorular}
+
+
 def _parcalar(metin):
     k = normalize(metin)
     return {tuple(k[i:i + SHINGLE_N]) for i in range(len(k) - SHINGLE_N + 1)}
@@ -174,13 +191,15 @@ def olc(siralamalar, sorular, bilgi, ks=KS, n_boot=2000, tohum=0, kilitli=False)
 
 
 def karsilastir(siralama_a, siralama_b, sorular, bilgi, metrik="recall", k=5, n_boot=10000, tohum=0,
-                kilitli=False, bilgi_b=None):
+                kilitli=False, bilgi_b=None, kume=None):
     # Iki yontemin AYNI sorular uzerindeki farkini (B - A) olcer; fark icin %95 guven araligi
     # ESLESTIRILMIS soru-bazli bootstrap ile hesaplanir: ayni yeniden orneklenen sorular iki
     # yontemin ikisine de uygulanir. Zor/kolay sorular iki olcumde de ortak oldugundan
     # ayri ayri aralik karsilastirmasindan daha dar ve daha dogru bir aralik verir.
     # metrik: "recall" (kanit bazli @k), "soru_tum" (soru bazli @k), "mrr" veya "butce" (1000 kelime penceresi).
     # bilgi_b: B siralamasi farkli bir chunk evrenine aitse (Deney 4) onun chunk bilgisi.
+    # kume: {soru_id: kume_anahtari}; verilirse bootstrap SORULAR yerine KUMELER (sirketler) uzerinden
+    # yeniden orneklenir (ayni sirketin sorulari bagimli oldugundan; soru_kumeleri(sorular) ile uretilir).
     kilitli_idler = set(_bolme()["kilitli"]["idler"])
     if not kilitli and any(s["id"] in kilitli_idler for s in sorular):
         raise ValueError("Kilitli test kumesi sorulari var; kilitli=True yalnizca final olcum icin (Karar 8).")
@@ -207,8 +226,16 @@ def karsilastir(siralama_a, siralama_b, sorular, bilgi, metrik="recall", k=5, n_
     a, b = oran(ist_a, tum), oran(ist_b, tum)
     rng = random.Random(tohum)
     farklar = []
+    if kume:
+        gruplar = collections.defaultdict(list)
+        for j, s in enumerate(sorular):
+            gruplar[kume[s["id"]]].append(j)
+        anahtarlar = list(gruplar)
     for _ in range(n_boot):
-        idx = [rng.randrange(len(sorular)) for _ in sorular]
+        if kume:
+            idx = [j for g in (rng.choice(anahtarlar) for _ in anahtarlar) for j in gruplar[g]]
+        else:
+            idx = [rng.randrange(len(sorular)) for _ in sorular]
         farklar.append(oran(ist_b, idx) - oran(ist_a, idx))
     farklar.sort()
     ci = [farklar[int(0.025 * n_boot)], farklar[min(int(0.975 * n_boot), n_boot - 1)]]
