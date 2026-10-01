@@ -1,0 +1,2526 @@
+{
+  "bos_esigi": 20,
+  "pymupdf": "1.28.2",
+  "belgeler": [
+    {
+      "doc": "3M_2015_10K",
+      "sayfa": 158,
+      "bos_sayfa": 0,
+      "karakter": 596254,
+      "hata": null
+    },
+    {
+      "doc": "3M_2016_10K",
+      "sayfa": 233,
+      "bos_sayfa": 0,
+      "karakter": 721184,
+      "hata": null
+    },
+    {
+      "doc": "3M_2017_10K",
+      "sayfa": 176,
+      "bos_sayfa": 0,
+      "karakter": 614461,
+      "hata": null
+    },
+    {
+      "doc": "3M_2018_10K",
+      "sayfa": 160,
+      "bos_sayfa": 0,
+      "karakter": 606121,
+      "hata": null
+    },
+    {
+      "doc": "3M_2019_10K",
+      "sayfa": 186,
+      "bos_sayfa": 0,
+      "karakter": 687404,
+      "hata": null
+    },
+    {
+      "doc": "3M_2020_10K",
+      "sayfa": 165,
+      "bos_sayfa": 0,
+      "karakter": 603907,
+      "hata": null
+    },
+    {
+      "doc": "3M_2021_10K",
+      "sayfa": 161,
+      "bos_sayfa": 0,
+      "karakter": 591116,
+      "hata": null
+    },
+    {
+      "doc": "3M_2022_10K",
+      "sayfa": 252,
+      "bos_sayfa": 0,
+      "karakter": 927815,
+      "hata": null
+    },
+    {
+      "doc": "3M_2023Q2_10Q",
+      "sayfa": 92,
+      "bos_sayfa": 0,
+      "karakter": 353609,
+      "hata": null
+    },
+    {
+      "doc": "ACTIVISIONBLIZZARD_2015_10K",
+      "sayfa": 182,
+      "bos_sayfa": 1,
+      "karakter": 609128,
+      "hata": null
+    },
+    {
+      "doc": "ACTIVISIONBLIZZARD_2016_10K",
+      "sayfa": 250,
+      "bos_sayfa": 1,
+      "karakter": 904553,
+      "hata": null
+    },
+    {
+      "doc": "ACTIVISIONBLIZZARD_2017_10K",
+      "sayfa": 163,
+      "bos_sayfa": 1,
+      "karakter": 487307,
+      "hata": null
+    },
+    {
+      "doc": "ACTIVISIONBLIZZARD_2018_10K",
+      "sayfa": 305,
+      "bos_sayfa": 2,
+      "karakter": 842448,
+      "hata": null
+    },
+    {
+      "doc": "ACTIVISIONBLIZZARD_2019_10K",
+      "sayfa": 198,
+      "bos_sayfa": 0,
+      "karakter": 632029,
+      "hata": null
+    },
+    {
+      "doc": "ACTIVISIONBLIZZARD_2020_10K",
+      "sayfa": 154,
+      "bos_sayfa": 0,
+      "karakter": 473298,
+      "hata": null
+    },
+    {
+      "doc": "ACTIVISIONBLIZZARD_2021_10K",
+      "sayfa": 346,
+      "bos_sayfa": 0,
+      "karakter": 989623,
+      "hata": null
+    },
+    {
+      "doc": "ACTIVISIONBLIZZARD_2022_10K",
+      "sayfa": 312,
+      "bos_sayfa": 0,
+      "karakter": 885163,
+      "hata": null
+    },
+    {
+      "doc": "ACTIVSIONBLIZZARD_2023Q2_10Q",
+      "sayfa": 75,
+      "bos_sayfa": 0,
+      "karakter": 205828,
+      "hata": null
+    },
+    {
+      "doc": "ADOBE_2015_10K",
+      "sayfa": 116,
+      "bos_sayfa": 0,
+      "karakter": 475564,
+      "hata": null
+    },
+    {
+      "doc": "ADOBE_2016_10K",
+      "sayfa": 112,
+      "bos_sayfa": 0,
+      "karakter": 414923,
+      "hata": null
+    },
+    {
+      "doc": "ADOBE_2017_10K",
+      "sayfa": 107,
+      "bos_sayfa": 0,
+      "karakter": 401479,
+      "hata": null
+    },
+    {
+      "doc": "ADOBE_2018_10K",
+      "sayfa": 112,
+      "bos_sayfa": 0,
+      "karakter": 419257,
+      "hata": null
+    },
+    {
+      "doc": "ADOBE_2019_10K",
+      "sayfa": 113,
+      "bos_sayfa": 0,
+      "karakter": 432523,
+      "hata": null
+    },
+    {
+      "doc": "ADOBE_2020_10K",
+      "sayfa": 117,
+      "bos_sayfa": 0,
+      "karakter": 452068,
+      "hata": null
+    },
+    {
+      "doc": "ADOBE_2021_10K",
+      "sayfa": 102,
+      "bos_sayfa": 0,
+      "karakter": 384081,
+      "hata": null
+    },
+    {
+      "doc": "ADOBE_2022_10K",
+      "sayfa": 99,
+      "bos_sayfa": 0,
+      "karakter": 376278,
+      "hata": null
+    },
+    {
+      "doc": "AES_2015_10K",
+      "sayfa": 286,
+      "bos_sayfa": 7,
+      "karakter": 997001,
+      "hata": null
+    },
+    {
+      "doc": "AES_2016_10K",
+      "sayfa": 390,
+      "bos_sayfa": 16,
+      "karakter": 1193804,
+      "hata": null
+    },
+    {
+      "doc": "AES_2017_10K",
+      "sayfa": 184,
+      "bos_sayfa": 2,
+      "karakter": 741442,
+      "hata": null
+    },
+    {
+      "doc": "AES_2018_10K",
+      "sayfa": 182,
+      "bos_sayfa": 1,
+      "karakter": 739471,
+      "hata": null
+    },
+    {
+      "doc": "AES_2019_10K",
+      "sayfa": 199,
+      "bos_sayfa": 0,
+      "karakter": 763229,
+      "hata": null
+    },
+    {
+      "doc": "AES_2020_10K",
+      "sayfa": 203,
+      "bos_sayfa": 0,
+      "karakter": 805717,
+      "hata": null
+    },
+    {
+      "doc": "AES_2021_10K",
+      "sayfa": 267,
+      "bos_sayfa": 1,
+      "karakter": 945721,
+      "hata": null
+    },
+    {
+      "doc": "AES_2022_10K",
+      "sayfa": 257,
+      "bos_sayfa": 2,
+      "karakter": 908444,
+      "hata": null
+    },
+    {
+      "doc": "AMAZON_2015_10K",
+      "sayfa": 85,
+      "bos_sayfa": 0,
+      "karakter": 280316,
+      "hata": null
+    },
+    {
+      "doc": "AMAZON_2016_10K",
+      "sayfa": 85,
+      "bos_sayfa": 1,
+      "karakter": 280685,
+      "hata": null
+    },
+    {
+      "doc": "AMAZON_2017_10K",
+      "sayfa": 85,
+      "bos_sayfa": 0,
+      "karakter": 293108,
+      "hata": null
+    },
+    {
+      "doc": "AMAZON_2018_10K",
+      "sayfa": 89,
+      "bos_sayfa": 0,
+      "karakter": 303925,
+      "hata": null
+    },
+    {
+      "doc": "AMAZON_2019_10K",
+      "sayfa": 83,
+      "bos_sayfa": 0,
+      "karakter": 279546,
+      "hata": null
+    },
+    {
+      "doc": "AMAZON_2020_10K",
+      "sayfa": 80,
+      "bos_sayfa": 0,
+      "karakter": 266070,
+      "hata": null
+    },
+    {
+      "doc": "AMAZON_2021_10K",
+      "sayfa": 194,
+      "bos_sayfa": 2,
+      "karakter": 628997,
+      "hata": null
+    },
+    {
+      "doc": "AMAZON_2022_10K",
+      "sayfa": 81,
+      "bos_sayfa": 0,
+      "karakter": 279964,
+      "hata": null
+    },
+    {
+      "doc": "AMCOR_2019_10K",
+      "sayfa": 115,
+      "bos_sayfa": 1,
+      "karakter": 338970,
+      "hata": null
+    },
+    {
+      "doc": "AMCOR_2020_10K",
+      "sayfa": 195,
+      "bos_sayfa": 10,
+      "karakter": 561625,
+      "hata": null
+    },
+    {
+      "doc": "AMCOR_2021_10K",
+      "sayfa": 156,
+      "bos_sayfa": 0,
+      "karakter": 491880,
+      "hata": null
+    },
+    {
+      "doc": "AMCOR_2022_10K",
+      "sayfa": 144,
+      "bos_sayfa": 0,
+      "karakter": 458028,
+      "hata": null
+    },
+    {
+      "doc": "AMCOR_2022_8K_dated-2022-04-26",
+      "sayfa": 248,
+      "bos_sayfa": 0,
+      "karakter": 849032,
+      "hata": null
+    },
+    {
+      "doc": "AMCOR_2022_8K_dated-2022-07-01",
+      "sayfa": 9,
+      "bos_sayfa": 0,
+      "karakter": 24344,
+      "hata": null
+    },
+    {
+      "doc": "AMCOR_2023Q2_10Q",
+      "sayfa": 57,
+      "bos_sayfa": 0,
+      "karakter": 124266,
+      "hata": null
+    },
+    {
+      "doc": "AMCOR_2023Q4_EARNINGS",
+      "sayfa": 14,
+      "bos_sayfa": 0,
+      "karakter": 44932,
+      "hata": null
+    },
+    {
+      "doc": "AMCOR_2023_10K",
+      "sayfa": 156,
+      "bos_sayfa": 0,
+      "karakter": 487295,
+      "hata": null
+    },
+    {
+      "doc": "AMD_2015_10K",
+      "sayfa": 215,
+      "bos_sayfa": 1,
+      "karakter": 762375,
+      "hata": null
+    },
+    {
+      "doc": "AMD_2016_10K",
+      "sayfa": 225,
+      "bos_sayfa": 0,
+      "karakter": 813178,
+      "hata": null
+    },
+    {
+      "doc": "AMD_2017_10K",
+      "sayfa": 231,
+      "bos_sayfa": 0,
+      "karakter": 912002,
+      "hata": null
+    },
+    {
+      "doc": "AMD_2018_10K",
+      "sayfa": 150,
+      "bos_sayfa": 0,
+      "karakter": 602950,
+      "hata": null
+    },
+    {
+      "doc": "AMD_2019_10K",
+      "sayfa": 109,
+      "bos_sayfa": 0,
+      "karakter": 393767,
+      "hata": null
+    },
+    {
+      "doc": "AMD_2020_10K",
+      "sayfa": 140,
+      "bos_sayfa": 0,
+      "karakter": 511224,
+      "hata": null
+    },
+    {
+      "doc": "AMD_2021_10K",
+      "sayfa": 118,
+      "bos_sayfa": 0,
+      "karakter": 381748,
+      "hata": null
+    },
+    {
+      "doc": "AMD_2022_10K",
+      "sayfa": 121,
+      "bos_sayfa": 0,
+      "karakter": 413741,
+      "hata": null
+    },
+    {
+      "doc": "AMD_2022_annualreport",
+      "sayfa": 122,
+      "bos_sayfa": 1,
+      "karakter": 445289,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANEXPRESS_2022_10K",
+      "sayfa": 260,
+      "bos_sayfa": 0,
+      "karakter": 824950,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANWATERWORKS_2015_10K",
+      "sayfa": 242,
+      "bos_sayfa": 0,
+      "karakter": 828782,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANWATERWORKS_2016_10K",
+      "sayfa": 136,
+      "bos_sayfa": 0,
+      "karakter": 532468,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANWATERWORKS_2017_10K",
+      "sayfa": 154,
+      "bos_sayfa": 6,
+      "karakter": 580197,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANWATERWORKS_2018_10K",
+      "sayfa": 221,
+      "bos_sayfa": 11,
+      "karakter": 824037,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANWATERWORKS_2019_10K",
+      "sayfa": 326,
+      "bos_sayfa": 15,
+      "karakter": 991313,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANWATERWORKS_2020_10K",
+      "sayfa": 152,
+      "bos_sayfa": 0,
+      "karakter": 615840,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANWATERWORKS_2021_10K",
+      "sayfa": 181,
+      "bos_sayfa": 4,
+      "karakter": 673621,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANWATERWORKS_2022_10K",
+      "sayfa": 306,
+      "bos_sayfa": 0,
+      "karakter": 1017220,
+      "hata": null
+    },
+    {
+      "doc": "AMERICANWATERWORKS_2023Q2_10Q",
+      "sayfa": 82,
+      "bos_sayfa": 0,
+      "karakter": 216326,
+      "hata": null
+    },
+    {
+      "doc": "APPLE_2015_10K",
+      "sayfa": 84,
+      "bos_sayfa": 0,
+      "karakter": 325683,
+      "hata": null
+    },
+    {
+      "doc": "APPLE_2016_10K",
+      "sayfa": 104,
+      "bos_sayfa": 1,
+      "karakter": 361047,
+      "hata": null
+    },
+    {
+      "doc": "APPLE_2017_10K",
+      "sayfa": 123,
+      "bos_sayfa": 0,
+      "karakter": 436323,
+      "hata": null
+    },
+    {
+      "doc": "APPLE_2018_10K",
+      "sayfa": 96,
+      "bos_sayfa": 0,
+      "karakter": 350854,
+      "hata": null
+    },
+    {
+      "doc": "APPLE_2019_10K",
+      "sayfa": 101,
+      "bos_sayfa": 0,
+      "karakter": 354564,
+      "hata": null
+    },
+    {
+      "doc": "APPLE_2020_10K",
+      "sayfa": 105,
+      "bos_sayfa": 0,
+      "karakter": 370784,
+      "hata": null
+    },
+    {
+      "doc": "APPLE_2021_10K",
+      "sayfa": 82,
+      "bos_sayfa": 0,
+      "karakter": 292287,
+      "hata": null
+    },
+    {
+      "doc": "APPLE_2022_10K",
+      "sayfa": 80,
+      "bos_sayfa": 0,
+      "karakter": 288922,
+      "hata": null
+    },
+    {
+      "doc": "APPLE_2023Q3_10Q",
+      "sayfa": 29,
+      "bos_sayfa": 0,
+      "karakter": 69048,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2015_10K",
+      "sayfa": 147,
+      "bos_sayfa": 3,
+      "karakter": 470475,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2016_10K",
+      "sayfa": 113,
+      "bos_sayfa": 2,
+      "karakter": 358182,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2017_10K",
+      "sayfa": 109,
+      "bos_sayfa": 2,
+      "karakter": 346318,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2018_10K",
+      "sayfa": 109,
+      "bos_sayfa": 2,
+      "karakter": 354588,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2019_10K",
+      "sayfa": 107,
+      "bos_sayfa": 2,
+      "karakter": 353498,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2020_10K",
+      "sayfa": 71,
+      "bos_sayfa": 0,
+      "karakter": 304653,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2021_10K",
+      "sayfa": 108,
+      "bos_sayfa": 0,
+      "karakter": 414445,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2022_10K",
+      "sayfa": 111,
+      "bos_sayfa": 0,
+      "karakter": 421129,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2023Q4_EARNINGS",
+      "sayfa": 13,
+      "bos_sayfa": 0,
+      "karakter": 35230,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2023_10K",
+      "sayfa": 75,
+      "bos_sayfa": 0,
+      "karakter": 305709,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2023_8K_dated-2023-04-12",
+      "sayfa": 148,
+      "bos_sayfa": 0,
+      "karakter": 403134,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2023_8K_dated-2023-04-24",
+      "sayfa": 2,
+      "bos_sayfa": 0,
+      "karakter": 3919,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2024Q2_10Q",
+      "sayfa": 30,
+      "bos_sayfa": 0,
+      "karakter": 103872,
+      "hata": null
+    },
+    {
+      "doc": "BESTBUY_2024Q2_EARNINGS",
+      "sayfa": 12,
+      "bos_sayfa": 0,
+      "karakter": 33090,
+      "hata": null
+    },
+    {
+      "doc": "BLOCK_2015_10K",
+      "sayfa": 129,
+      "bos_sayfa": 0,
+      "karakter": 454411,
+      "hata": null
+    },
+    {
+      "doc": "BLOCK_2016_10K",
+      "sayfa": 121,
+      "bos_sayfa": 1,
+      "karakter": 381216,
+      "hata": null
+    },
+    {
+      "doc": "BLOCK_2017_10K",
+      "sayfa": 138,
+      "bos_sayfa": 1,
+      "karakter": 466538,
+      "hata": null
+    },
+    {
+      "doc": "BLOCK_2018_10K",
+      "sayfa": 138,
+      "bos_sayfa": 1,
+      "karakter": 461256,
+      "hata": null
+    },
+    {
+      "doc": "BLOCK_2019_10K",
+      "sayfa": 141,
+      "bos_sayfa": 0,
+      "karakter": 458396,
+      "hata": null
+    },
+    {
+      "doc": "BLOCK_2020_10K",
+      "sayfa": 158,
+      "bos_sayfa": 0,
+      "karakter": 541057,
+      "hata": null
+    },
+    {
+      "doc": "BLOCK_2021_10K",
+      "sayfa": 410,
+      "bos_sayfa": 2,
+      "karakter": 1426608,
+      "hata": null
+    },
+    {
+      "doc": "BLOCK_2022_10K",
+      "sayfa": 196,
+      "bos_sayfa": 0,
+      "karakter": 665405,
+      "hata": null
+    },
+    {
+      "doc": "BOEING_2015_10K",
+      "sayfa": 174,
+      "bos_sayfa": 1,
+      "karakter": 483159,
+      "hata": null
+    },
+    {
+      "doc": "BOEING_2016_10K",
+      "sayfa": 200,
+      "bos_sayfa": 1,
+      "karakter": 561889,
+      "hata": null
+    },
+    {
+      "doc": "BOEING_2017_10K",
+      "sayfa": 127,
+      "bos_sayfa": 1,
+      "karakter": 353748,
+      "hata": null
+    },
+    {
+      "doc": "BOEING_2018_10K",
+      "sayfa": 136,
+      "bos_sayfa": 0,
+      "karakter": 372253,
+      "hata": null
+    },
+    {
+      "doc": "BOEING_2019_10K",
+      "sayfa": 144,
+      "bos_sayfa": 0,
+      "karakter": 400984,
+      "hata": null
+    },
+    {
+      "doc": "BOEING_2020_10K",
+      "sayfa": 161,
+      "bos_sayfa": 2,
+      "karakter": 469723,
+      "hata": null
+    },
+    {
+      "doc": "BOEING_2021_10K",
+      "sayfa": 215,
+      "bos_sayfa": 1,
+      "karakter": 608323,
+      "hata": null
+    },
+    {
+      "doc": "BOEING_2022_10K",
+      "sayfa": 190,
+      "bos_sayfa": 2,
+      "karakter": 510162,
+      "hata": null
+    },
+    {
+      "doc": "COCACOLA_2015_10K",
+      "sayfa": 218,
+      "bos_sayfa": 1,
+      "karakter": 778827,
+      "hata": null
+    },
+    {
+      "doc": "COCACOLA_2016_10K",
+      "sayfa": 205,
+      "bos_sayfa": 0,
+      "karakter": 754218,
+      "hata": null
+    },
+    {
+      "doc": "COCACOLA_2017_10K",
+      "sayfa": 197,
+      "bos_sayfa": 0,
+      "karakter": 738457,
+      "hata": null
+    },
+    {
+      "doc": "COCACOLA_2018_10K",
+      "sayfa": 201,
+      "bos_sayfa": 0,
+      "karakter": 749087,
+      "hata": null
+    },
+    {
+      "doc": "COCACOLA_2019_10K",
+      "sayfa": 214,
+      "bos_sayfa": 0,
+      "karakter": 792494,
+      "hata": null
+    },
+    {
+      "doc": "COCACOLA_2020_10K",
+      "sayfa": 194,
+      "bos_sayfa": 1,
+      "karakter": 734569,
+      "hata": null
+    },
+    {
+      "doc": "COCACOLA_2021_10K",
+      "sayfa": 183,
+      "bos_sayfa": 0,
+      "karakter": 695164,
+      "hata": null
+    },
+    {
+      "doc": "COCACOLA_2022_10K",
+      "sayfa": 183,
+      "bos_sayfa": 0,
+      "karakter": 672703,
+      "hata": null
+    },
+    {
+      "doc": "CORNING_2015_10K",
+      "sayfa": 273,
+      "bos_sayfa": 3,
+      "karakter": 909215,
+      "hata": null
+    },
+    {
+      "doc": "CORNING_2016_10K",
+      "sayfa": 171,
+      "bos_sayfa": 2,
+      "karakter": 553046,
+      "hata": null
+    },
+    {
+      "doc": "CORNING_2017_10K",
+      "sayfa": 154,
+      "bos_sayfa": 3,
+      "karakter": 507599,
+      "hata": null
+    },
+    {
+      "doc": "CORNING_2018_10K",
+      "sayfa": 141,
+      "bos_sayfa": 4,
+      "karakter": 408173,
+      "hata": null
+    },
+    {
+      "doc": "CORNING_2019_10K",
+      "sayfa": 142,
+      "bos_sayfa": 0,
+      "karakter": 456266,
+      "hata": null
+    },
+    {
+      "doc": "CORNING_2020_10K",
+      "sayfa": 138,
+      "bos_sayfa": 0,
+      "karakter": 441181,
+      "hata": null
+    },
+    {
+      "doc": "CORNING_2021_10K",
+      "sayfa": 125,
+      "bos_sayfa": 0,
+      "karakter": 433205,
+      "hata": null
+    },
+    {
+      "doc": "CORNING_2022_10K",
+      "sayfa": 159,
+      "bos_sayfa": 0,
+      "karakter": 500243,
+      "hata": null
+    },
+    {
+      "doc": "CORNING_2023Q2_10Q",
+      "sayfa": 46,
+      "bos_sayfa": 0,
+      "karakter": 130020,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2015_10K",
+      "sayfa": 84,
+      "bos_sayfa": 0,
+      "karakter": 263071,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2016_10K",
+      "sayfa": 80,
+      "bos_sayfa": 0,
+      "karakter": 233228,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2017_10K",
+      "sayfa": 75,
+      "bos_sayfa": 1,
+      "karakter": 226031,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2018_10K",
+      "sayfa": 74,
+      "bos_sayfa": 0,
+      "karakter": 214671,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2019_10K",
+      "sayfa": 76,
+      "bos_sayfa": 0,
+      "karakter": 219397,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2020_10K",
+      "sayfa": 80,
+      "bos_sayfa": 0,
+      "karakter": 238124,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2021_10K",
+      "sayfa": 76,
+      "bos_sayfa": 0,
+      "karakter": 222279,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2022_10K",
+      "sayfa": 86,
+      "bos_sayfa": 0,
+      "karakter": 237680,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2023Q1_EARNINGS",
+      "sayfa": 4,
+      "bos_sayfa": 0,
+      "karakter": 7491,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2023Q3_EARNINGS",
+      "sayfa": 4,
+      "bos_sayfa": 0,
+      "karakter": 7949,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2023_8K_dated-2023-01-19",
+      "sayfa": 3,
+      "bos_sayfa": 0,
+      "karakter": 6092,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2023_8K_dated-2023-08-09",
+      "sayfa": 34,
+      "bos_sayfa": 0,
+      "karakter": 115149,
+      "hata": null
+    },
+    {
+      "doc": "COSTCO_2023_8K_dated-2023-08-16",
+      "sayfa": 3,
+      "bos_sayfa": 0,
+      "karakter": 4458,
+      "hata": null
+    },
+    {
+      "doc": "CVSHEALTH_2015_10K",
+      "sayfa": 198,
+      "bos_sayfa": 1,
+      "karakter": 699573,
+      "hata": null
+    },
+    {
+      "doc": "CVSHEALTH_2016_10K",
+      "sayfa": 252,
+      "bos_sayfa": 1,
+      "karakter": 934917,
+      "hata": null
+    },
+    {
+      "doc": "CVSHEALTH_2017_10K",
+      "sayfa": 135,
+      "bos_sayfa": 0,
+      "karakter": 542001,
+      "hata": null
+    },
+    {
+      "doc": "CVSHEALTH_2018_10K",
+      "sayfa": 392,
+      "bos_sayfa": 2,
+      "karakter": 1429606,
+      "hata": null
+    },
+    {
+      "doc": "CVSHEALTH_2019_10K",
+      "sayfa": 297,
+      "bos_sayfa": 1,
+      "karakter": 1053422,
+      "hata": null
+    },
+    {
+      "doc": "CVSHEALTH_2020_10K",
+      "sayfa": 226,
+      "bos_sayfa": 0,
+      "karakter": 902114,
+      "hata": null
+    },
+    {
+      "doc": "CVSHEALTH_2021_10K",
+      "sayfa": 257,
+      "bos_sayfa": 0,
+      "karakter": 974528,
+      "hata": null
+    },
+    {
+      "doc": "CVSHEALTH_2022_10K",
+      "sayfa": 213,
+      "bos_sayfa": 1,
+      "karakter": 856185,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2015_10K",
+      "sayfa": 116,
+      "bos_sayfa": 1,
+      "karakter": 390217,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2016_10K",
+      "sayfa": 117,
+      "bos_sayfa": 2,
+      "karakter": 380484,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2017_10K",
+      "sayfa": 117,
+      "bos_sayfa": 1,
+      "karakter": 372458,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2018_10K",
+      "sayfa": 187,
+      "bos_sayfa": 0,
+      "karakter": 649298,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2019_10K",
+      "sayfa": 148,
+      "bos_sayfa": 1,
+      "karakter": 501514,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2020_10K",
+      "sayfa": 131,
+      "bos_sayfa": 0,
+      "karakter": 416772,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2021_10K",
+      "sayfa": 155,
+      "bos_sayfa": 0,
+      "karakter": 483769,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2022_10K",
+      "sayfa": 133,
+      "bos_sayfa": 0,
+      "karakter": 429531,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2023Q1_8K",
+      "sayfa": 3,
+      "bos_sayfa": 0,
+      "karakter": 5391,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2023Q1_EARNINGS",
+      "sayfa": 15,
+      "bos_sayfa": 0,
+      "karakter": 37854,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2023Q2_10Q",
+      "sayfa": 188,
+      "bos_sayfa": 0,
+      "karakter": 548408,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2023Q2_8K",
+      "sayfa": 3,
+      "bos_sayfa": 0,
+      "karakter": 3869,
+      "hata": null
+    },
+    {
+      "doc": "EBAY_2023Q2_EARNINGS",
+      "sayfa": 15,
+      "bos_sayfa": 0,
+      "karakter": 39007,
+      "hata": null
+    },
+    {
+      "doc": "FEDEX_2023_10K",
+      "sayfa": 223,
+      "bos_sayfa": 0,
+      "karakter": 786939,
+      "hata": null
+    },
+    {
+      "doc": "FEDEX_2023_annualreport",
+      "sayfa": 139,
+      "bos_sayfa": 1,
+      "karakter": 532047,
+      "hata": null
+    },
+    {
+      "doc": "FOOTLOCKER_2022_10K",
+      "sayfa": 121,
+      "bos_sayfa": 0,
+      "karakter": 394820,
+      "hata": null
+    },
+    {
+      "doc": "FOOTLOCKER_2022_8K_dated-2022-05-20",
+      "sayfa": 4,
+      "bos_sayfa": 0,
+      "karakter": 6757,
+      "hata": null
+    },
+    {
+      "doc": "FOOTLOCKER_2022_8K_dated_2022-08-19",
+      "sayfa": 31,
+      "bos_sayfa": 0,
+      "karakter": 84604,
+      "hata": null
+    },
+    {
+      "doc": "FOOTLOCKER_2022_8K_dated_2023-02-21",
+      "sayfa": 3,
+      "bos_sayfa": 0,
+      "karakter": 4918,
+      "hata": null
+    },
+    {
+      "doc": "FOOTLOCKER_2023Q3_10Q",
+      "sayfa": 42,
+      "bos_sayfa": 0,
+      "karakter": 111691,
+      "hata": null
+    },
+    {
+      "doc": "FOOTLOCKER_2023_10K",
+      "sayfa": 96,
+      "bos_sayfa": 0,
+      "karakter": 332840,
+      "hata": null
+    },
+    {
+      "doc": "FOOTLOCKER_2023_annualreport",
+      "sayfa": 100,
+      "bos_sayfa": 5,
+      "karakter": 323874,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2015_10K",
+      "sayfa": 143,
+      "bos_sayfa": 0,
+      "karakter": 443459,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2016_10K",
+      "sayfa": 126,
+      "bos_sayfa": 0,
+      "karakter": 383144,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2017_10K",
+      "sayfa": 135,
+      "bos_sayfa": 1,
+      "karakter": 403976,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2018_10K",
+      "sayfa": 208,
+      "bos_sayfa": 0,
+      "karakter": 656136,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2019_10K",
+      "sayfa": 140,
+      "bos_sayfa": 0,
+      "karakter": 451593,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2020_10K",
+      "sayfa": 127,
+      "bos_sayfa": 0,
+      "karakter": 436570,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2021_10K",
+      "sayfa": 122,
+      "bos_sayfa": 0,
+      "karakter": 428634,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2022_10K",
+      "sayfa": 127,
+      "bos_sayfa": 8,
+      "karakter": 415297,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2023_10K",
+      "sayfa": 236,
+      "bos_sayfa": 9,
+      "karakter": 805181,
+      "hata": null
+    },
+    {
+      "doc": "GENERALMILLS_2023_annualreport",
+      "sayfa": 99,
+      "bos_sayfa": 2,
+      "karakter": 324731,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2015_10K",
+      "sayfa": 149,
+      "bos_sayfa": 0,
+      "karakter": 478975,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2016_10K",
+      "sayfa": 147,
+      "bos_sayfa": 0,
+      "karakter": 481502,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2017_10K",
+      "sayfa": 185,
+      "bos_sayfa": 9,
+      "karakter": 539712,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2018_10K",
+      "sayfa": 138,
+      "bos_sayfa": 0,
+      "karakter": 468052,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2019_10K",
+      "sayfa": 129,
+      "bos_sayfa": 0,
+      "karakter": 432989,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2020_10K",
+      "sayfa": 122,
+      "bos_sayfa": 2,
+      "karakter": 453519,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2021_10K",
+      "sayfa": 123,
+      "bos_sayfa": 2,
+      "karakter": 460704,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2022Q4_EARNINGS",
+      "sayfa": 17,
+      "bos_sayfa": 0,
+      "karakter": 53428,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2022_10K",
+      "sayfa": 134,
+      "bos_sayfa": 2,
+      "karakter": 487598,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2023Q1_EARNINGS",
+      "sayfa": 15,
+      "bos_sayfa": 0,
+      "karakter": 37999,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2023_8K_dated-2022-11-22",
+      "sayfa": 103,
+      "bos_sayfa": 0,
+      "karakter": 263692,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2023_8K_dated-2023-02-10",
+      "sayfa": 214,
+      "bos_sayfa": 0,
+      "karakter": 391628,
+      "hata": null
+    },
+    {
+      "doc": "INTEL_2023_8K_dated-2023-08-16",
+      "sayfa": 5,
+      "bos_sayfa": 0,
+      "karakter": 9866,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2015_10K",
+      "sayfa": 111,
+      "bos_sayfa": 0,
+      "karakter": 386394,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2016_10K",
+      "sayfa": 110,
+      "bos_sayfa": 0,
+      "karakter": 400967,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2017_10K",
+      "sayfa": 115,
+      "bos_sayfa": 0,
+      "karakter": 402310,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2018_10K",
+      "sayfa": 126,
+      "bos_sayfa": 0,
+      "karakter": 439351,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2019_10K",
+      "sayfa": 136,
+      "bos_sayfa": 0,
+      "karakter": 480040,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2020_10K",
+      "sayfa": 157,
+      "bos_sayfa": 0,
+      "karakter": 506562,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2021_10K",
+      "sayfa": 135,
+      "bos_sayfa": 0,
+      "karakter": 484297,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2022Q4_EARNINGS",
+      "sayfa": 24,
+      "bos_sayfa": 0,
+      "karakter": 75411,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2022_10K",
+      "sayfa": 151,
+      "bos_sayfa": 0,
+      "karakter": 521909,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2023Q1_EARNINGS",
+      "sayfa": 22,
+      "bos_sayfa": 0,
+      "karakter": 52239,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2023Q2_EARNINGS",
+      "sayfa": 24,
+      "bos_sayfa": 0,
+      "karakter": 72956,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2023_8K_dated-2023-08-23",
+      "sayfa": 3,
+      "bos_sayfa": 0,
+      "karakter": 3223,
+      "hata": null
+    },
+    {
+      "doc": "JOHNSON_JOHNSON_2023_8K_dated-2023-08-30",
+      "sayfa": 27,
+      "bos_sayfa": 0,
+      "karakter": 57066,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2021Q1_10Q",
+      "sayfa": 179,
+      "bos_sayfa": 0,
+      "karakter": 609385,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2021Q2_10Q",
+      "sayfa": 197,
+      "bos_sayfa": 0,
+      "karakter": 673433,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2021Q3_10Q",
+      "sayfa": 201,
+      "bos_sayfa": 0,
+      "karakter": 684307,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2021_10K",
+      "sayfa": 393,
+      "bos_sayfa": 0,
+      "karakter": 1584459,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2022Q1_10Q",
+      "sayfa": 181,
+      "bos_sayfa": 0,
+      "karakter": 588157,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2022Q2_10Q",
+      "sayfa": 197,
+      "bos_sayfa": 0,
+      "karakter": 652936,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2022Q3_10Q",
+      "sayfa": 199,
+      "bos_sayfa": 0,
+      "karakter": 668206,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2022_10K",
+      "sayfa": 382,
+      "bos_sayfa": 0,
+      "karakter": 1556587,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2023Q1_10Q",
+      "sayfa": 184,
+      "bos_sayfa": 0,
+      "karakter": 601773,
+      "hata": null
+    },
+    {
+      "doc": "JPMORGAN_2023Q2_10Q",
+      "sayfa": 217,
+      "bos_sayfa": 0,
+      "karakter": 745486,
+      "hata": null
+    },
+    {
+      "doc": "KRAFTHEINZ_2015_10K",
+      "sayfa": 156,
+      "bos_sayfa": 0,
+      "karakter": 471626,
+      "hata": null
+    },
+    {
+      "doc": "KRAFTHEINZ_2016_10K",
+      "sayfa": 150,
+      "bos_sayfa": 0,
+      "karakter": 513523,
+      "hata": null
+    },
+    {
+      "doc": "KRAFTHEINZ_2017_10K",
+      "sayfa": 171,
+      "bos_sayfa": 0,
+      "karakter": 576244,
+      "hata": null
+    },
+    {
+      "doc": "KRAFTHEINZ_2018_10K",
+      "sayfa": 419,
+      "bos_sayfa": 1,
+      "karakter": 1411005,
+      "hata": null
+    },
+    {
+      "doc": "KRAFTHEINZ_2019_10K",
+      "sayfa": 152,
+      "bos_sayfa": 0,
+      "karakter": 549280,
+      "hata": null
+    },
+    {
+      "doc": "KRAFTHEINZ_2020_10K",
+      "sayfa": 145,
+      "bos_sayfa": 0,
+      "karakter": 529564,
+      "hata": null
+    },
+    {
+      "doc": "KRAFTHEINZ_2021_10K",
+      "sayfa": 139,
+      "bos_sayfa": 0,
+      "karakter": 522443,
+      "hata": null
+    },
+    {
+      "doc": "KRAFTHEINZ_2022_10K",
+      "sayfa": 294,
+      "bos_sayfa": 0,
+      "karakter": 1018840,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2015_10K",
+      "sayfa": 147,
+      "bos_sayfa": 0,
+      "karakter": 592203,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2016_10K",
+      "sayfa": 289,
+      "bos_sayfa": 0,
+      "karakter": 914303,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2017_10K",
+      "sayfa": 216,
+      "bos_sayfa": 0,
+      "karakter": 841504,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2018_10K",
+      "sayfa": 205,
+      "bos_sayfa": 0,
+      "karakter": 758339,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2019_10K",
+      "sayfa": 175,
+      "bos_sayfa": 0,
+      "karakter": 654698,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2020_10K",
+      "sayfa": 132,
+      "bos_sayfa": 0,
+      "karakter": 525281,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2021_10K",
+      "sayfa": 136,
+      "bos_sayfa": 0,
+      "karakter": 537245,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2022Q2_10Q",
+      "sayfa": 58,
+      "bos_sayfa": 0,
+      "karakter": 198890,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2022_10K",
+      "sayfa": 130,
+      "bos_sayfa": 0,
+      "karakter": 521686,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2023Q1_10Q",
+      "sayfa": 22,
+      "bos_sayfa": 0,
+      "karakter": 42019,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2023Q2_10Q",
+      "sayfa": 14,
+      "bos_sayfa": 0,
+      "karakter": 45558,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2023_8K_dated-2023-05-25",
+      "sayfa": 76,
+      "bos_sayfa": 0,
+      "karakter": 194165,
+      "hata": null
+    },
+    {
+      "doc": "LOCKHEEDMARTIN_2023_8K_dated-2023-08-24",
+      "sayfa": 8,
+      "bos_sayfa": 0,
+      "karakter": 8570,
+      "hata": null
+    },
+    {
+      "doc": "MCDONALDS_2022Q4_EARNINGS",
+      "sayfa": 9,
+      "bos_sayfa": 0,
+      "karakter": 18296,
+      "hata": null
+    },
+    {
+      "doc": "MCDONALDS_2022_10K",
+      "sayfa": 104,
+      "bos_sayfa": 0,
+      "karakter": 359301,
+      "hata": null
+    },
+    {
+      "doc": "MCDONALDS_2023Q1_EARNINGS",
+      "sayfa": 4,
+      "bos_sayfa": 0,
+      "karakter": 11650,
+      "hata": null
+    },
+    {
+      "doc": "MCDONALDS_2023Q2_EARNINGS",
+      "sayfa": 6,
+      "bos_sayfa": 0,
+      "karakter": 14476,
+      "hata": null
+    },
+    {
+      "doc": "MCDONALDS_8K_dated-2023-01-06",
+      "sayfa": 7,
+      "bos_sayfa": 1,
+      "karakter": 10604,
+      "hata": null
+    },
+    {
+      "doc": "MCDONALDS_8K_dated-2023-02-13",
+      "sayfa": 3,
+      "bos_sayfa": 0,
+      "karakter": 6184,
+      "hata": null
+    },
+    {
+      "doc": "MCDONALDS_8K_dated-2023-08-14",
+      "sayfa": 6,
+      "bos_sayfa": 1,
+      "karakter": 10332,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2015_10K",
+      "sayfa": 231,
+      "bos_sayfa": 0,
+      "karakter": 896582,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2016_10K",
+      "sayfa": 328,
+      "bos_sayfa": 0,
+      "karakter": 1148683,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2017_10K",
+      "sayfa": 190,
+      "bos_sayfa": 0,
+      "karakter": 749431,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2018_10K",
+      "sayfa": 188,
+      "bos_sayfa": 1,
+      "karakter": 692720,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2019_10K",
+      "sayfa": 289,
+      "bos_sayfa": 0,
+      "karakter": 1013559,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2020_10K",
+      "sayfa": 150,
+      "bos_sayfa": 0,
+      "karakter": 599989,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2021_10K",
+      "sayfa": 210,
+      "bos_sayfa": 1,
+      "karakter": 804500,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2022Q4_EARNINGS",
+      "sayfa": 15,
+      "bos_sayfa": 0,
+      "karakter": 48941,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2022_10K",
+      "sayfa": 220,
+      "bos_sayfa": 1,
+      "karakter": 701078,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2023Q2_10Q",
+      "sayfa": 62,
+      "bos_sayfa": 1,
+      "karakter": 174712,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2023_8K_dated-2023-03-01",
+      "sayfa": 5,
+      "bos_sayfa": 0,
+      "karakter": 11373,
+      "hata": null
+    },
+    {
+      "doc": "MGMRESORTS_2023_8K_dated-2023-09-12",
+      "sayfa": 4,
+      "bos_sayfa": 0,
+      "karakter": 8543,
+      "hata": null
+    },
+    {
+      "doc": "MICROSOFT_2015_10K",
+      "sayfa": 134,
+      "bos_sayfa": 0,
+      "karakter": 432787,
+      "hata": null
+    },
+    {
+      "doc": "MICROSOFT_2016_10K",
+      "sayfa": 121,
+      "bos_sayfa": 1,
+      "karakter": 413401,
+      "hata": null
+    },
+    {
+      "doc": "MICROSOFT_2017_10K",
+      "sayfa": 116,
+      "bos_sayfa": 0,
+      "karakter": 393077,
+      "hata": null
+    },
+    {
+      "doc": "MICROSOFT_2018_10K",
+      "sayfa": 129,
+      "bos_sayfa": 0,
+      "karakter": 432379,
+      "hata": null
+    },
+    {
+      "doc": "MICROSOFT_2019_10K",
+      "sayfa": 146,
+      "bos_sayfa": 0,
+      "karakter": 487142,
+      "hata": null
+    },
+    {
+      "doc": "MICROSOFT_2020_10K",
+      "sayfa": 118,
+      "bos_sayfa": 0,
+      "karakter": 370483,
+      "hata": null
+    },
+    {
+      "doc": "MICROSOFT_2021_10K",
+      "sayfa": 116,
+      "bos_sayfa": 0,
+      "karakter": 374486,
+      "hata": null
+    },
+    {
+      "doc": "MICROSOFT_2022_10K",
+      "sayfa": 116,
+      "bos_sayfa": 0,
+      "karakter": 374643,
+      "hata": null
+    },
+    {
+      "doc": "MICROSOFT_2023_10K",
+      "sayfa": 116,
+      "bos_sayfa": 1,
+      "karakter": 371279,
+      "hata": null
+    },
+    {
+      "doc": "NETFLIX_2015_10K",
+      "sayfa": 72,
+      "bos_sayfa": 0,
+      "karakter": 232787,
+      "hata": null
+    },
+    {
+      "doc": "NETFLIX_2016_10K",
+      "sayfa": 73,
+      "bos_sayfa": 0,
+      "karakter": 224033,
+      "hata": null
+    },
+    {
+      "doc": "NETFLIX_2017_10K",
+      "sayfa": 73,
+      "bos_sayfa": 0,
+      "karakter": 235993,
+      "hata": null
+    },
+    {
+      "doc": "NETFLIX_2018_10K",
+      "sayfa": 82,
+      "bos_sayfa": 0,
+      "karakter": 243478,
+      "hata": null
+    },
+    {
+      "doc": "NETFLIX_2019_10K",
+      "sayfa": 78,
+      "bos_sayfa": 0,
+      "karakter": 234877,
+      "hata": null
+    },
+    {
+      "doc": "NETFLIX_2020_10K",
+      "sayfa": 95,
+      "bos_sayfa": 0,
+      "karakter": 287604,
+      "hata": null
+    },
+    {
+      "doc": "NETFLIX_2021_10K",
+      "sayfa": 92,
+      "bos_sayfa": 0,
+      "karakter": 284617,
+      "hata": null
+    },
+    {
+      "doc": "NETFLIX_2022_10K",
+      "sayfa": 87,
+      "bos_sayfa": 0,
+      "karakter": 269632,
+      "hata": null
+    },
+    {
+      "doc": "NETFLIX_2023Q2_10Q",
+      "sayfa": 38,
+      "bos_sayfa": 0,
+      "karakter": 107507,
+      "hata": null
+    },
+    {
+      "doc": "NIKE_2015_10K",
+      "sayfa": 193,
+      "bos_sayfa": 11,
+      "karakter": 713353,
+      "hata": null
+    },
+    {
+      "doc": "NIKE_2016_10K",
+      "sayfa": 99,
+      "bos_sayfa": 2,
+      "karakter": 404488,
+      "hata": null
+    },
+    {
+      "doc": "NIKE_2017_10K",
+      "sayfa": 98,
+      "bos_sayfa": 2,
+      "karakter": 401743,
+      "hata": null
+    },
+    {
+      "doc": "NIKE_2018_10K",
+      "sayfa": 97,
+      "bos_sayfa": 0,
+      "karakter": 394721,
+      "hata": null
+    },
+    {
+      "doc": "NIKE_2019_10K",
+      "sayfa": 104,
+      "bos_sayfa": 0,
+      "karakter": 370697,
+      "hata": null
+    },
+    {
+      "doc": "NIKE_2020_10K",
+      "sayfa": 110,
+      "bos_sayfa": 0,
+      "karakter": 403168,
+      "hata": null
+    },
+    {
+      "doc": "NIKE_2021_10K",
+      "sayfa": 109,
+      "bos_sayfa": 0,
+      "karakter": 403422,
+      "hata": null
+    },
+    {
+      "doc": "NIKE_2022_10K",
+      "sayfa": 108,
+      "bos_sayfa": 0,
+      "karakter": 403777,
+      "hata": null
+    },
+    {
+      "doc": "NIKE_2023_10K",
+      "sayfa": 106,
+      "bos_sayfa": 1,
+      "karakter": 376864,
+      "hata": null
+    },
+    {
+      "doc": "ORACLE_2015_10K",
+      "sayfa": 165,
+      "bos_sayfa": 0,
+      "karakter": 642171,
+      "hata": null
+    },
+    {
+      "doc": "ORACLE_2016_10K",
+      "sayfa": 155,
+      "bos_sayfa": 0,
+      "karakter": 607894,
+      "hata": null
+    },
+    {
+      "doc": "ORACLE_2017_10K",
+      "sayfa": 144,
+      "bos_sayfa": 0,
+      "karakter": 560006,
+      "hata": null
+    },
+    {
+      "doc": "ORACLE_2018_10K",
+      "sayfa": 138,
+      "bos_sayfa": 0,
+      "karakter": 530166,
+      "hata": null
+    },
+    {
+      "doc": "ORACLE_2019_10K",
+      "sayfa": 149,
+      "bos_sayfa": 0,
+      "karakter": 542281,
+      "hata": null
+    },
+    {
+      "doc": "ORACLE_2020_10K",
+      "sayfa": 129,
+      "bos_sayfa": 0,
+      "karakter": 467644,
+      "hata": null
+    },
+    {
+      "doc": "ORACLE_2021_10K",
+      "sayfa": 123,
+      "bos_sayfa": 0,
+      "karakter": 455601,
+      "hata": null
+    },
+    {
+      "doc": "ORACLE_2022_10K",
+      "sayfa": 132,
+      "bos_sayfa": 0,
+      "karakter": 485694,
+      "hata": null
+    },
+    {
+      "doc": "ORACLE_2023_10K",
+      "sayfa": 131,
+      "bos_sayfa": 1,
+      "karakter": 462917,
+      "hata": null
+    },
+    {
+      "doc": "PAYPAL_2022_10K",
+      "sayfa": 134,
+      "bos_sayfa": 0,
+      "karakter": 483663,
+      "hata": null
+    },
+    {
+      "doc": "PAYPAL_2023Q2_10Q",
+      "sayfa": 82,
+      "bos_sayfa": 0,
+      "karakter": 262097,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2015_10K",
+      "sayfa": 168,
+      "bos_sayfa": 0,
+      "karakter": 487182,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2016_10K",
+      "sayfa": 527,
+      "bos_sayfa": 0,
+      "karakter": 1181445,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2017_10K",
+      "sayfa": 516,
+      "bos_sayfa": 0,
+      "karakter": 1177792,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2018_10K",
+      "sayfa": 479,
+      "bos_sayfa": 0,
+      "karakter": 1048437,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2019_10K",
+      "sayfa": 667,
+      "bos_sayfa": 3,
+      "karakter": 1438787,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2020_10K",
+      "sayfa": 586,
+      "bos_sayfa": 2,
+      "karakter": 1218714,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2021_10K",
+      "sayfa": 549,
+      "bos_sayfa": 0,
+      "karakter": 1120608,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2022Q4_EARNINGS",
+      "sayfa": 24,
+      "bos_sayfa": 0,
+      "karakter": 62853,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2022_10K",
+      "sayfa": 503,
+      "bos_sayfa": 0,
+      "karakter": 1180410,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2023Q1_EARNINGS",
+      "sayfa": 16,
+      "bos_sayfa": 0,
+      "karakter": 36970,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2023Q2_EARNINGS",
+      "sayfa": 19,
+      "bos_sayfa": 0,
+      "karakter": 47890,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2023_8K_dated-2023-05-05",
+      "sayfa": 5,
+      "bos_sayfa": 0,
+      "karakter": 6148,
+      "hata": null
+    },
+    {
+      "doc": "PEPSICO_2023_8K_dated-2023-05-30",
+      "sayfa": 172,
+      "bos_sayfa": 0,
+      "karakter": 538811,
+      "hata": null
+    },
+    {
+      "doc": "PFIZER_2015_10K",
+      "sayfa": 224,
+      "bos_sayfa": 2,
+      "karakter": 964268,
+      "hata": null
+    },
+    {
+      "doc": "PFIZER_2016_10K",
+      "sayfa": 222,
+      "bos_sayfa": 3,
+      "karakter": 990126,
+      "hata": null
+    },
+    {
+      "doc": "PFIZER_2017_10K",
+      "sayfa": 298,
+      "bos_sayfa": 1,
+      "karakter": 1209929,
+      "hata": null
+    },
+    {
+      "doc": "PFIZER_2018_10K",
+      "sayfa": 455,
+      "bos_sayfa": 5,
+      "karakter": 1765910,
+      "hata": null
+    },
+    {
+      "doc": "PFIZER_2019_10K",
+      "sayfa": 246,
+      "bos_sayfa": 6,
+      "karakter": 1022180,
+      "hata": null
+    },
+    {
+      "doc": "PFIZER_2020_10K",
+      "sayfa": 175,
+      "bos_sayfa": 3,
+      "karakter": 772688,
+      "hata": null
+    },
+    {
+      "doc": "PFIZER_2021_10K",
+      "sayfa": 143,
+      "bos_sayfa": 0,
+      "karakter": 695499,
+      "hata": null
+    },
+    {
+      "doc": "PFIZER_2022_10K",
+      "sayfa": 159,
+      "bos_sayfa": 5,
+      "karakter": 766302,
+      "hata": null
+    },
+    {
+      "doc": "PFIZER_2023Q2_EARNINGS",
+      "sayfa": 33,
+      "bos_sayfa": 0,
+      "karakter": 113083,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2015_10K",
+      "sayfa": 232,
+      "bos_sayfa": 1,
+      "karakter": 807328,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2016_10K",
+      "sayfa": 263,
+      "bos_sayfa": 14,
+      "karakter": 915653,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2017_10K",
+      "sayfa": 267,
+      "bos_sayfa": 28,
+      "karakter": 893700,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2018_10K",
+      "sayfa": 230,
+      "bos_sayfa": 0,
+      "karakter": 815315,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2019_10K",
+      "sayfa": 493,
+      "bos_sayfa": 2,
+      "karakter": 1541816,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2020_10K",
+      "sayfa": 403,
+      "bos_sayfa": 2,
+      "karakter": 1380970,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2021_10K",
+      "sayfa": 588,
+      "bos_sayfa": 3,
+      "karakter": 1812482,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2022_10K",
+      "sayfa": 352,
+      "bos_sayfa": 0,
+      "karakter": 1251246,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2023Q3_10Q",
+      "sayfa": 498,
+      "bos_sayfa": 7,
+      "karakter": 1424905,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2023_EARNINGS-dated-2023-06-01",
+      "sayfa": 106,
+      "bos_sayfa": 0,
+      "karakter": 271587,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2023_EARNINGS-dated-2023-07-27",
+      "sayfa": 13,
+      "bos_sayfa": 0,
+      "karakter": 24677,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2023_EARNINGS_dated-2023-05-04",
+      "sayfa": 13,
+      "bos_sayfa": 0,
+      "karakter": 23221,
+      "hata": null
+    },
+    {
+      "doc": "PG_E_2023_EARNINGS_dated-2023-05-31",
+      "sayfa": 6,
+      "bos_sayfa": 2,
+      "karakter": 9001,
+      "hata": null
+    },
+    {
+      "doc": "Pfizer_2023Q2_10Q",
+      "sayfa": 72,
+      "bos_sayfa": 2,
+      "karakter": 272223,
+      "hata": null
+    },
+    {
+      "doc": "SALESFORCE_2021_8K_dated-2021-07-21",
+      "sayfa": 13,
+      "bos_sayfa": 0,
+      "karakter": 36371,
+      "hata": null
+    },
+    {
+      "doc": "SALESFORCE_2021_8K_dated-2023-01-04",
+      "sayfa": 4,
+      "bos_sayfa": 0,
+      "karakter": 9916,
+      "hata": null
+    },
+    {
+      "doc": "SALESFORCE_2023Q3_10Q",
+      "sayfa": 77,
+      "bos_sayfa": 0,
+      "karakter": 305997,
+      "hata": null
+    },
+    {
+      "doc": "SALESFORCE_2023_10K",
+      "sayfa": 152,
+      "bos_sayfa": 0,
+      "karakter": 522100,
+      "hata": null
+    },
+    {
+      "doc": "SALESFORCE_2024Q1_EARNINGS",
+      "sayfa": 16,
+      "bos_sayfa": 0,
+      "karakter": 41903,
+      "hata": null
+    },
+    {
+      "doc": "SALESFORCE_2024Q2_EARNINGS",
+      "sayfa": 16,
+      "bos_sayfa": 0,
+      "karakter": 43463,
+      "hata": null
+    },
+    {
+      "doc": "ULTABEAUTY_2023Q4_EARNINGS",
+      "sayfa": 9,
+      "bos_sayfa": 0,
+      "karakter": 20539,
+      "hata": null
+    },
+    {
+      "doc": "ULTABEAUTY_2023_10K",
+      "sayfa": 105,
+      "bos_sayfa": 0,
+      "karakter": 317693,
+      "hata": null
+    },
+    {
+      "doc": "ULTABEAUTY_2023_8K_dated-2023-06-07",
+      "sayfa": 39,
+      "bos_sayfa": 0,
+      "karakter": 116153,
+      "hata": null
+    },
+    {
+      "doc": "ULTABEAUTY_2023_8K_dated-2023-09-18",
+      "sayfa": 5,
+      "bos_sayfa": 0,
+      "karakter": 6069,
+      "hata": null
+    },
+    {
+      "doc": "ULTABEAUTY_2024Q1_EARNINGS",
+      "sayfa": 8,
+      "bos_sayfa": 0,
+      "karakter": 17248,
+      "hata": null
+    },
+    {
+      "doc": "ULTABEAUTY_2024Q2_EARNINGS",
+      "sayfa": 10,
+      "bos_sayfa": 0,
+      "karakter": 21342,
+      "hata": null
+    },
+    {
+      "doc": "VERIZON_2015_10K",
+      "sayfa": 127,
+      "bos_sayfa": 0,
+      "karakter": 501669,
+      "hata": null
+    },
+    {
+      "doc": "VERIZON_2016_10K",
+      "sayfa": 131,
+      "bos_sayfa": 0,
+      "karakter": 531976,
+      "hata": null
+    },
+    {
+      "doc": "VERIZON_2017_10K",
+      "sayfa": 177,
+      "bos_sayfa": 0,
+      "karakter": 669808,
+      "hata": null
+    },
+    {
+      "doc": "VERIZON_2018_10K",
+      "sayfa": 185,
+      "bos_sayfa": 1,
+      "karakter": 792205,
+      "hata": null
+    },
+    {
+      "doc": "VERIZON_2019_10K",
+      "sayfa": 143,
+      "bos_sayfa": 0,
+      "karakter": 561720,
+      "hata": null
+    },
+    {
+      "doc": "VERIZON_2020_10K",
+      "sayfa": 154,
+      "bos_sayfa": 0,
+      "karakter": 607328,
+      "hata": null
+    },
+    {
+      "doc": "VERIZON_2021_10K",
+      "sayfa": 120,
+      "bos_sayfa": 0,
+      "karakter": 488523,
+      "hata": null
+    },
+    {
+      "doc": "VERIZON_2022_10K",
+      "sayfa": 124,
+      "bos_sayfa": 0,
+      "karakter": 494428,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2015_10K",
+      "sayfa": 138,
+      "bos_sayfa": 2,
+      "karakter": 437838,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2016_10K",
+      "sayfa": 264,
+      "bos_sayfa": 1,
+      "karakter": 811502,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2017_10K",
+      "sayfa": 207,
+      "bos_sayfa": 1,
+      "karakter": 639201,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2018_10K",
+      "sayfa": 304,
+      "bos_sayfa": 2,
+      "karakter": 939188,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2019_10K",
+      "sayfa": 155,
+      "bos_sayfa": 29,
+      "karakter": 449135,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2020_10K",
+      "sayfa": 170,
+      "bos_sayfa": 3,
+      "karakter": 590999,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2021_10K",
+      "sayfa": 106,
+      "bos_sayfa": 0,
+      "karakter": 418020,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2022_10K",
+      "sayfa": 173,
+      "bos_sayfa": 0,
+      "karakter": 584972,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2023_10K",
+      "sayfa": 215,
+      "bos_sayfa": 2,
+      "karakter": 708111,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2023_annualreport",
+      "sayfa": 100,
+      "bos_sayfa": 1,
+      "karakter": 382237,
+      "hata": null
+    },
+    {
+      "doc": "WALMART_2024Q1_10Q",
+      "sayfa": 44,
+      "bos_sayfa": 0,
+      "karakter": 158422,
+      "hata": null
+    }
+  ]
+}
