@@ -73,7 +73,10 @@ def main():
     sirket_duzeyi_soru = sum(1 for s in sorular if s["company"] in set(ortak_sirketler))
 
     # 5) Sayfa duzeyi: FinQA (sirket, yil, sayfa) ile FinanceBench kanit sayfasi.
-    # FinanceBench sayfa numarasinin 0 mi 1 tabanli mi oldugu dogrulanmadi; ikisini de dene.
+    # UYARI: bu karsilastirma GECERSIZ sayilmali. FinQA'nin page_N numarasi baski sayfa
+    # numarasi (PDF sirasindan farkli; GIS 2019'da PDF idx = N-5), FinanceBench ise 0 tabanli
+    # PDF sirasi kullanir (pdf_parse sonrasi 127/127 kanitla dogrulandi). Gecerli sayfa/metin
+    # kontrolu sizinti_metin.py'dir; bu blok yalnizca tarihsel kayit olarak duruyor.
     finqa_sayfalar = set()
     for bolum in ("train", "dev", "test"):
         for e in json.load(open(HAM / "finqa" / f"{bolum}.json", encoding="utf-8")):
