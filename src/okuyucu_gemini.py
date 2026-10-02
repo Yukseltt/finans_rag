@@ -40,7 +40,7 @@ CEVAPLAR = KOK / "data" / "islenmis" / "cevaplar"
 # USD / 1M token (giris, cikis). Kaynak: Gemini API fiyat sayfasi ozeti, 2026-10-01 (panelden dogrulanmali).
 # gemini-3.8-flash fiyati 31.12.2026'ya kadar gecerli (sonra $1.50 / $7.50). Dusunme tokenlari CIKIS olarak faturalanir.
 FIYAT = {"gemini-3.8-flash": (0.75, 3.75), "gemini-3.5-flash-lite": (0.30, 2.50)}
-TAVAN_TL = 250.0
+TAVAN_TL = 350.0  # 250'den yukseltildi (2026-10-02): gemini-3.8-flash dusunme maliyeti olculdu, KARAR_GUNLUGU.md
 KUR_TL_USD = 55.0
 MAKS_CIKTI = 8192
 DENEME = 3

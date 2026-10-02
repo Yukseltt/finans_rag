@@ -1388,3 +1388,32 @@ kurulumu (yeniden indeksleme) ve başka bir makine ölçülmedi. Kurulum sonras�
   hesabı, önbellek, tavan (çağrı yapılmadan durma), yeniden deneme (503→başarı, 400 deneme yok, hep 429
   → hata kaydı), boş yanıtın hata sayılıp yine de ücretlendirilmesi.
 
+**Protokol notu, Deney 5 (2026-10-02): pilot sonuçları ve harcama tavanının 250 → 350 TL'ye yükseltilmesi.**
+
+**Pilot biçim sonuçları (yalnızca biçim; doğruluğa bakılmadı, doğruluğa göre prompt ayarlanmadı):**
+5 çalıştırma, 60 yanıt (flash-lite: K0, K1-c200, K1-c300, K2; 3.8-flash: K1-c200; her biri 12 pilot soru):
+hatalı/boş yanıt **0**; `Final answer:` satırı **60/60**; `Sources:` satırı **48/48** (K1/K2'de beklenen);
+markdown **1/60** (ayrıştırıcı temizliyor); **uydurma atıf 0/69** (modelin andığı hiçbir sayfa bağlam dışında
+değil; model etiketteki "sayfa:" kelimesini de kopyalayabiliyor, ayrıştırıcı bunu kabul ediyor).
+**Prompt v2'de değişiklik gerekmedi.**
+
+**Ölçülen maliyet ve düşünme tokenları:**
+
+| Model | Düşünme tokenı (medyan / ort / maks) | Çağrı başına |
+|---|---|---|
+| gemini-3.5-flash-lite | 0 / 0 / 0 (varsayılan ayarda düşünmüyor) | K0 0,021; K1 0,065; K2 0,043 TL |
+| gemini-3.8-flash (K1-c200) | **696 / 928 / 2836** | **0,322 TL** (kur 55) |
+
+3.8-flash çağrı başına ortalama 0,322 TL ile **tetik eşiğini (0,30 TL) aştı**; betik durdu ve kullanıcıya
+soruldu. Maliyetin ~%65'i düşünme tokenlarından geliyor (çıktı yalnızca ~108 token). **Planın
+ölçülen sayılarla güncellenmiş tahmini:** harcanan 6,2 TL + pilotun kalanı ~10 + geliştirme flash-lite ~19 +
+geliştirme 3.8-flash ~111 + kilitli test ~67 = **~213 TL**; 250 TL tavanıyla marj yalnızca ~37 TL (%15) ve
+düşünme tokenı çok değişken (maks. 2836), yeniden çalıştırma sığmazdı.
+
+**Karar (kullanıcı): tavan 350 TL** (kur 55: ≈ $6,36; bakiye TRY 496,48). Protokol değişmedi: iki okuyucu,
+düşünme API varsayılanı. Alternatifler değerlendirildi ve seçilmedi: Batch API (dokümantasyona göre
+%50 indirim; mühendislik ve bekleme maliyeti) ve düşünmeyi kısmak (davranışı değiştirir, yeniden pilot
+gerektirir). `src/okuyucu_gemini.py` içindeki `TAVAN_TL` 350 yapıldı. **Kullanıcı Google AI Studio'da
+anahtarın projesinin aylık sınırını da 350 TL yapmalıdır** (Google sınırı ikinci emniyettir; birincil
+koruma betiğin kendi harcama takibidir).
+
