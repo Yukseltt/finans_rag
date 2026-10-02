@@ -1417,3 +1417,27 @@ gerektirir). `src/okuyucu_gemini.py` içindeki `TAVAN_TL` 350 yapıldı. **Kulla
 anahtarın projesinin aylık sınırını da 350 TL yapmalıdır** (Google sınırı ikinci emniyettir; birincil
 koruma betiğin kendi harcama takibidir).
 
+**Pilot tamamlandı ve prompt v2 KESİN DONDURULDU (2026-10-02).**
+
+Pilot: 2 model × 4 koşul × 12 soru = 96 çağrı (yalnızca biçim). Sonuç: hatalı/boş yanıt **0**; bitiş nedeni
+hepsinde `STOP`; `Final answer:` **96/96**; `Sources:` **72/72** (K1/K2'de beklenen); **uydurma atıf 0/95**.
+Prompt v2'de değişiklik gerekmedi; **dondurma kuralı gereği v2 artık değişmez** (değişirse yeni sürüm sayılır,
+tüm çalıştırmalar tekrarlanır ve sürüm sayısı raporlanır). Pilot yanıtları (aynı prompt, aynı istek özeti)
+önbellekte kalır ve geliştirme çalıştırmalarında yeniden kullanılır (12 pilot sorusu için yeniden
+çağrı yapılmaz).
+
+**Ölçülen çağrı maliyetleri (TL, kur 55):**
+
+| Koşul | flash-lite | 3.8-flash | 3.8-flash düşünme medyanı |
+|---|---|---|---|
+| K0 (kapalı kitap) | 0,021 | 0,216 | 742 |
+| K1-c200 | 0,065 | 0,322 | 696 |
+| K1-c300 | 0,065 | 0,378 | 926 |
+| K2 (oracle) | 0,043 | 0,202 | 429 |
+| **Soru başına dört koşul** | **0,194** | **1,118** | |
+
+**Geliştirme çalıştırmasının tahmini maliyeti:** 87 yeni soru (99 − 12 önbellekte) × (0,194 + 1,118) ≈ **114 TL**
+(flash-lite ~17, 3.8-flash ~97). Harcanan 15,74 TL. Geliştirme sonrası toplam ≈ 130 TL; kilitli test
+(51 soru) ek ~67 TL; planın toplamı ≈ 213 TL, tavan 350 TL. Düşünme tokenı çok değişkendir (3.8-flash
+maks. 2836), tahmin ±%30 belirsizdir.
+
