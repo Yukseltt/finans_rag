@@ -1304,3 +1304,32 @@ kalıcılık, metadata filtresi, ölçeklenebilirlik ve standart bir RAG yığı
 kurulumu (yeniden indeksleme) ve başka bir makine ölçülmedi. Kurulum sonrası tutarsızlığın nedeni
 çözülmemiştir.
 
+**Protokol notu, Deney 5 uygulama adım 1 (çalıştırmadan ÖNCE, 2026-10-02): bağlam üretimi ve prompt v1.**
+
+- **K1-c200** bağlamı Chroma üzerinden üretilir (yeniden açılmış koleksiyon, `ef_search=100`, Deney 6b),
+  reranker Deney 2 ile aynı (derinlik 50). **K1-c300** için Chroma koleksiyonu kurulmadı ve Deney 6b
+  doğrulaması yapılmadı; bu yüzden K1-c300 bağlamı **kayıtlı tam-arama + reranker sıralamasından**
+  (Deney 4, derinlik 33) alınır. c200 için DB ile tam arama reranker sonrası birebir aynı Recall verdi
+  (Deney 6b), bu yüzden karşılaştırmayı bozması beklenmez; yine de c200 (DB) ile c300 (tam arama) arka
+  uçları farklıdır ve H5c yorumlanırken bu not edilir.
+- **Bağlam kuralı doğrulandı:** her K1 bağlamı tam 1000 kelime (c200 ve c300; 99 sorunun hepsinde),
+  etiketler (`[belge: ..., sayfa: ...]`) kelime sayılmaz. **K2** gold sayfaların tam metni, kesilmez
+  (medyan 432, ortalama 484, maks 2144 kelime); K1'e kıyasla bağlam miktarı farklıdır, K2 bir **referans**
+  koşuldur. Kanıt sayfasını içeren soru oranı K1-c200'de 0,475, K1-c300'de 0,485 (kanıt bazlı oran 0,429 /
+  0,424; Deney 4'teki Recall@1000w ile uyumlu).
+- **Prompt v1** `sonuclar/prompt_v1.json` içinde sha256 ile kayıtlıdır; aynı sürüm numarasıyla değişen
+  şablon reddedilir. İçerik: İngilizce, tek kullanıcı mesajı + kısa sistem mesajı; bağlamlı koşullarda
+  "yalnızca bağlamı kullan", biçim talimatları (yuvarlama/birim, kısa gerekçe, evet/hayır sorularında "Yes"
+  ya da "No" ile başla, sayıyı birimiyle yaz), çıktı: `Final answer: ...` ve `Sources: <belge>, <sayfa>; ...`
+  (kapalı kitapta yalnızca `Final answer`). Yes/No ve birim talimatları gold cevap biçimini taklit eden
+  **biçim** talimatlarıdır, doğruluğa göre ayarlanmış değildir (hiçbir model cevabı henüz görülmedi).
+  **v1 pilotta biçim hatası verirse v2'ye geçilebilir (yalnızca biçim gerekçesiyle); pilottan sonra
+  dondurulur.**
+- **Pilot:** 12 geliştirme sorusu, soru türü başına 4, id sırasıyla (`sonuclar/pilot_idler.json`);
+  yalnızca biçim doğrulanır (ayrıştırma oranı, boş/engellenmiş çağrılar).
+- **Maliyet tahmini (token = kelime × 1,4-2,0, çağrı başına 300-800 çıkış token; Gemini tokenizer'ı
+  bilinmiyor, ilk çağrıda `count_tokens` ile doğrulanacak):** geliştirme tek geçiş, iki okuyucu, 4 koşul,
+  792 çağrı: `gemini-3.8-flash` $0,79-1,67, `gemini-3.5-flash-lite` $0,43-0,99; toplam **$1,22-2,66**
+  (pilot ~%12 ek). Kullanıcı bakiyesi TRY 496,48; tek geçiş bakiyeye, USD/TRY kuru 186'nın altında olduğu
+  sürece sığar. Düşünme (thinking) tokenları çıktı olarak faturalanır; üst sınır buna göre bırakılmıştır.
+
