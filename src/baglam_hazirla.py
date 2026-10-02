@@ -3,7 +3,7 @@
 # Kullanim: python src/baglam_hazirla.py
 # Girdi:    gelistirme sorulari, Chroma koleksiyonu (c200), kayitli c300 siralamasi, sayfa metinleri
 # Cikti:    data/islenmis/istekler/{k0,k1_c200,k1_c300,k2}.jsonl   (soru basina bir istek)
-#           sonuclar/prompt_v1.json                                (DONDURULMUS prompt sablonu + sha256)
+#           sonuclar/prompt_<surum>.json                           (DONDURULMUS prompt sablonu + sha256)
 #           sonuclar/pilot_idler.json                              (pilot: 12 soru, sadece bicim dogrulamasi)
 #
 # Kosullar (KARAR_GUNLUGU.md, Deney 5):
@@ -17,7 +17,7 @@
 # gold'daki evidence_page_num ile ayni tabandadir (0 tabanli PDF sirasi, Karar 6).
 # Etiketler kelime sayilmaz. Sadece gelistirme kumesi (kilitli kume icin ayri, tek seferlik betik).
 #
-# DONDURMA: prompt sablonu sonuclar/prompt_v1.json'a sha256 ile yazilir. Ayni surum numarasi ile sablon
+# DONDURMA: prompt sablonu sonuclar/prompt_<surum>.json'a sha256 ile yazilir. Ayni surum numarasi ile sablon
 # degisirse betik reddeder; degisiklik yeni surum numarasi gerektirir (Deney 5 on kaydi, prompt kurali).
 import hashlib
 import json
@@ -31,7 +31,7 @@ KOK = Path(__file__).resolve().parent.parent
 ISTEK_KLASORU = KOK / "data" / "islenmis" / "istekler"
 SAYFA_KLASORU = KOK / "data" / "islenmis" / "sayfalar"
 SIRA = KOK / "data" / "islenmis" / "siralamalar"
-PROMPT_SURUM = "v1"
+PROMPT_SURUM = "v2"
 BUTCE_KELIME = 1000
 RERANK_DERINLIK = 50  # c200 icin (Deney 4/5 on kaydi); c300 siralamasi kayitli (derinlik 33)
 PILOT_SORU_TURU_BASINA = 4
@@ -42,9 +42,11 @@ SISTEM = ("You are a careful financial analyst answering questions about public 
 ORTAK_TALIMAT = """- Follow any rounding, unit or formatting instructions contained in the question.
 - Keep the reasoning short (a few sentences or a short calculation).
 - If the question is a yes/no question, begin the final answer with "Yes" or "No", then add a brief reason.
-- If the answer is a number, state it with its unit (for example "$1,577 million" or "12.3%")."""
+- If the answer is a number, state it with its unit (for example "$1,577 million" or "12.3%").
+- Keep the final answer short (a number, a Yes/No with a brief reason, or one to three sentences) unless the question asks for a list.
+- Write plain text only: no markdown, no bold, no bullet symbols."""
 
-KULLANICI_BAGLAMLI = """Below are passages retrieved from the company's filings. Each passage is labelled with its document and page number (page numbers are PDF page indices starting at 0).
+KULLANICI_BAGLAMLI = """Below are passages from company filings. Each passage is labelled with its document and page number (page numbers are PDF page indices starting at 0). The passages may come from different years, quarters or filings; use only those that match the company, period and metric asked.
 
 {BAGLAM}
 
@@ -55,7 +57,7 @@ Instructions:
 """ + ORTAK_TALIMAT + """
 - End your reply with exactly these two lines:
 Final answer: <your answer>
-Sources: <DOCUMENT_NAME>, <PAGE>; <DOCUMENT_NAME>, <PAGE>   (only the passages you actually used; write "none" if you used none)"""
+Sources: <DOCUMENT_NAME>, <PAGE>; <DOCUMENT_NAME>, <PAGE>   (copy the document name and page number exactly as they appear in the passage labels; list only the passages you actually used; write "none" if you used none)"""
 
 KULLANICI_KAPALI = """No passages are provided. Answer from your own knowledge of the company and its public filings.
 

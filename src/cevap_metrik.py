@@ -38,9 +38,61 @@ TOLERANS = 0.01
 YIL = range(1900, 2101)
 
 
+FINAL = re.compile(r"final answer\s*[:\-]", re.I)
+KAYNAK = re.compile(r"(?im)^\s*sources?\s*[:\-]")
+ATIF = re.compile(r"([A-Za-z0-9][\w.\-]*)\s*,\s*(?:sayfa|page|p\.?)?\s*:?\s*(\d+)", re.I)
+
+
+def temizle(tahmin: str) -> str:
+    # markdown vurgu isaretlerini siler: "**Final answer:**" ve "**Final answer**:" ayni davranir
+    return re.sub(r"[*`]+", "", tahmin)
+
+
+def kaynak_ayir(tahmin: str):
+    # (govde, kaynak_metni): "Sources:" satiri cevabin SAYISAL icerigine karismasin (sayfa no, yil).
+    # Sources, Final answer'dan sonra gelir; ters sirada gelirse (Sources once) o da dogru ayrilir.
+    t = temizle(tahmin)
+    kaynaklar = list(KAYNAK.finditer(t))
+    if not kaynaklar:
+        return t, ""
+    k = kaynaklar[-1]
+    sonraki = FINAL.search(t, k.end())
+    if sonraki:
+        return t[:k.start()] + t[sonraki.start():], t[k.end():sonraki.start()]
+    return t[:k.start()], t[k.end():]
+
+
 def son_cevap(tahmin: str) -> str:
-    parcalar = re.split(r"final answer\s*[:\-]", tahmin, flags=re.I)
-    return parcalar[-1].strip() if len(parcalar) > 1 else tahmin.strip()
+    govde, _ = kaynak_ayir(tahmin)
+    parcalar = FINAL.split(govde)
+    return parcalar[-1].strip() if len(parcalar) > 1 else govde.strip()
+
+
+def atiflar(tahmin: str):
+    # Sources satirindaki (belge, sayfa) ciftleri; "none" ya da bos ise []. Tekrarsiz, sirayi korur.
+    _, kaynak = kaynak_ayir(tahmin)
+    kaynak = kaynak.strip()
+    if not kaynak or re.fullmatch(r"\W*none\W*", kaynak, re.I):
+        return []
+    sonuc = []
+    for m in ATIF.finditer(kaynak):
+        cift = (m.group(1), int(m.group(2)))
+        if cift not in sonuc:
+            sonuc.append(cift)
+    return sonuc
+
+
+def atif_skorla(tahmin: str, gold_sayfalar, baglam_sayfalar=None) -> dict:
+    # isabet: atiflardan en az biri gold sayfa; kesinlik: atiflarin gold olan orani;
+    # baglamda_oran: atiflarin gercekten baglamda bulunan orani (uydurma atif olcusu; K1/K2 icin)
+    a = atiflar(tahmin)
+    n = len(a)
+    gold = set(map(tuple, gold_sayfalar))
+    sonuc = {"n": n, "isabet": bool(set(a) & gold), "kesinlik": (len(set(a) & gold) / n) if n else None}
+    if baglam_sayfalar is not None:
+        baglam = set(map(tuple, baglam_sayfalar))
+        sonuc["baglamda_oran"] = (len(set(a) & baglam) / n) if n else None
+    return sonuc
 
 
 def sayilar(metin: str):
@@ -145,7 +197,7 @@ def anahtar_sayi(tahmin: str, gold: str) -> dict:
     anahtar = anahtar_sayilar(gold)
     if not anahtar:
         return {"oran": None, "hepsi": None, "n": 0}
-    bulunan = [b[0] * b[3] for b in sayilar(tahmin)]
+    bulunan = [b[0] * b[3] for b in sayilar(kaynak_ayir(tahmin)[0])]  # Sources satiri (sayfa no, yil) dahil degil
     bulundu = 0
     for deger, ondalik, _, olcek in anahtar:
         # gold'un hassasiyetinde (kendi biriminde yuvarlanmis) esitlik VEYA goreli %1 tolerans

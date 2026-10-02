@@ -1333,3 +1333,27 @@ kurulumu (yeniden indeksleme) ve başka bir makine ölçülmedi. Kurulum sonras�
   (pilot ~%12 ek). Kullanıcı bakiyesi TRY 496,48; tek geçiş bakiyeye, USD/TRY kuru 186'nın altında olduğu
   sürece sığar. Düşünme (thinking) tokenları çıktı olarak faturalanır; üst sınır buna göre bırakılmıştır.
 
+**Protokol notu, Deney 5 (çalıştırmadan ÖNCE, 2026-10-02): harcama tavanı, prompt incelemesi ve v2.**
+
+- **Harcama tavanı (kullanıcı kararı): 250 TL** (kur 55 TL/USD, yaklaşık $4,5; kullanıcı bakiyesi TRY 496,48).
+  Planlanan akışın (pilot + geliştirme + kilitli test) tahmini maliyeti 110-240 TL; tavanı aşan her
+  harcama için önce kullanıcı onayı alınır, betik her çalıştırmadan önce tahmini maliyeti TL'ye çevirip
+  gösterir. Google tarafında da AI Studio "Monthly spend cap" ayarı kullanılır (dokümantasyonda
+  proje düzeyinde aylık sınır olarak geçer; para birimi sayfada belirtilmemiş, kullanıcı panelden
+  doğrulayacak). Ön ödemeli kredi sıfırlanınca tüm anahtarlar durur (dokümantasyon).
+- **Prompt incelemesi (v1, hiçbir çağrı yapılmadan):** gerçek soru kalıpları incelendi (99 soruda 27'si
+  "using/relying on/based on", 20'si "round", 11'i birim, 30'u evet/hayır, 4'ü liste isteyen). Gemini
+  benzeri gerçekçi çıktı biçimleri (markdown, `Sources:` satırı, ters sıra, `none`) cevap metriğinden
+  geçirildi ve **iki sorun** bulundu: (1) `Sources: DOC_2022_10K, 100` satırındaki sayfa numarası
+  gold'daki "%100" anahtar sayısıyla yanlış eşleşip hatalı cevabı doğru sayıyordu; (2) atıf doğruluğunu
+  ölçecek ayrıştırıcı yoktu. `cevap_metrik.py` düzeltildi: markdown işaretleri temizlenir, `Sources`
+  satırı cevabın sayısal içeriğinden ayrılır (ters sırada gelse de), `atiflar` ve `atif_skorla`
+  eklendi (isabet, kesinlik, bağlamda bulunma oranı = uydurma atıf ölçüsü); testler gerçekçi çıktı
+  biçimleriyle genişletildi.
+- **Prompt v2** (v1 hiç çalıştırılmadığı için sürüm yükseltmesi; v1 geçmiş olarak kalır). Değişenler,
+  hepsi **biçim ve okuma** talimatları, hiçbiri doğruluğa göre ayarlanmadı: (a) "retrieved" yerine
+  tarafsız "passages from company filings"; (b) bağlam parçaları farklı yıl/çeyrek/dosyalardan
+  olabileceği, yalnızca şirket-dönem-metrikle eşleşenlerin kullanılması; (c) nihai cevabın kısa olması
+  (liste istenmedikçe); (d) düz metin, markdown yok; (e) `Sources` etiketlerinin birebir kopyalanması.
+  `sonuclar/prompt_v2.json` sha256 ile dondurulmuştur (pilot sonrası kesin dondurma kuralı aynen geçerli).
+

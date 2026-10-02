@@ -68,6 +68,36 @@ def regresyon():
     assert c.salt_sayi("It was 2022.", "2022", "In which fiscal year did X happen?")["hassasiyet"]
 
 
+def gercekci_cikti():
+    # Gemini benzeri gercekci cikti bicimleri: markdown, Sources satiri, ters sira, none
+    S = "What is the FY2018 capital expenditure amount (in USD millions) for 3M?"
+    assert c.salt_sayi("Capex was $1,577 million.\n\n**Final answer:** $1,577 million\n\n**Sources:** 3M_2018_10K, 59", "$1577.00", S)["hassasiyet"]
+    assert c.salt_sayi("Calculation: 1,000 + 577.\n**Final answer**: $1,577 million\nSources: 3M_2018_10K, 59", "$1577.00", S)["hassasiyet"]
+    assert c.son_cevap("**Final answer**: 12.3%\nSources: X_2020_10K, 5") == "12.3%"
+    assert c.salt_sayi("Final answer: 0.96\nSources: ADOBE_2015_10K, 59", "0.96", "ratio?")["hassasiyet"]
+    assert c.salt_sayi("Final answer: 1577\nSources: 3M_2018_10K, 59; 3M_2019_10K, 45", "1577", "x?")["hassasiyet"]
+    assert c.hukum("**Final answer:** **No**, the operating margin declined.\nSources: ADOBE_2022_10K, 41", "No, the operating margins have declined")["dogru"]
+    # Sources satirindaki sayfa numarasi anahtar sayiyla YANLIS eslesmemeli
+    r = c.anahtar_sayi("Final answer: Revenue rose.\nSources: DOC_2022_10K, 100", "Revenue rose 100% in FY2022.")
+    assert r["oran"] == 0.0 and not r["hepsi"], r
+    assert c.anahtar_sayi("Final answer: Revenue rose 100%.\nSources: DOC_2022_10K, 7", "Revenue rose 100% in FY2022.")["hepsi"]
+    # ters sira: Sources once, Final answer sonra
+    assert c.son_cevap("Sources: DOC_2022_10K, 59\nFinal answer: $1,577 million") == "$1,577 million"
+    assert c.atiflar("Sources: DOC_2022_10K, 59\nFinal answer: 5") == [("DOC_2022_10K", 59)]
+    # atiflar: bicimler
+    assert c.atiflar("Final answer: 5\nSources: 3M_2018_10K, 59; 3M_2019_10K, 45") == [("3M_2018_10K", 59), ("3M_2019_10K", 45)]
+    assert c.atiflar("Final answer: 5\n**Sources:** [belge: AMCOR_2022_8K_dated-2022-07-01, sayfa: 2]") == [("AMCOR_2022_8K_dated-2022-07-01", 2)]
+    assert c.atiflar("Final answer: 5\nSources: 3M_2018_10K, page 59") == [("3M_2018_10K", 59)]
+    assert c.atiflar("Final answer: 5\nSources: none") == [] and c.atiflar("Final answer: 5") == []
+    assert c.atiflar("Final answer: 5\nSources: A_1, 3; A_1, 3") == [("A_1", 3)]                          # tekrarsiz
+    # atif skoru
+    gold = [("3M_2018_10K", 59)]
+    r = c.atif_skorla("Final answer: 5\nSources: 3M_2018_10K, 59; 3M_2019_10K, 45", gold, [("3M_2018_10K", 59), ("3M_2018_10K", 38)])
+    assert r["isabet"] and r["kesinlik"] == 0.5 and r["baglamda_oran"] == 0.5 and r["n"] == 2, r       # 2019 s.45 baglamda yok: uydurma
+    r = c.atif_skorla("Final answer: 5\nSources: none", gold)
+    assert r["n"] == 0 and not r["isabet"] and r["kesinlik"] is None
+
+
 def sablonlar(gold, soru):
     # bir salt-sayi gold'u icin gercekci model cevabi bicimleri
     v, ond, yuzde, _, _ = c.sayilar(gold)[0]
@@ -150,7 +180,8 @@ def anahtar_sablonlari(dv):
 
 def main():
     regresyon()
-    print("regresyon: gecti")
+    gercekci_cikti()
+    print("regresyon ve gercekci cikti: gecti")
 
     sorular = {s["id"]: s for s in d.yukle_sorular()}
     fb = [json.loads(l) for l in open(KOK / "data" / "ham" / "financebench" / "sorular.jsonl", encoding="utf-8") if l.strip()]
