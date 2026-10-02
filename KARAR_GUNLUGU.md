@@ -28,7 +28,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D3 | Deney 3: hibrit BM25 + dense | REDDEDİLDİ (H3, H3b) |
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
 | 13 | Vektör veritabanı | KAPANDI: Chroma; Deney 6b ile doğrulandı, K1'in ilk aşaması (yeniden açılmış koleksiyon) |
-| D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | ÖN KAYIT YAZILDI, çalıştırılmadı |
+| D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Ön kayıt yazıldı; okuyucu betiği ve güvenceleri hazır; henüz canlı çağrı yok |
 | D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
@@ -1356,4 +1356,35 @@ kurulumu (yeniden indeksleme) ve başka bir makine ölçülmedi. Kurulum sonras�
   olabileceği, yalnızca şirket-dönem-metrikle eşleşenlerin kullanılması; (c) nihai cevabın kısa olması
   (liste istenmedikçe); (d) düz metin, markdown yok; (e) `Sources` etiketlerinin birebir kopyalanması.
   `sonuclar/prompt_v2.json` sha256 ile dondurulmuştur (pilot sonrası kesin dondurma kuralı aynen geçerli).
+
+**Protokol notu, Deney 5 (çalıştırmadan ÖNCE, 2026-10-02): API hesabı doğrulaması ve okuyucu betiği.**
+
+- **Hesap (kullanıcının ekran görüntülerinden):** tek proje, 1 anahtar, **ücretli katman (Tier 1, ön ödemeli)** (ücretli katman; dokümantasyona göre içerik ürün iyileştirmede kullanılmaz).
+  Aylık harcama sınırı sayfasında para birimi **TL** (TRY 250,00). **Yakalanan hata:** sınır ilk başta başka bir
+  projeye konmuştu; sınır proje düzeyinde olduğundan anahtarın projesinde geçerli
+  olmayacaktı. Kullanıcı düzeltti ve sınırı anahtarın projesine koydu. Google'ın sınırı
+  "~10 dakikalık gecikmeyle aşılabilir, deneysel" olduğundan **asıl koruma betiğin kendi harcama takibidir**
+  (aşağıda), Google sınırı ikinci emniyettir.
+- **Modeller doğrulandı (anahtarla `models.list`, ücretsiz çağrı):** `gemini-3.8-flash` ve
+  `gemini-3.5-flash-lite` mevcut, girdi sınırı 1.048.576, çıktı sınırı 65.536 token, ikisi de **düşünen
+  (thinking) model**; düşünme tokenları ayrı sayılır (`thoughts_token_count`) ve çıktı fiyatından
+  faturalanır, bu yüzden gerçek harcama ilk çağrılardan ölçülecektir.
+- **SDK:** `google-genai==2.28.0` (resmî SDK; eski `google-generativeai` kullanımdan kaldırılmış).
+  Kurulum, mevcut yığını bozmadı (`pip check` temiz; `websockets` 17,1 → 16,1,1 ve `cffi` 1,17,1 → 2,1,1
+  değişti, hiçbir kurulu paket websockets'e bağlı değil).
+- **Betik (`src/okuyucu_gemini.py`) güvenceleri:** anahtar yalnızca `GEMINI_API_KEY` ortam
+  değişkeninden; **onbellek** (aynı istek ikinci kez gönderilmez); **harcama tavanı 250 TL = $4,545
+  (kur 55)**, her çağrıdan önce o çağrının en kötü durum maliyeti birikmiş harcamaya eklenerek kontrol
+  edilir ve aşılacaksa **çağrı yapılmadan durur**; prompt dondurma doğrulaması; geçici hatalarda (429, 5xx)
+  en fazla 3 deneme (2 sn, 4 sn bekleme), kalıcı hatada (4xx) denemez; hatalı/boş yanıt başarı olarak
+  önbelleğe yazılmaz (sonraki çalıştırmada tekrar denenir) ve değerlendirmede **yanlış** sayılır.
+  Varsayılan çalışma **kuru çalışmadır** (ücretsiz `count_tokens` ile gerçek girdi tokenları, tahmini
+  maliyet); gerçek çağrı için `--onayla` gerekir.
+- **Ayar eklemeleri (ön kayıttaki "diğer parametreler varsayılan"a göre küçük sapmalar):** `seed=0`
+  (belirlilik için) ve `max_output_tokens=8192` (yalnızca **maliyet güvencesi**: düşünen bir modelin
+  kontrolsüz düşünmesini sınırlar; siradan bir cevap bunun çok altındadır, kesilme olursa `bitis_nedeni`
+  kaydedilir ve raporlanır). Sıcaklık 0 ve düşünme ayarları API varsayılanıdır.
+- **Testler:** API'ye ve anahtara hiç dokunmayan sahte istemciyle (`tests/test_okuyucu.py`): maliyet
+  hesabı, önbellek, tavan (çağrı yapılmadan durma), yeniden deneme (503→başarı, 400 deneme yok, hep 429
+  → hata kaydı), boş yanıtın hata sayılıp yine de ücretlendirilmesi.
 
