@@ -243,6 +243,26 @@ def karsilastir(siralama_a, siralama_b, sorular, bilgi, metrik="recall", k=5, n_
             "anlamli": not (ci[0] <= 0 <= ci[1])}
 
 
+def fark_kume(a, b, ids, kume, n_boot=10000, tohum=0):
+    # Soru bazli sonuclar (0/1 ya da sayi) icin B - A farki; ESLESTIRILMIS, SIRKET-KUMELI bootstrap.
+    # a, b: {soru_id: deger}; ids: karsilastirilacak sorular; kume: {soru_id: sirket}.
+    # Cevap dogrulugu gibi soru bazli metrikler icin (karsilastir() retrieval siralamalari icindir).
+    gruplar = collections.defaultdict(list)
+    for i in ids:
+        gruplar[kume[i]].append(i)
+    anahtarlar = list(gruplar)
+    ort = lambda d, idx: sum(d[i] for i in idx) / len(idx)
+    ma, mb = ort(a, ids), ort(b, ids)
+    rng = random.Random(tohum)
+    farklar = []
+    for _ in range(n_boot):
+        idx = [i for g in (rng.choice(anahtarlar) for _ in anahtarlar) for i in gruplar[g]]
+        farklar.append(ort(b, idx) - ort(a, idx))
+    farklar.sort()
+    ci = [farklar[int(0.025 * n_boot)], farklar[min(int(0.975 * n_boot), n_boot - 1)]]
+    return {"n": len(ids), "a": ma, "b": mb, "fark": mb - ma, "ci95": ci, "anlamli": not (ci[0] <= 0 <= ci[1])}
+
+
 def yazdir(sonuc, baslik=""):
     print(f"{baslik}  ({sonuc['n_soru']} soru, {sonuc['n_kanit']} kanit)")
     m = sonuc["metrikler"]

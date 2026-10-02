@@ -1,0 +1,72 @@
+{
+  "retrieval|k1_c200|gemini-3.5-flash-lite": {
+    "var": [
+      26,
+      41
+    ],
+    "yok": [
+      11,
+      42
+    ]
+  },
+  "retrieval|k1_c200|gemini-3.8-flash": {
+    "var": [
+      27,
+      41
+    ],
+    "yok": [
+      18,
+      42
+    ]
+  },
+  "retrieval|k1_c300|gemini-3.5-flash-lite": {
+    "var": [
+      28,
+      44
+    ],
+    "yok": [
+      10,
+      39
+    ]
+  },
+  "retrieval|k1_c300|gemini-3.8-flash": {
+    "var": [
+      33,
+      44
+    ],
+    "yok": [
+      15,
+      39
+    ]
+  },
+  "yetersiz|k1_c200|gemini-3.5-flash-lite": {
+    "metrics-generated": 12,
+    "domain-relevant": 13,
+    "novel-generated": 9
+  },
+  "yetersiz|k1_c200|gemini-3.8-flash": {
+    "metrics-generated": 16,
+    "domain-relevant": 19,
+    "novel-generated": 11
+  },
+  "yetersiz|k2|gemini-3.5-flash-lite": {
+    "metrics-generated": 0,
+    "domain-relevant": 3,
+    "novel-generated": 0
+  },
+  "yetersiz|k2|gemini-3.8-flash": {
+    "metrics-generated": 0,
+    "domain-relevant": 1,
+    "novel-generated": 1
+  },
+  "k0_yil|gemini-3.5-flash-lite": {
+    "<=2019": 1,
+    "2020-2021": 1,
+    ">=2022": 1
+  },
+  "k0_yil|gemini-3.8-flash": {
+    "<=2019": 8,
+    "2020-2021": 5,
+    ">=2022": 1
+  }
+}

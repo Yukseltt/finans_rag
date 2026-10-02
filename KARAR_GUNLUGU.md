@@ -28,7 +28,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D3 | Deney 3: hibrit BM25 + dense | REDDEDİLDİ (H3, H3b) |
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
 | 13 | Vektör veritabanı | KAPANDI: Chroma; Deney 6b ile doğrulandı, K1'in ilk aşaması (yeniden açılmış koleksiyon) |
-| D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Ön kayıt yazıldı; okuyucu betiği ve güvenceleri hazır; henüz canlı çağrı yok |
+| D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Geliştirme çalıştırması TAMAM (696 çağrı, 0 hata); H5a 1/2 ve H5c 0/2 (ölçütler sağlanmadı); 16 soru elle puanlama bekliyor; kilitli test yapılmadı |
 | D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
@@ -1440,4 +1440,68 @@ tüm çalıştırmalar tekrarlanır ve sürüm sayısı raporlanır). Pilot yan�
 (flash-lite ~17, 3.8-flash ~97). Harcanan 15,74 TL. Geliştirme sonrası toplam ≈ 130 TL; kilitli test
 (51 soru) ek ~67 TL; planın toplamı ≈ 213 TL, tavan 350 TL. Düşünme tokenı çok değişkendir (3.8-flash
 maks. 2836), tahmin ±%30 belirsizdir.
+
+**SONUÇ, Deney 5 geliştirme çalıştırması (2026-10-02; `src/cevap_olc.py`, `src/cevap_tani.py`; prompt v2, 99 soru)**
+
+Çalıştırma: 8 çalıştırma (2 okuyucu × 4 koşul), 696 yeni çağrı + pilottan 96 önbellekli = 792 yanıt, **0 hata**, toplam
+harcama **112,29 TL / 350 TL** (tahmin ~130 TL). **Puanlanan: 83/99 soru** (otomatik); **16 soru elle puanlama
+bekliyor** (7 serbest metin + 9 "anahtar sayısı çıkarılamayan" gold cevap, ön kayıtta öngörülmemişti). Aşağıdaki
+sayılar bu 83 soru üzerindedir ve elle puanlanan 16 eklenince **güncellenecektir**.
+
+**Doğruluk (otomatik puanlanan 83 soru):**
+
+| Okuyucu | K0 kapalı kitap | K1-c200 | K1-c300 | K2 oracle |
+|---|---|---|---|---|
+| gemini-3.5-flash-lite | 25/83 = 0,301 | 37/83 = 0,446 | 38/83 = 0,458 | 61/83 = 0,735 |
+| gemini-3.8-flash | 44/83 = 0,530 | 45/83 = 0,542 | 48/83 = 0,578 | 66/83 = 0,795 |
+
+**Ön kayıtlı hipotezler** (eşleştirilmiş, şirket-kümeli bootstrap, 10.000 tekrar, %95; `*` anlamlı):
+
+| Hipotez | flash-lite | 3.8-flash | Ölçüt |
+|---|---|---|---|
+| H5a K1-c200 − K0 | +0,145 [+0,023; +0,281] * | +0,012 [-0,093; +0,129] | 1/2, **sağlanmadı** |
+| H5b K2 − K1-c200 (retrieval kaybı) | +0,289 [+0,192; +0,380] * | +0,253 [+0,136; +0,356] * | ayrıştırma (ölçütsüz) |
+| H5c K1-c300 − K1-c200 | +0,012 [-0,081; +0,104] | +0,036 [-0,055; +0,133] | 0/2, **sağlanmadı: c200 kalır** |
+| H5d | H5a ve H5c yönü iki okuyucuda aynı (pozitif) ama anlamsız | | betimsel |
+
+Ön kayıttaki tahmin ("K1 > K0 destekleniyor") yalnızca **zayıf okuyucuda** doğrulandı; "c300'ün 2/2'yi geçmesini
+çok olası görmüyorum" tahmini doğrulandı. Okuyucular arası fark (3.8-flash − flash-lite): K0 +0,229 *, K1-c200
++0,096 *, K1-c300 +0,120 *, K2 +0,060 (anlamsız; aralığın alt sınırı 0,000).
+
+**Atıf (K1/K2):** uydurma atıf **yok** (atıfların %100'ü bağlamda). K1'de atıf isabeti (en az bir gold sayfa)
+0,41-0,43, "Sources: none" oranı flash-lite 0,03-0,12, 3.8-flash 0,16-0,19; K2'de isabet 1,00.
+
+**Tanılar (post hoc, `src/cevap_tani.py`; ölçüt değil):**
+
+1. **Retrieval kaybının ayrıştırılması (K1-c200; kanıt sayfası bağlamda olan 41 / olmayan 42 soru):**
+
+| Okuyucu | Kanıt VAR: K1 (K0, K2) | Kanıt YOK: K1 (K0, K2) |
+|---|---|---|
+| flash-lite | 0,63 (0,27; 0,76) | 0,26 (0,33; 0,71) |
+| 3.8-flash | 0,66 (0,49; 0,83) | **0,43 (0,57; 0,76)** |
+
+   Retrieval doğru sayfayı getirdiğinde RAG kapalı kitaptan çok daha iyi (+0,17 / +0,36) ve oracle'a yakın;
+   **getiremediğinde RAG kapalı kitaptan KÖTÜ** (3.8-flash: 0,43 vs 0,57). Net kazanç, iki etkinin
+   toplamıdır; 3.8-flash'ta H5a'nın anlamsız çıkmasının nedeni budur. K1 cevaplarının ~%46'sında (3.8-flash,
+   c200) "bağlam bilgi içermiyor / belirtilmemiş" benzeri ifade var (K2'de ~%1); prompt "yalnızca bağlamı kullan"
+   dediğinden model bilgisini devreye sokmuyor.
+2. **Yes/No sorularında taban:** gold 23 Yes / 7 No; her zaman "Yes" demek 23/30 = **0,767**. K0 doğrulukları
+   (20/30, 24/30) bu tabana yakın; hüküm metriği tek başına zayıf ayırt edici. Hüküm doğruluğu K1'de K0'dan
+   düşük (16-21 vs 20-24).
+3. **Kapalı kitap sayı bilgisi:** 3.8-flash bağlamsız 34 salt-sayı sorusunun **14'ünü** (flash-lite 3'ünü) doğru
+   biliyor; belge yılıyla azalmıyor (≤2019: 8/19; 2020-21: 5/12; ≥2022: 1/3). Bu, **ön-eğitimde finansal
+   verilerin ezberlenmiş olabileceğinin göstergesidir** (K0'ın tasarım amacı); sınırlılık olarak raporlanır.
+
+**Yorum (ölçülmüş olanla hipotez ayrı):** ölçüldü: (a) retrieval hedefe isabet ettiğinde RAG güçlü; (b) 83
+sorunun yalnızca ~%50'sinde kanıt sayfası bağlamda ve oracle farkı +0,25-0,29, yani **retrieval en büyük
+kayıp kalemi**; (c) c300'ün kanıt kapsamı üstünlüğü cevap doğruluğuna anlamlı yansımadı (c200 kalır);
+(d) güçlü okuyucu bağlamsız bile yarısını biliyor. **Hipotez (ölçülmedi):** retrieval başarısız olduğunda
+model kendi bilgisine dönebilseydi (örn. "bağlam yetmiyorsa kendi bilginizi kullanın, ama belirtin") K1,
+K0'ın altına düşmezdi; ve soruda geçen şirket/yıl ile belge yönlendirmesi kanıt-bağlamda oranını artırırdı
+(tek belge uzayında Recall@1000w 0,65 vs ortak havuzda 0,41). Bunlar yeni, ayrı ön kayıtlı deneyler olarak
+denenebilir (prompt v2 donduruldu; değişiklik yeni sürüm ve tekrar çalıştırma gerektirir).
+
+**Sınırlar:** 83 (elle puanlama sonrası 99) soru, 21 şirket; H5a/H5c ölçütleri elle puanlanan 16 soruyla
+değişebilir; hüküm ve bazı anahtar-sayı puanlamaları kabadır; K0 yüksek çıktığı için ön-eğitim ezberi
+yorumu karıştırır; kilitli test yapılmadı.
 

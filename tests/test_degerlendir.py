@@ -95,6 +95,19 @@ def main():
     assert sirketli["fark"] == soru_bazli["fark"] and sirketli["anlamli"]
     print("kume bootstrap: tamam (21 sirket kumesi,", len(set(kume.values())), "kume)")
 
+    # 3d) fark_kume: soru bazli 0/1 sonuclar icin eslestirilmis kume bootstrap
+    ids = [s["id"] for s in sorular]
+    sifir = {i: 0 for i in ids}
+    bir = {i: 1 for i in ids}
+    r = d.fark_kume(sifir, sifir, ids, kume, n_boot=500)
+    assert r["fark"] == 0 and r["ci95"] == [0, 0] and not r["anlamli"], r
+    r = d.fark_kume(sifir, bir, ids, kume, n_boot=500)
+    assert r["fark"] == 1 and r["anlamli"] and r["a"] == 0 and r["b"] == 1, r
+    yari = {i: (j % 2) for j, i in enumerate(ids)}
+    r = d.fark_kume(sifir, yari, ids, kume, n_boot=2000)
+    assert abs(r["fark"] - sum(yari.values()) / len(ids)) < 1e-12 and r["ci95"][0] < r["fark"] < r["ci95"][1], r
+    print("fark_kume: tamam")
+
     # 4) kilitli koruma
     kilitli_sorular = d.yukle_sorular(kilitli=True)
     try:
