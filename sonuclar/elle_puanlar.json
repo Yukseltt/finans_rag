@@ -1,0 +1,776 @@
+{
+  "puanlayan": "kullanici",
+  "tarih": "2026-10-04",
+  "kor": true,
+  "n": 128,
+  "puanlar": [
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "kismen"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "kismen"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "kismen"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "kismen"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "kismen"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "kismen"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "kismen"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k2",
+      "puan": "dogru"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.8-flash",
+      "kosul": "k0",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c300",
+      "puan": "yanlis"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.8-flash",
+      "kosul": "k2",
+      "puan": "dogru"
+    }
+  ]
+}

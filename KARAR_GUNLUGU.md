@@ -28,7 +28,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D3 | Deney 3: hibrit BM25 + dense | REDDEDİLDİ (H3, H3b) |
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
 | 13 | Vektör veritabanı | KAPANDI: Chroma; Deney 6b ile doğrulandı, K1'in ilk aşaması (yeniden açılmış koleksiyon) |
-| D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Geliştirme çalıştırması TAMAM (696 çağrı, 0 hata); H5a 1/2 ve H5c 0/2 (ölçütler sağlanmadı); 16 soru elle puanlama bekliyor; kilitli test yapılmadı |
+| D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Geliştirme TAMAM (99 soru, elle puanlar dahil): H5a 1/2, H5c 0/2 (ölçütler sağlanmadı, c200 kalır); kilitli test yapılmadı |
 | D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
@@ -1504,4 +1504,32 @@ denenebilir (prompt v2 donduruldu; değişiklik yeni sürüm ve tekrar çalışt
 **Sınırlar:** 83 (elle puanlama sonrası 99) soru, 21 şirket; H5a/H5c ölçütleri elle puanlanan 16 soruyla
 değişebilir; hüküm ve bazı anahtar-sayı puanlamaları kabadır; K0 yüksek çıktığı için ön-eğitim ezberi
 yorumu karıştırır; kilitli test yapılmadı.
+
+**SONUÇ, Deney 5 geliştirme, 99 soruun TAMAMI (elle puanlar dahil; 2026-10-04)**
+
+16 soru (7 serbest metin + 9 anahtar sayısı çıkarılamayan gold) **kullanıcı tarafından kör ve karışık** puanlandı
+(`src/puanlama_sayfasi.py`: 128 cevap, soru başına 8 cevap A-H, model/koşul/`Sources` satırı gizli, soru sırası
+karışık; `src/elle_puan_ice_aktar.py` ile eşlendi). Puan dağılımı: **84 doğru, 37 yanlış, 7 kısmen**. "Kısmen" ana
+analizde **yanlış** (sıkı), ayrıca **doğru** (yumuşak) sayılarak iki kez raporlandı.
+
+**Doğruluk, 99 soru (sıkı / yumuşak):**
+
+| Okuyucu | K0 kapalı kitap | K1-c200 | K1-c300 | K2 oracle |
+|---|---|---|---|---|
+| gemini-3.5-flash-lite | 0,323 / 0,353 | 0,485 / 0,495 | 0,465 / 0,475 | 0,768 / 0,768 |
+| gemini-3.8-flash | 0,545 / 0,556 | 0,566 / 0,566 | 0,556 / 0,566 | 0,818 / 0,818 |
+
+**Hipotezler (sıkı; eşleştirilmiş şirket-kümeli bootstrap, %95; `*` anlamlı):**
+
+| Hipotez | flash-lite | 3.8-flash | Ölçüt |
+|---|---|---|---|
+| H5a K1-c200 − K0 | +0,162 [+0,052; +0,291] * | +0,020 [-0,078; +0,120] | 1/2, **sağlanmadı** |
+| H5b K2 − K1-c200 | +0,283 [+0,202; +0,359] * | +0,253 [+0,148; +0,357] * | ayrıştırma |
+| H5c K1-c300 − K1-c200 | -0,020 [-0,096; +0,062] | -0,010 [-0,108; +0,099] | 0/2, **sağlanmadı: c200 kalır** |
+
+Yumuşak analizde sonuç aynı: H5a +0,141 * / +0,010; H5c -0,020 / 0,000; ölçütler yine sağlanmadı.
+**Sonuç, 83 otomatik soruya göre verilen önceki sonuçlarla aynıdır ve puanlama biçimine (sıkı/yumuşak)
+dayanıklıdır.** c300, 99 soruda c200'den anlamlı biçimde iyi değildir (farklar hafif negatif); **c200 kesin
+olarak kalır.** H5a yalnızca zayıf okuyucuda doğrulandı; güçlü okuyucuda retrieval cevap doğruluğunu net
+artırmadı (+0,020). Retrieval kaybı (oracle farkı) iki okuyucuda anlamlı ve büyük (+0,25-0,28).
 
