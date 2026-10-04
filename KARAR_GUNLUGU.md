@@ -1797,3 +1797,35 @@ geliştirme sonuçları kilitli testte doğrulanmalıdır (çoklu müdahale iyim
 cevaplarının 22/96'sında v3'ün talimat verdiği "The passages do not contain this." cümlesi görünür; metne müdahale edilmedi,
 bu körlüğü kısmen zayıflatır ve raporda sınırlılık olarak belirtilir.
 
+## Karar 10 revizesi 2 — yargıç model (2026-10-04) — ÖN KAYIT, çalıştırılmadan yazıldı
+
+**Neden:** Deney 8 ve 9'un son 16 serbest metin sorusunda 96 yeni cevabın elle puanlanması gerekiyor. Kullanıcı, okuyucu olmayan iyi
+bir Gemini modelinin yargıç olmasını istedi. Yargıç, kullanıcının ilk tur puanlarına (128 cevap) karşı kalibre edilir.
+
+**Yargıç:** `gemini-3.7-flash` (okuyucu değil). Düşünme ayarı varsayılan. temperature 0, seed 0, max_output_tokens 4096.
+Prompt `src/yargic_gemini.py` içinde (SISTEM + KULLANICI). Yargıç model adını, koşulu ve kaynak listesini görmez.
+Prompt, çalıştırmadan önce bu commit ile donar. Çalıştırmadan sonra değişmez.
+
+**Maliyet ölçümü (8 çağrı, 0,29 TL):** çağrı başına ~106 düşünme tokeni, 3 çıktı tokeni. 192 çağrı için tahmin ~7 TL
+(üst sınır 10 TL). Kullanıcı bu maliyeti onayladı. Bu 8 çağrının sonucu (8/8 uyum) kalibrasyona dahildir, ayrıca sayılmaz.
+
+**Öğeler (192):** 128 kalibrasyon (K0, K1-c200, K1-c300, K2 × 2 okuyucu × 16 soru; kullanıcının puanı var) + 64 yeni
+(K1-R2 v2 ve v3 × 2 okuyucu × 16 soru).
+
+**Başarı ölçütleri (kalibrasyon, 128 öğe; hepsi sağlanmalı):**
+1. İkili sıkı uyum (doğru ve diğerleri) ≥ %90.
+2. Her okuyucu modelde ikili sıkı uyum ≥ %80, her koşulda (K0, K1-c200, K1-c300, K2) ≥ %80.
+3. Yargıç, doğru/yanlış yönünde sistematik bir okuyucuyu kayırmamalı: iki okuyucu için "yargıç doğru oranı − insan doğru oranı"
+   farkının mutlak değeri ≤ 0,05.
+4. Ayrıştırılamayan yanıt sayısı = 0 (en fazla 1 yeniden deneme; sonra hata sayılır).
+Üç sınıflı uyum (doğru/kısmen/yanlış) ve karışıklık matrisi de raporlanır; ölçüt değildir.
+
+**Geçerse:** 64 yeni cevabın puanı yargıçtan alınır. K1-c200 cevapları kalibrasyondaki yargıç puanını kullanır, ama
+kullanıcının ilk tur puanı varken önceliği kullanıcıya ver: 128 cevap için puan = kullanıcı puanı, 64 yeni cevap için puan = yargıç.
+Raporda "64 cevap yargıç puanlı" açıkça yazılır.
+**Kalırsa:** sonuç olduğu gibi raporlanır. Kullanıcı `puanlama_d9.html` (96 cevap) dosyasını elle puanlar.
+Yargıç prompt'u sonuca göre ayarlanmaz (ayarlama = kalibrasyon kümesine uydurma). Gerekirse yeni bir ön kayıt açılır.
+
+**Sınırlar:** Yargıç ve okuyucular aynı model ailesinden; benzer hatalar paylaşılabilir. Kalibrasyon yalnızca tek bir insan
+puanlayıcıya karşıdır. Yargıç puanlı 64 cevap raporda ayrı işaretlenir.
+
