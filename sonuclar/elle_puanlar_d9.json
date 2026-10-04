@@ -1,0 +1,680 @@
+{
+  "puanlayan": "karisik: k1_c200=kullanici (tur 1); k1_r2 ve k1_r2_v3=yargic gemini-3.7-flash (Karar 10 revizesi 2)",
+  "tarih": "2026-10-04",
+  "kor": true,
+  "n": 96,
+  "puanlar": [
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "yanlis",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "yanlis",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "yanlis",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "kismen",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_c200",
+      "puan": "yanlis",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "dogru",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_c200",
+      "puan": "yanlis",
+      "kaynak": "kullanici"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.5-flash-lite",
+      "kosul": "k1_r2_v3",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00563",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00669",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00724",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00917",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_00995",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01077",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01148",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01163",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01198",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01279",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01488",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01911",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "yanlis",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01928",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01930",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "dogru",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_01935",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    },
+    {
+      "id": "financebench_id_02416",
+      "model": "gemini-3.8-flash",
+      "kosul": "k1_r2_v3",
+      "puan": "kismen",
+      "kaynak": "yargic"
+    }
+  ]
+}

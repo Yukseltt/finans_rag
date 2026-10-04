@@ -30,8 +30,8 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | 13 | Vektör veritabanı | KAPANDI: Chroma; Deney 6b ile doğrulandı, K1'in ilk aşaması (yeniden açılmış koleksiyon) |
 | D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Geliştirme TAMAM (99 soru, elle puanlar dahil): H5a 1/2, H5c 0/2 (ölçütler sağlanmadı, c200 kalır); kilitli test yapılmadı |
 | D7 | Deney 7: belge yönlendirme (şirket/yıl), retrieval düzeyi | TAMAMLANDI: H7 DESTEKLENDİ (R2 benimsendi; Recall@1000w 0,409 → 0,504) |
-| D8 | Deney 8: belge yönlendirmenin cevap doğruluğuna etkisi | Çalıştırıldı (198 çağrı); GEÇİCİ sonuç (83 otomatik soru): H8a 0/2, H8b 1/2; kesin sonuç elle puanlama sonrası |
-| D9 | Deney 9: prompt v3 (bağlam yetmezse kendi bilgisiyle cevapla) | Çalıştırıldı (198 çağrı); GEÇİCİ (83 otomatik soru): H9a ölçütü sağlandı; kesin sonuç elle puanlama (96 cevap) sonrası |
+| D8 | Deney 8: belge yönlendirmenin cevap doğruluğuna etkisi | TAMAM (99 soru, yargıç kalibreli): H8a 0/2, H8b 1/2, ölçütler SAĞLANMADI |
+| D9 | Deney 9: prompt v3 (bağlam yetmezse kendi bilgisiyle cevapla) | TAMAM (99 soru, yargıç kalibreli): H9a SAĞLANDI |
 | D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
@@ -1828,4 +1828,45 @@ Yargıç prompt'u sonuca göre ayarlanmaz (ayarlama = kalibrasyon kümesine uydu
 
 **Sınırlar:** Yargıç ve okuyucular aynı model ailesinden; benzer hatalar paylaşılabilir. Kalibrasyon yalnızca tek bir insan
 puanlayıcıya karşıdır. Yargıç puanlı 64 cevap raporda ayrı işaretlenir.
+
+**SONUÇ, yargıç kalibrasyonu (2026-10-04; `data/islenmis/cevaplar/yargic/`)**
+
+192 çağrı, 0 hata, 0 ayrıştırılamayan yanıt. Bu çalıştırma 6,81 TL (8 çağrılık ölçüm dahil toplam ~7,1 TL). **Toplam harcama 191,16 TL / 350 TL.**
+
+| Ölçüt | Sonuç | Eşik | |
+|---|---|---|---|
+| 1. İkili sıkı uyum (128) | **0,945** | ≥ 0,90 | geçti |
+| 2. Okuyucu bazında uyum | flash-lite 0,922; 3.8-flash 0,969 | ≥ 0,80 | geçti |
+| 2. Koşul bazında uyum | K0 0,938; K1-c200 0,938; K1-c300 0,906; K2 1,000 | ≥ 0,80 | geçti |
+| 3. Kayırma (yargıç − insan doğru oranı) | flash-lite −0,047; 3.8-flash −0,031 | \|fark\| ≤ 0,05 | geçti (flash-lite sınıra yakın) |
+| 4. Ayrıştırılamayan yanıt | 0 | 0 | geçti |
+
+Üç sınıflı uyum 0,906. Yargıç hafif **katıdır**: insan "doğru" dediği 5 cevaba "kısmen", 1 cevaba "yanlış" dedi; insan "yanlış" dediği 4 cevaba "kısmen" dedi.
+Doğru ↔ yanlış çelişkisi yalnızca 1 cevap. **Yargıç geçti.** 64 yeni cevap (K1-R2 v2/v3) yargıç puanlıdır: 38 doğru, 13 kısmen, 13 yanlış.
+`sonuclar/elle_puanlar_d9.json` bu karışık kaynakla yazıldı (K1-c200 = kullanıcı tur 1; K1-R2 = yargıç; her kayıtta `kaynak` alanı var).
+Test-tekrar uyumu (kullanıcı ikinci tur) hesaplanmadı; yargıç kalibrasyonu onun yerine geçti.
+
+**NİHAİ SONUÇ, Deney 9 (99 soru, şirket-kümeli bootstrap, %95)**
+
+| Okuyucu | K0 | K1-c200 | K1-R2 (v2) | **K1-R2 (v3)** | K2 oracle |
+|---|---|---|---|---|---|
+| gemini-3.5-flash-lite | 0,323 | 0,485 | 0,525 | **0,576** | 0,768 |
+| gemini-3.8-flash | 0,545 | 0,566 | 0,586 | **0,667** | 0,818 |
+
+- **H9a (V3 − V2): SAĞLANDI.** 3.8-flash +0,081 [+0,034; +0,132] anlamlı. flash-lite +0,051 [0,000; +0,116] anlamlı değil, negatif de değil. Yumuşak puanlamada aynı sonuç (+0,081 / +0,061).
+- V3 − K1-c200 (başlangıç hattı): +0,091 [+0,033; +0,156] ve +0,101 [+0,022; +0,180]. İki okuyucuda anlamlı.
+- V3 − K0: +0,253 ve +0,121, ikisi anlamlı. K2 − V3 (kalan boşluk): +0,192 ve +0,152, anlamlı.
+- H9b: 3.8-flash, "kanıt bağlamda yok" grubunda 0,42 → 0,56 (K0 = 0,51); "kanıt var" grubunda 0,71 → 0,75. Kayıp yok.
+- H9c: uydurma atıf yok (bağlamda = 1,00, tüm koşullar).
+
+**NİHAİ SONUÇ, Deney 8 (99 soru)**
+
+- H8a (K1-R2 − K1-c200): flash-lite +0,040 [−0,024; +0,103]; 3.8-flash +0,020 [−0,069; +0,099]. **0/2 anlamlı: ölçüt SAĞLANMADI.**
+- H8b (K1-R2 − K0): flash-lite +0,202 anlamlı; 3.8-flash +0,040 anlamlı değil. **1/2: ölçüt SAĞLANMADI.**
+- H8c: K2 − K1-R2 = +0,242 ve +0,232, anlamlı. Kalan boşluk büyük; darboğaz hâlâ doğru sayfayı bulmak.
+- Yumuşak puanlamada aynı sonuç.
+- **Sonuç:** Yönlendirme (R2) yalnız başına cevap doğruluğunu anlamlı artırmadı (retrieval'da kazanç vardı, Deney 7). Kazanç prompt v3 ile birlikte geldi.
+
+**Sınırlar:** 64 cevap yargıç puanlı (kalibrasyonda %94,5 uyum, hafif katı). Yargıç ve okuyucu aynı model ailesinden. Tek insan puanlayıcı.
+Aynı geliştirme kümesinde üç müdahale denendi; kilitli testte doğrulanmalı. Kilitli test yapılmadı.
 
