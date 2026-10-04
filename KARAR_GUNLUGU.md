@@ -30,7 +30,8 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | 13 | Vektör veritabanı | KAPANDI: Chroma; Deney 6b ile doğrulandı, K1'in ilk aşaması (yeniden açılmış koleksiyon) |
 | D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Geliştirme TAMAM (99 soru, elle puanlar dahil): H5a 1/2, H5c 0/2 (ölçütler sağlanmadı, c200 kalır); kilitli test yapılmadı |
 | D7 | Deney 7: belge yönlendirme (şirket/yıl), retrieval düzeyi | TAMAMLANDI: H7 DESTEKLENDİ (R2 benimsendi; Recall@1000w 0,409 → 0,504) |
-| D8 | Deney 8: belge yönlendirmenin cevap doğruluğuna etkisi | ÖN KAYIT YAZILDI, çalıştırılmadı |
+| D8 | Deney 8: belge yönlendirmenin cevap doğruluğuna etkisi | Çalıştırıldı (198 çağrı); GEÇİCİ sonuç (83 otomatik soru): H8a 0/2, H8b 1/2; kesin sonuç elle puanlama sonrası |
+| D9 | Deney 9: prompt v3 (bağlam yetmezse kendi bilgisiyle cevapla) | ÖN KAYIT YAZILDI, çalıştırılmadı |
 | D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
@@ -1671,5 +1672,84 @@ beklerim. Ölçüt bu tahmine göre değil sabit eşiğe göre değerlendirilir.
 **Maliyet:** 99 soru × 2 okuyucu = 198 yeni çağrı; tahmini flash-lite ~6 TL + 3.8-flash ~32 TL ≈ 38 TL;
 geliştirme toplamı ~150 TL (harcanan 112,29 TL), tavan 350 TL.
 
+**Kilitli test bu deneyde KULLANILMAZ.**
+
+**GEÇİCİ SONUÇ, Deney 8 (2026-10-04; `src/deney8_olc.py`; yalnızca 83 otomatik puanlanan soru, elle puanlanacak 16 soru HENÜZ DAHİL DEĞİL)**
+
+198 çağrı (99 soru × 2 okuyucu), 0 hata, 33,1 TL; toplam harcama 145,40 TL / 350 TL. K1-R2 bağlamlarında kanıt sayfası
+olan soru oranı 0,566 (Deney 7 ile aynı).
+
+| Okuyucu | K0 | K1-c200 | **K1-R2** | K2 oracle |
+|---|---|---|---|---|
+| gemini-3.5-flash-lite | 25/83 = 0,301 | 37/83 = 0,446 | **43/83 = 0,518** | 61/83 = 0,735 |
+| gemini-3.8-flash | 44/83 = 0,530 | 45/83 = 0,542 | **49/83 = 0,590** | 66/83 = 0,795 |
+
+| Hipotez | flash-lite | 3.8-flash | Ölçüt |
+|---|---|---|---|
+| H8a K1-R2 − K1-c200 | +0,072 [-0,011; +0,145] | +0,048 [-0,039; +0,116] | 0/2, **sağlanmadı** |
+| H8b K1-R2 − K0 | **+0,217 [+0,082; +0,365] \*** | +0,060 [-0,018; +0,148] | 1/2, **sağlanmadı** |
+| H8c K2 − K1-R2 | +0,217 * | +0,205 * | ayrıştırma |
+
+Ön kayıttaki tahmin ("2/2 çok olası değil; etki ~+3-5 puan") doğrulandı: **iki okuyucuda da yön pozitif ve tutarlı
+(+5/+7 puan) ama aralıklar sıfırı içeriyor**; 99 soruyla ~5 puanlık bir etkiyi ayırt etmek zor.
+
+**Tanı (post hoc; kanıt sayfası bağlamda olan / olmayan sorularda K1 doğruluğu):**
+
+| 3.8-flash | VAR (soru) | YOK (soru) | Kapalı kitap (VAR / YOK) |
+|---|---|---|---|
+| K1-c200 | 41 soru: 0,66 | 42 soru: 0,43 | 0,49 / 0,57 |
+| **K1-R2** | **49 soru: 0,71** | 34 soru: 0,41 | 0,51 / **0,56** |
+
+Yönlendirme, kanıtın bağlamda olduğu soru sayısını 41 → 49'a çıkardı ve o gruptaki doğruluğu artırdı (0,66 → 0,71);
+atıf isabeti 0,42 → 0,48'e yükseldi ve "atıf yok" oranı düştü. **Ama kanıt bağlamda olmayan 34 soruda güçlü okuyucu
+kapalı kitaptan hâlâ kötü (0,41 vs 0,56):** prompt "yalnızca bağlamı kullan" dediği için model kendi bilgisine
+dönmüyor; bu sorunu yönlendirme çözmedi, prompt ele almalı (Deney 9).
+
+---
+
+## Deney 9: Prompt v3, "bağlam yetmezse kendi bilginle cevapla" — ÖN KAYIT, ÇALIŞTIRILMADI
+
+**Sonuçlardan ÖNCE yazıldı (2026-10-04).** Hiçbir v3 isteği üretilmedi, hiçbir çağrı yapılmadı.
+
+**Gözlem:** Deney 5 ve 8: kanıt sayfası bağlamda **olmadığında** güçlü okuyucu (3.8-flash) kapalı kitaptan **kötü** (K1-R2:
+0,41 vs K0: 0,56; 34 soru) ve K1 cevaplarının ~%46'sında "bağlam bilgi içermiyor" benzeri ifade var.
+
+**Müdahale (tek değişken: bağlamlı prompt'un tek bir talimat maddesi).** Prompt **v3**, v2'den yalnızca şu maddeyle farklıdır
+(sistem mesajı, ortak talimat, çıktı biçimi, kapalı kitap şablonu, bağlam ve etiketler **birebir aynı**):
+
+- v2: `- Use ONLY the information in the passages above. If they do not contain what is needed, say so briefly and give your best answer anyway.`
+- **v3:** `- Use the passages above as your primary source. If they do not contain what is needed, say so briefly (begin your reasoning with "The passages do not contain this."), then answer from your own knowledge of the company and its filings and give your best estimate.`
+
+Bağlam **K1-R2** (Deney 8) ile aynıdır; iki okuyucu ve tüm API ayarları aynıdır. Karşılaştırma referansı Deney 8'deki
+**K1-R2 (v2)** yanıtlarıdır.
+
+**Pilot (yalnızca biçim):** 12 pilot sorusu × 2 okuyucu (K1-R2-V3); `Final answer`/`Sources` ayrıştırılabilirliği, boş yanıt,
+ve "The passages do not contain this." ifadesinin sıklığı. Pilotta doğruluğa göre prompt ayarlanmaz; biçim hatası
+varsa v3 yalnızca biçim gerekçesiyle değiştirilir (v3 tam çalıştırılmadan donmaz); pilot sonrası **v3 dondurulur**.
+
+**Puanlama:** 99 soru (otomatik + elle). Elle puanlanacak 16 soru için **tek tur, 96 cevap, kör ve karışık:** K1-c200 +
+K1-R2 (v2) + K1-R2 (v3), her biri × 2 okuyucu. Bu tur Deney 8'in elle bölümünü de kapsar (K1-c200 daha önce
+puanlandığından test-tekrar tutarlılığı ölçülür).
+
+**Hipotezler ve ölçütler** (eşleştirilmiş şirket-kümeli bootstrap, 10.000 tekrar, %95):
+
+- **H9a:** K1-R2-V3 doğruluğu K1-R2-V2'den yüksektir. **Ölçüt:** güçlü okuyucuda (3.8-flash) **anlamlı pozitif** VE zayıf
+  okuyucuda (flash-lite) **anlamlı negatif değil**. (Zayıf okuyucunun kendi bilgisi az olduğundan kazanç beklenmez;
+  ama kaybetmemesi gerekir.)
+- **H9b (tanı, ölçütsüz):** kanıt bağlamda **olmayan** sorularda v3 doğruluğu kapalı kitaba ulaşıyor mu (3.8-flash:
+  0,41 vs 0,56)? kanıt bağlamda **olan** sorularda v3 kayıp yaratıyor mu?
+- **H9c (dayanak/atıf, ölçütsüz):** v3 modeli kendi bilgisiyle cevaplamaya yöneltir; bu **dayanaklılık** (atıf) pahasına
+  olabilir. Raporlanacak: "bağlam yok" ifadesinin oranı, "Sources: none" oranı, atıf isabeti, bağlamda olmayan sayfa
+  atfı (uydurma atıf) oranı.
+
+**Açık beklenti (tahmin, ölçülmedi):** 3.8-flash'ta +4-8 puan (kazanç ağırlıkla "kanıt yok" alt grubunda), flash-lite'ta
+~0 (bilgisi az); 99 soruyla anlamlılığın sınırda olmasını bekliyorum, yani H9a ölçütü ~yarı yarıya. Ölçüt bu tahmine
+göre değil sabit eşiğe göre değerlendirilir.
+
+**Gerilim (önceden):** v3 doğruluğu artırsa bile cevabın bağlama **dayanmasını** azaltabilir (RAG'ın amacı kaynaklı
+cevap). Karar yalnızca doğruluğa göre değil, dayanaklılığa da bakılarak verilir; ikisi birlikte raporlanır ve
+final sistem tanımında v3 benimsenirse bu bedel açıkça belirtilir.
+
+**Maliyet:** pilot 24 çağrı ~5 TL + tam 198 çağrı ~33 TL ≈ 38 TL; toplam harcama ~183 TL (harcanan 145,40), tavan 350 TL.
 **Kilitli test bu deneyde KULLANILMAZ.**
 

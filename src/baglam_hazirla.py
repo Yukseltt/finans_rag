@@ -70,21 +70,45 @@ Instructions:
 Final answer: <your answer>"""
 
 
-def sablon_ozeti():
-    veri = {"surum": PROMPT_SURUM, "sistem": SISTEM, "kullanici_baglamli": KULLANICI_BAGLAMLI,
-            "kullanici_kapali": KULLANICI_KAPALI, "butce_kelime": BUTCE_KELIME}
+# Prompt v3 (Deney 9): v2'den YALNIZCA su madde farkli. v2: "yalnizca baglami kullan"; v3: baglam birincil kaynak,
+# yetmezse bunu belirt ve modelin kendi bilgisiyle cevapla. Diger her sey (sistem mesaji, ortak talimat, cikti
+# bicimi, kapali kitap sablonu) v2 ile birebir ayni.
+_V2_MADDE = "- Use ONLY the information in the passages above. If they do not contain what is needed, say so briefly and give your best answer anyway.\n"
+_V3_MADDE = ("- Use the passages above as your primary source. If they do not contain what is needed, say so briefly "
+             "(begin your reasoning with \"The passages do not contain this.\"), then answer from your own knowledge of the "
+             "company and its filings and give your best estimate.\n")
+assert _V2_MADDE in KULLANICI_BAGLAMLI
+KULLANICI_BAGLAMLI_V3 = KULLANICI_BAGLAMLI.replace(_V2_MADDE, _V3_MADDE)
+
+
+def sablon(surum=None):
+    # (sistem, baglamli, kapali) sablonlari; modul sabitleri cagri aninda okunur
+    surum = surum or PROMPT_SURUM
+    if surum == "v2":
+        return SISTEM, KULLANICI_BAGLAMLI, KULLANICI_KAPALI
+    if surum == "v3":
+        return SISTEM, KULLANICI_BAGLAMLI_V3, KULLANICI_KAPALI
+    raise ValueError(f"bilinmeyen prompt surumu: {surum}")
+
+
+def sablon_ozeti(surum=None):
+    surum = surum or PROMPT_SURUM
+    sistem, baglamli, kapali = sablon(surum)
+    veri = {"surum": surum, "sistem": sistem, "kullanici_baglamli": baglamli,
+            "kullanici_kapali": kapali, "butce_kelime": BUTCE_KELIME}
     veri["sha256"] = hashlib.sha256(json.dumps(veri, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()
     return veri
 
 
-def sablonu_dondur(yol=None):
+def sablonu_dondur(yol=None, surum=None):
     # Ayni surum numarasi ile farkli sablon yazilmasini engeller (prompt dondurma kurali).
-    yol = yol or (KOK / "sonuclar" / f"prompt_{PROMPT_SURUM}.json")
-    yeni = sablon_ozeti()
+    surum = surum or PROMPT_SURUM
+    yol = yol or (KOK / "sonuclar" / f"prompt_{surum}.json")
+    yeni = sablon_ozeti(surum)
     if yol.exists():
         eski = json.load(open(yol, encoding="utf-8"))
         if eski["sha256"] != yeni["sha256"]:
-            raise SystemExit(f"prompt sablonu {PROMPT_SURUM} donduruldu ama degisti; yeni surum numarasi gerekir "
+            raise SystemExit(f"prompt sablonu {surum} donduruldu ama degisti; yeni surum numarasi gerekir "
                              f"(eski {eski['sha256'][:12]}, yeni {yeni['sha256'][:12]})")
     else:
         yol.write_text(json.dumps(yeni, indent=2, ensure_ascii=False), encoding="utf-8")
@@ -132,12 +156,14 @@ def baglam_k2(soru, onbellek):
     return "\n\n".join(bloklar), [(doc, sayfa) for doc, sayfa in sayfalar], kelime
 
 
-def istek(soru, kosul, baglam=None):
+def istek(soru, kosul, baglam=None, surum=None):
+    surum = surum or PROMPT_SURUM
+    sistem, baglamli, kapali = sablon(surum)
     if baglam is None:
-        kullanici = KULLANICI_KAPALI.replace("{SORU}", soru["soru"])
+        kullanici = kapali.replace("{SORU}", soru["soru"])
     else:
-        kullanici = KULLANICI_BAGLAMLI.replace("{BAGLAM}", baglam).replace("{SORU}", soru["soru"])
-    return {"id": soru["id"], "kosul": kosul, "prompt_surum": PROMPT_SURUM, "sistem": SISTEM, "kullanici": kullanici}
+        kullanici = baglamli.replace("{BAGLAM}", baglam).replace("{SORU}", soru["soru"])
+    return {"id": soru["id"], "kosul": kosul, "prompt_surum": surum, "sistem": sistem, "kullanici": kullanici}
 
 
 def pilot_idleri(sorular):
@@ -166,19 +192,20 @@ def chroma_siralama(sorular):
     return {s["id"]: depo.ara(Q[i], 100) for i, s in enumerate(sorular)}
 
 
-def r2_uret():
-    # Deney 8: K1-R2 istekleri. Baglam, Deney 7'nin belge yonlendirmeli (R2) reranker siralamasindan; kural ve prompt
+def r2_uret(surum="v2"):
+    # Deney 8 (v2) ve Deney 9 (v3): K1-R2 istekleri. Baglam, Deney 7'nin belge yonlendirmeli (R2) reranker siralamasindan; kural ve prompt
     # K1 ile ayni. Siralama dosyasi: data/islenmis/siralamalar/yonlendirme_e5_R2_rerank_ortak.json (deney7_yonlendirme.py).
     sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
-    sablonu_dondur()
+    sablonu_dondur(surum=surum)
     bilgi = d.yukle_chunk_bilgi()
     sirali = json.load(open(SIRA / "yonlendirme_e5_R2_rerank_ortak.json", encoding="utf-8"))
+    ad = "k1_r2" if surum == "v2" else f"k1_r2_{surum}"
     ISTEK_KLASORU.mkdir(parents=True, exist_ok=True)
     kelimeler, gold_var, oran = [], [], []
-    with open(ISTEK_KLASORU / "k1_r2.jsonl", "w", encoding="utf-8") as f:
+    with open(ISTEK_KLASORU / f"{ad}.jsonl", "w", encoding="utf-8") as f:
         for s in sorular:
             metin, alinan = baglam_k1(sirali[s["id"]], bilgi)
-            r = istek(s, "K1-R2", metin)
+            r = istek(s, "K1-R2" if surum == "v2" else f"K1-R2-{surum.upper()}", metin, surum=surum)
             r.update({"baglam_kelime": sum(a[2] for a in alinan), "baglam_sayfalar": [[a[0], a[1]] for a in alinan]})
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
             gold = {(k["doc"], k["sayfa"]) for k in s["kanitlar"]}
@@ -186,13 +213,14 @@ def r2_uret():
             kelimeler.append(r["baglam_kelime"])
             gold_var.append(bool(gold & bag))
             oran.append(len(gold & bag) / len(gold))
-    print(f"k1_r2: {len(sorular)} istek | baglam kelime medyan {statistics.median(kelimeler):.0f} (maks {max(kelimeler)}) | "
+    print(f"{ad}: {len(sorular)} istek | baglam kelime medyan {statistics.median(kelimeler):.0f} (maks {max(kelimeler)}) | "
           f">=1 gold sayfa var {sum(gold_var) / len(gold_var):.3f} | kanit orani {sum(oran) / len(oran):.3f}")
 
 
 def main():
     if "--r2" in sys.argv:
-        return r2_uret()
+        surum = sys.argv[sys.argv.index("--surum") + 1] if "--surum" in sys.argv else "v2"
+        return r2_uret(surum)
     sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
     sablon = sablonu_dondur()
     print(f"prompt {sablon['surum']} sha256 {sablon['sha256'][:16]}... (dondurulmus: sonuclar/prompt_{PROMPT_SURUM}.json)")

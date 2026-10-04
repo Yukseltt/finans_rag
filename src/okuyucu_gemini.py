@@ -63,14 +63,13 @@ def istek_hash(istek, model):
 
 
 def promptu_dogrula(istekler):
-    # donmus sablon dosyasi ile kodun sablonu ayni mi, ve istekler o surumle mi uretilmis
-    yol = KOK / "sonuclar" / f"prompt_{bh.PROMPT_SURUM}.json"
-    dondurulmus = json.load(open(yol, encoding="utf-8"))
-    if dondurulmus["sha256"] != bh.sablon_ozeti()["sha256"]:
-        raise SystemExit("prompt sablonu donduruldugundan farkli; cagri yapilmaz")
-    yanlis = [r["id"] for r in istekler if r["prompt_surum"] != bh.PROMPT_SURUM]
-    if yanlis:
-        raise SystemExit(f"istekler baska bir prompt surumuyle uretilmis: {yanlis[:3]}...; baglam_hazirla.py'yi calistirin")
+    # Her istegin kendi prompt surumu icin: donmus sablon dosyasi var mi ve kodun o surumun sablonuyla ayni mi
+    for surum in sorted({r["prompt_surum"] for r in istekler}):
+        yol = KOK / "sonuclar" / f"prompt_{surum}.json"
+        if not yol.exists():
+            raise SystemExit(f"prompt {surum} dondurulmamis ({yol.name} yok); baglam_hazirla.py calistirilmali")
+        if json.load(open(yol, encoding="utf-8"))["sha256"] != bh.sablon_ozeti(surum)["sha256"]:
+            raise SystemExit(f"prompt sablonu {surum} donduruldugundan farkli; cagri yapilmaz")
 
 
 class Harcama:
@@ -200,7 +199,7 @@ def istekleri_yukle(kosul, idler):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True, choices=list(FIYAT))
-    ap.add_argument("--kosul", required=True, choices=["k0", "k1_c200", "k1_c300", "k1_r2", "k2"])
+    ap.add_argument("--kosul", required=True, choices=["k0", "k1_c200", "k1_c300", "k1_r2", "k1_r2_v3", "k2"])
     ap.add_argument("--idler", default="pilot", help="pilot | hepsi | virgullu id listesi")
     ap.add_argument("--onayla", action="store_true", help="gercek cagrilari yap (yoksa kuru calisma)")
     ap.add_argument("--tahmini-cikti", type=int, default=800, help="kuru calismada cagri basina tahmini cikti+dusunme tokeni")
