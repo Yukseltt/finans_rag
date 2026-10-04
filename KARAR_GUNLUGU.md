@@ -29,7 +29,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
 | 13 | Vektör veritabanı | KAPANDI: Chroma; Deney 6b ile doğrulandı, K1'in ilk aşaması (yeniden açılmış koleksiyon) |
 | D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Geliştirme TAMAM (99 soru, elle puanlar dahil): H5a 1/2, H5c 0/2 (ölçütler sağlanmadı, c200 kalır); kilitli test yapılmadı |
-| D7 | Deney 7: belge yönlendirme (şirket/yıl), retrieval düzeyi | ÖN KAYIT YAZILDI, çalıştırılmadı |
+| D7 | Deney 7: belge yönlendirme (şirket/yıl), retrieval düzeyi | TAMAMLANDI: H7 DESTEKLENDİ (R2 benimsendi; Recall@1000w 0,409 → 0,504) |
 | D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
@@ -1592,4 +1592,38 @@ değerlendirilir.
 kilitli testte bu kurallar **değiştirilmeden** uygulanır ve orası bağımsız bir sınamadır. (2) Deney retrieval
 düzeyindedir; cevap doğruluğuna etkisi ayrı deneyle (Deney 8) ölçülür. (3) Yönlendirmeli arama tam (exact) aramayla
 yapılır; Chroma'da `$in` filtresi doğrulanmadı, benimsenirse ayrı doğrulama (Deney 6c) gerekir.
+
+**SONUÇ, Deney 7 (2026-10-04; `src/yonlendirme.py`, `src/deney7_yonlendirme.py`; geliştirme, 99 soru, e5-base c200 + reranker derinlik 50)**
+
+Kurallar ölçümden önce commitlendi (`67a7055`) ve ön kayıtla birebir aynıdır (spec testleri `tests/test_yonlendirme.py`).
+
+| | R1 (şirketin tüm belgeleri) | R2 (şirket, y ve y+1 dönemleri) |
+|---|---|---|
+| Yönlendirilen soru (şirket bulundu) | 93 / 99 | 93 / 99 |
+| Gold şirket bulundu / yanlış şirket eşleşmesi | 93/93 / **0** | 93/93 / **0** |
+| **Yönlendirme isabeti** (gold belge aday kümede), tüm sorular | **1,000** | **0,980** |
+| Ortalama aday belge / chunk (yönlendirilenler) | 9,8 / 4.432 | **3,6 / 1.354** (360 belge / 163.543 chunk yerine) |
+| Recall@1000w, ilk aşama | 0,252 → 0,291 (+0,039) | 0,252 → 0,354 (+0,102) |
+| **Recall@1000w, reranker sonrası** | 0,409 → 0,441, **+0,031 [+0,008; +0,061] \*** | 0,409 → 0,504, **+0,094 [+0,028; +0,161] \*** |
+| Recall@5 (reranker sonrası) | 0,394 → 0,417 | 0,394 → 0,480 |
+| Gold sayfası ilk 1000 kelimede olan soru oranı | 0,485 → 0,525 | **0,485 → 0,566** |
+| Ön kayıtlı ölçüt (a) isabet ≥0,90 ve (b) alt sınır >0 | **sağlandı** | **sağlandı** |
+
+**Karar (ön kayıtlı kural): R2 benimsenir** (ikisi de ölçütü sağladı, R2 birincildir). Referanslar: mevcut hat 0,409,
+oracle tek belge tavanı 0,646; R2 aradaki 0,237'lik boşluğun ~%40'ını (0,095) kapattı. Kalan boşluk belge
+içinde doğru **sayfayı** bulmaktır (aday belge sayısı 360'tan ~3,6'ya inse de).
+
+**Yöntemin sınırları (tanılar):**
+
+- **Yıl penceresi sistematik olarak iki durumda gold belgeyi kaçırıyor (2 soru, isabet 0,980):** (1) ileriye
+  dönük soru: "FY2023'te JnJ'nin düzeltilmiş EPS büyümesi hızlanacak mı?" gold belge 2022 Q4 kazanç bildirimi
+  (dönem 2022, 2023 beklentisini içerir; pencere [2023, 2024]); (2) önceki yıl verisi: "Pfizer 2019…" gold belge
+  PFIZER_2021_10K (çok yıllı karşılaştırma içerir; pencere [2019, 2020]). Pencerenin y+1 ile sınırlı olması ön
+  kayıttaki bir tasarım tercihiydi; genişletmek geliştirme verisine uyarlama olurdu, yapılmadı.
+- **Şirketi bulunamayan 6 soru** (yönlendirme yok, mevcut hat): 4'ü yalnızca "MGM" (ön kayıtta öngörülen sınır:
+  otomatik varyantlar "MGM Resorts" adını bağlamaz), 2'si şirket adı hiç anmıyor ("board member nominees…").
+- **İyimserlik uyarısı:** kurallar yazılırken geliştirme sorularının ifadeleri görülmüştü; geliştirme isabeti
+  (93/93, sıfır yanlış eşleşme) bu yüzden iyimser olabilir. Kilitli testte kurallar **değiştirilmeden** uygulanacaktır.
+- Yönlendirmeli arama tam (exact) aramayla ölçüldü; Chroma'nın `$in` filtresi doğrulanmadı (benimsenirse
+  Deney 6c: aynı doğrulama protokolüyle). Cevap doğruluğuna etkisi henüz ölçülmedi (Deney 8).
 

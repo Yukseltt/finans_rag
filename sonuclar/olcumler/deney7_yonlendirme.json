@@ -1,0 +1,116 @@
+{
+  "tarih": "2026-10-04",
+  "kume": "gelistirme",
+  "rerank_yeni_cift": 1213,
+  "varyantlar": {
+    "R1": {
+      "yonlendirilen_soru": 93,
+      "sirket_bulunamayan_soru": 6,
+      "gold_sirket_bulundu_orani_yonlendirilenler": 1.0,
+      "yanlis_sirket_iceren_soru": 0,
+      "isabet_tum_sorular": 1.0,
+      "isabet_yonlendirilenler": 1.0,
+      "ort_aday_belge": 9.8,
+      "ort_aday_chunk": 4432,
+      "recall_butce_rerank": {
+        "metrik": "butce",
+        "a": 0.4094488188976378,
+        "b": 0.4409448818897638,
+        "fark": 0.031496062992125984,
+        "ci95": [
+          0.007633587786259555,
+          0.0608108108108108
+        ],
+        "anlamli": true
+      },
+      "recall5_rerank": {
+        "metrik": "recall@5",
+        "a": 0.3937007874015748,
+        "b": 0.41732283464566927,
+        "fark": 0.023622047244094446,
+        "ci95": [
+          0.0,
+          0.050724637681159424
+        ],
+        "anlamli": false
+      },
+      "recall_butce_ilk_asama": {
+        "metrik": "butce",
+        "a": 0.25196850393700787,
+        "b": 0.29133858267716534,
+        "fark": 0.039370078740157466,
+        "ci95": [
+          0.0078125,
+          0.07936507936507936
+        ],
+        "anlamli": true
+      },
+      "gold_baglamda_soru_orani": {
+        "mevcut": 0.485,
+        "yonlendirmeli": 0.525
+      },
+      "olcut": {
+        "a_isabet_ge_0.90": true,
+        "b_butce_alt_sinir_pozitif": true,
+        "saglandi": true
+      }
+    },
+    "R2": {
+      "yonlendirilen_soru": 93,
+      "sirket_bulunamayan_soru": 6,
+      "gold_sirket_bulundu_orani_yonlendirilenler": 1.0,
+      "yanlis_sirket_iceren_soru": 0,
+      "isabet_tum_sorular": 0.98,
+      "isabet_yonlendirilenler": 0.978,
+      "ort_aday_belge": 3.6,
+      "ort_aday_chunk": 1354,
+      "recall_butce_rerank": {
+        "metrik": "butce",
+        "a": 0.4094488188976378,
+        "b": 0.5039370078740157,
+        "fark": 0.09448818897637795,
+        "ci95": [
+          0.02777777777777779,
+          0.16101694915254244
+        ],
+        "anlamli": true
+      },
+      "recall5_rerank": {
+        "metrik": "recall@5",
+        "a": 0.3937007874015748,
+        "b": 0.48031496062992124,
+        "fark": 0.08661417322834641,
+        "ci95": [
+          0.024590163934426257,
+          0.14754098360655737
+        ],
+        "anlamli": true
+      },
+      "recall_butce_ilk_asama": {
+        "metrik": "butce",
+        "a": 0.25196850393700787,
+        "b": 0.3543307086614173,
+        "fark": 0.10236220472440943,
+        "ci95": [
+          0.043478260869565244,
+          0.16
+        ],
+        "anlamli": true
+      },
+      "gold_baglamda_soru_orani": {
+        "mevcut": 0.485,
+        "yonlendirmeli": 0.566
+      },
+      "olcut": {
+        "a_isabet_ge_0.90": true,
+        "b_butce_alt_sinir_pozitif": true,
+        "saglandi": true
+      }
+    }
+  },
+  "karar": "R2",
+  "referans": {
+    "mevcut_recall_butce_rerank": 0.4094,
+    "oracle_tek_belge_tavani": 0.6457
+  }
+}
