@@ -30,6 +30,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | 13 | Vektör veritabanı | KAPANDI: Chroma; Deney 6b ile doğrulandı, K1'in ilk aşaması (yeniden açılmış koleksiyon) |
 | D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Geliştirme TAMAM (99 soru, elle puanlar dahil): H5a 1/2, H5c 0/2 (ölçütler sağlanmadı, c200 kalır); kilitli test yapılmadı |
 | D7 | Deney 7: belge yönlendirme (şirket/yıl), retrieval düzeyi | TAMAMLANDI: H7 DESTEKLENDİ (R2 benimsendi; Recall@1000w 0,409 → 0,504) |
+| D8 | Deney 8: belge yönlendirmenin cevap doğruluğuna etkisi | ÖN KAYIT YAZILDI, çalıştırılmadı |
 | D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
@@ -1626,4 +1627,49 @@ içinde doğru **sayfayı** bulmaktır (aday belge sayısı 360'tan ~3,6'ya inse
   (93/93, sıfır yanlış eşleşme) bu yüzden iyimser olabilir. Kilitli testte kurallar **değiştirilmeden** uygulanacaktır.
 - Yönlendirmeli arama tam (exact) aramayla ölçüldü; Chroma'nın `$in` filtresi doğrulanmadı (benimsenirse
   Deney 6c: aynı doğrulama protokolüyle). Cevap doğruluğuna etkisi henüz ölçülmedi (Deney 8).
+
+---
+
+## Deney 8: Belge yönlendirmenin cevap doğruluğuna etkisi (cevap düzeyi) — ÖN KAYIT, ÇALIŞTIRILMADI
+
+**Sonuçlardan ÖNCE yazıldı (2026-10-04).** Hiçbir istek üretilmedi, hiçbir API çağrısı yapılmadı.
+
+**Gözlem:** Deney 7'de belge yönlendirme (R2) retrieval'ı iyileştirdi (Recall@1000w 0,409 → 0,504; kanıt sayfası
+bağlamda olan soru oranı 0,485 → 0,566). Deney 5'te doğru sayfa bağlamdayken RAG kapalı kitaptan çok iyi (+0,17 /
++0,36), değilken kapalı kitaptan kötüydü; net kazanç bu yüzden küçüktü (3.8-flash: +0,020). Soru: retrieval
+kazancı cevap doğruluğuna yansıyor mu?
+
+**Müdahale (tek değişken: bağlam).** Yeni koşul **K1-R2:** bağlam, Deney 7'deki R2 yönlendirmeli sıralamadan
+(şirket/yıl ile daraltılmış uzay, e5-base c200 tam arama, bge-reranker-v2-m3 derinlik 50) üretilir; aynı bağlam kuralı
+(ilk 1000 kelimede kesilir, `[belge: ..., sayfa: ...]` etiketleri). **Prompt v2 değişmez** (dondurulmuş), iki
+okuyucu (`gemini-3.5-flash-lite`, `gemini-3.8-flash`) ve tüm API ayarları Deney 5 ile aynıdır. Karşılaştırma
+referansları Deney 5'teki **K0** ve **K1-c200** yanıtlarıdır (aynı 99 soru). Yönlendirmeli arama tam (exact)
+aramayla yapıldı; Chroma `$in` filtresi doğrulanmadı.
+
+**Puanlama:** Deney 5 ile aynı (otomatik 83 soru; 16 soru elle). Elle puanlanacak 16 soru için **64 cevap, kör ve
+karışık:** K1-R2 × 2 okuyucu (32 yeni cevap) **ve K1-c200 × 2 okuyucu (32 cevap, daha önce puanlanmış)**. K1-c200'ün
+yeniden puanlanma nedeni: (1) yeni cevapları karşılaştırma koşuluyla aynı sayfada körlemesine puanlamak,
+(2) kullanıcının **test-tekrar tutarlılığını** ölçmek (aynı cevapların ilk puanla uyum oranı). İki puan arasında
+uyumsuzluk varsa raporlanır ve analiz iki puanla da yapılır.
+
+**Hipotezler ve ön kayıtlı ölçütler** (eşleştirilmiş şirket-kümeli bootstrap, 10.000 tekrar, %95; "anlamlı" =
+aralık 0'ı içermiyor):
+
+- **H8a:** K1-R2 doğruluğu K1-c200'den yüksektir. **Ölçüt:** iki okuyucuda da anlamlı pozitif (2/2).
+- **H8b:** K1-R2 doğruluğu K0'dan yüksektir (Deney 5'te H5a yalnızca 1/2 idi). **Ölçüt:** iki okuyucuda anlamlı
+  pozitif (2/2).
+- **H8c (ayrıştırma, ölçütsüz):** K2 − K1-R2 farkı; kanıt sayfası bağlamda olan/olmayan sorularda koşullu doğruluk
+  (post hoc tanı).
+
+**Açık beklenti (tahmin, ölçülmedi):** kanıt-bağlamda oranındaki +8 puanlık artışın cevap doğruluğuna ~+3-5 puan
+yansımasını bekliyorum; 99 soru ve küçük etki nedeniyle 2/2 anlamlılık ölçütünü geçmesini **çok olası görmüyorum**
+(özellikle güçlü okuyucuda, kapalı kitap tabanı yüksek olduğundan). Zayıf okuyucuda etkinin daha belirgin olmasını
+beklerim. Ölçüt bu tahmine göre değil sabit eşiğe göre değerlendirilir.
+
+**Çoklu karşılaştırma uyarısı:** iki hipotez × iki okuyucu = 4 karşılaştırma; ölçütler tutarlılık (2/2) arar.
+
+**Maliyet:** 99 soru × 2 okuyucu = 198 yeni çağrı; tahmini flash-lite ~6 TL + 3.8-flash ~32 TL ≈ 38 TL;
+geliştirme toplamı ~150 TL (harcanan 112,29 TL), tavan 350 TL.
+
+**Kilitli test bu deneyde KULLANILMAZ.**
 
