@@ -1925,3 +1925,37 @@ Ek koruma: bu çalıştırmada kilitli sorularda otomatik puanlanamayanlar (gold
 **Teknik düzeltme (2026-10-04, hiçbir kilitli sonuç görülmeden):** `kilitli_hazirla.py --kilitli` ilk çalıştırmada `data/islenmis/kilitli` klasörü yok diye hata verip durdu (klasör oluşturma eksikti). Tek satır eklendi. Hat, istek, prompt ve kural değişmedi.
 **Hazırlık sonucu (kilitli, ücretsiz):** 51 soru, 45'i yönlendirildi, 6'sı şirket bulunamadığı için global arama. 306 istek hazır. Gerçek girdi toplamı 444.946 token. Okuyucu maliyeti geliştirme ölçümünden ölçeklenerek ~43 TL, yargıç ~2 TL; tahmin ~45 TL (üst sınır 100 TL).
 
+## Karar 14 SONUCU: kilitli test (2026-10-04; 51 soru, 11 şirket; tek seferlik; `sonuclar/olcumler/kilitli_olc*.json`)
+
+Çalıştırma sorunsuz: 306 okuyucu çağrısı + 90 yargıç çağrısı, **0 hata**, kod/prompt/kural değişikliği yok. Okuyucu 44,5 TL, yargıç 3,7 TL.
+**Toplam harcama 239,35 TL / 350 TL.** Not: 306 cevabın **90'ı yargıçla** puanlandı (otomatik metrik puanlayamadı: serbest gold ve anahtar-sayısı boş gold); kalan 216 otomatik.
+
+**Doğruluk (SIKI, birincil; kısmen = yanlış)**
+
+| Okuyucu | K0 | **K1 (nihai sistem)** | K2 oracle |
+|---|---|---|---|
+| gemini-3.5-flash-lite | 22/51 = 0,431 | **32/51 = 0,627** | 33/51 = 0,647 |
+| gemini-3.8-flash | 32/51 = 0,627 | **39/51 = 0,765** | 43/51 = 0,843 |
+
+**HF1 (K1 − K0; şirket-kümeli bootstrap, %95): ön kayıtlı sonuç "KISMEN DESTEKLENDİ".**
+- flash-lite: +0,196 [+0,024; +0,356] → alt sınır > 0, desteklendi.
+- 3.8-flash: +0,137 [−0,024; +0,262] → alt sınır 0'ın altında, **desteklenmedi** (nokta tahmini pozitif, kanıt yetersiz).
+- Yumuşak (ikincil): +0,216 [+0,055; +0,364] ve +0,137 [+0,019; +0,230] → iki okuyucuda da alt sınır > 0. Ön kayıt birincil olarak sıkıyı belirlediği için resmi sonuç "kısmen"; yumuşak sonuç ikincil bilgidir.
+
+**HF2 (K2 − K1, betimsel):** flash-lite +0,020 [−0,070; +0,106]; 3.8-flash +0,078 [+0,019; +0,152]. Geliştirmedeki boşluk (+0,19 / +0,15) kilitlide çok daha küçük. Flash-lite'ta K1 ≈ K2.
+
+**HF3 (retrieval, nihai hat):** Recall@1000w **0,532** [0,421; 0,645] (geliştirme 0,504), Recall@5 0,484, MRR 0,365. Gold sayfa K1 bağlamında 31/51 soruda.
+
+**HF4 (geliştirme → kilitli, K1 sıkı):** flash-lite 0,576 → 0,627 (+0,051); 3.8-flash 0,667 → 0,765 (+0,098). **Beklenen iyimserlik düşüşü görülmedi;** kilitli sonuç geliştirmeden yüksek. Bunu "kilitlide sistem daha iyi" diye okumuyoruz: 51 soru ve 11 şirketle aralıklar geniş (K1 için kabaca ±0,13), kilitli küme geliştirmeden daha kolay veya farklı karışımda olabilir.
+
+**Tanı (kanıt sayfası K1 bağlamında VAR 31 / YOK 20):**
+flash-lite VAR: K0 0,39 → K1 0,68; YOK: 0,50 → 0,55. 3.8-flash VAR: 0,55 → 0,77; YOK: 0,75 → 0,75. Kazanç "kanıt VAR" sorularında. Küçük n; ayrıntıya güvenme.
+**Atıf:** bağlamda olmayan (uydurma) atıf yok (baglamda = 1,00 tüm koşullar). K1 atıf isabeti 0,49, kesinlik 0,40 / 0,51; atıf yok oranı 0,08 / 0,29.
+
+**Yorum (ön kayda uygun):**
+1. Nihai sistem (R2 + rerank + v3), kapalı kitaptan **sıkı ölçütte yalnız zayıf okuyucuda** anlamlı daha iyi. Güçlü okuyucuda yönü aynı ama kilitli testte kanıt yetersiz. Yumuşak ölçütte iki okuyucuda da anlamlı.
+2. K0 (kapalı kitap) 3.8-flash için kilitlide güçlü (0,627); bu, kazanç marjını küçültüyor. Kilitli kümenin K0 doğruluğu geliştirmeden (0,545) yüksek.
+3. Ham doğruluk farkları geliştirmeden küçük; en büyük kazanç zayıf okuyucuda.
+
+**Sınırlar:** 51 soru, 11 şirket (geniş aralıklar); 90/306 cevap yargıç puanlı (kalibrasyonda %94,5 ikili uyum, hafif katı; yargıç ve okuyucu aynı aileden); tek insan puanlayıcı ile kalibrasyon; kilitli küme bir kez kullanıldı ve **bir daha kullanılamaz**; Chroma bu testte kullanılmadı (exact arama); K1-c200 başlangıç hattı kilitlide çalıştırılmadı (üstünlük yalnız geliştirmede gösterildi). Sonuçlara bakılarak sistem, eşik veya hipotez değiştirilmedi.
+

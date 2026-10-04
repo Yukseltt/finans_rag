@@ -1,0 +1,199 @@
+{
+  "tarih": "2026-10-04",
+  "kume": "kilitli",
+  "n": 51,
+  "puanlama": "YUMUSAK (kismen = dogru)",
+  "otomatik_olmayan_puan": 90,
+  "ozet": {
+    "gemini-3.5-flash-lite|k0": {
+      "dogru": 23,
+      "n": 51,
+      "dogruluk": 0.451
+    },
+    "gemini-3.5-flash-lite|k1_r2_v3": {
+      "dogru": 34,
+      "n": 51,
+      "dogruluk": 0.6667
+    },
+    "gemini-3.5-flash-lite|k2": {
+      "dogru": 33,
+      "n": 51,
+      "dogruluk": 0.6471
+    },
+    "gemini-3.8-flash|k0": {
+      "dogru": 33,
+      "n": 51,
+      "dogruluk": 0.6471
+    },
+    "gemini-3.8-flash|k1_r2_v3": {
+      "dogru": 40,
+      "n": 51,
+      "dogruluk": 0.7843
+    },
+    "gemini-3.8-flash|k2": {
+      "dogru": 43,
+      "n": 51,
+      "dogruluk": 0.8431
+    }
+  },
+  "hipotezler": {
+    "HF1 K1 vs K0|gemini-3.5-flash-lite": {
+      "n": 51,
+      "a": 0.45098039215686275,
+      "b": 0.6666666666666666,
+      "fark": 0.21568627450980388,
+      "ci95": [
+        0.054545454545454564,
+        0.36363636363636365
+      ],
+      "anlamli": true
+    },
+    "HF1 K1 vs K0|gemini-3.8-flash": {
+      "n": 51,
+      "a": 0.6470588235294118,
+      "b": 0.7843137254901961,
+      "fark": 0.13725490196078427,
+      "ci95": [
+        0.018867924528301883,
+        0.2295081967213114
+      ],
+      "anlamli": true
+    },
+    "HF2 K2 vs K1|gemini-3.5-flash-lite": {
+      "n": 51,
+      "a": 0.6666666666666666,
+      "b": 0.6470588235294118,
+      "fark": -0.019607843137254832,
+      "ci95": [
+        -0.1063829787234043,
+        0.0714285714285714
+      ],
+      "anlamli": false
+    },
+    "HF2 K2 vs K1|gemini-3.8-flash": {
+      "n": 51,
+      "a": 0.7843137254901961,
+      "b": 0.8431372549019608,
+      "fark": 0.05882352941176472,
+      "ci95": [
+        0.0,
+        0.13636363636363635
+      ],
+      "anlamli": false
+    },
+    "(K2 vs K0)|gemini-3.5-flash-lite": {
+      "n": 51,
+      "a": 0.45098039215686275,
+      "b": 0.6470588235294118,
+      "fark": 0.19607843137254904,
+      "ci95": [
+        0.0,
+        0.3620689655172414
+      ],
+      "anlamli": false
+    },
+    "(K2 vs K0)|gemini-3.8-flash": {
+      "n": 51,
+      "a": 0.6470588235294118,
+      "b": 0.8431372549019608,
+      "fark": 0.196078431372549,
+      "ci95": [
+        0.061224489795918324,
+        0.3090909090909091
+      ],
+      "anlamli": true
+    },
+    "HF1_olcut": {
+      "alt_sinir_pozitif_okuyucular": [
+        "gemini-3.5-flash-lite",
+        "gemini-3.8-flash"
+      ],
+      "sonuc": "DESTEKLENDI"
+    },
+    "HF4|gemini-3.5-flash-lite": {
+      "gelistirme": 0.576,
+      "kilitli": 0.6667,
+      "fark": 0.0907
+    },
+    "HF4|gemini-3.8-flash": {
+      "gelistirme": 0.667,
+      "kilitli": 0.7843,
+      "fark": 0.1173
+    }
+  },
+  "tani": {
+    "n_var": 31,
+    "n_yok": 20,
+    "gemini-3.5-flash-lite": {
+      "var": {
+        "k0": 0.387,
+        "k1_r2_v3": 0.677,
+        "k2": 0.645
+      },
+      "yok": {
+        "k0": 0.55,
+        "k1_r2_v3": 0.65,
+        "k2": 0.65
+      }
+    },
+    "gemini-3.8-flash": {
+      "var": {
+        "k0": 0.581,
+        "k1_r2_v3": 0.774,
+        "k2": 0.839
+      },
+      "yok": {
+        "k0": 0.75,
+        "k1_r2_v3": 0.8,
+        "k2": 0.85
+      }
+    },
+    "atif|gemini-3.5-flash-lite|k1_r2_v3": {
+      "atif_yok": 0.078,
+      "isabet": 0.49,
+      "kesinlik": 0.397,
+      "baglamda": 1.0
+    },
+    "atif|gemini-3.5-flash-lite|k2": {
+      "atif_yok": 0.0,
+      "isabet": 1.0,
+      "kesinlik": 1.0,
+      "baglamda": 1.0
+    },
+    "atif|gemini-3.8-flash|k1_r2_v3": {
+      "atif_yok": 0.294,
+      "isabet": 0.49,
+      "kesinlik": 0.509,
+      "baglamda": 1.0
+    },
+    "atif|gemini-3.8-flash|k2": {
+      "atif_yok": 0.0,
+      "isabet": 1.0,
+      "kesinlik": 1.0,
+      "baglamda": 1.0
+    }
+  },
+  "retrieval": {
+    "recall_butce": {
+      "deger": 0.532258064516129,
+      "ci95": [
+        0.42105263157894735,
+        0.6451612903225806
+      ]
+    },
+    "recall@5": {
+      "deger": 0.4838709677419355,
+      "ci95": [
+        0.36923076923076925,
+        0.6
+      ]
+    },
+    "mrr": {
+      "deger": 0.36498408672275345,
+      "ci95": [
+        0.2756975022788401,
+        0.4631459274356411
+      ]
+    }
+  }
+}
