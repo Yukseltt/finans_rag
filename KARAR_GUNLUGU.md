@@ -31,7 +31,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Geliştirme TAMAM (99 soru, elle puanlar dahil): H5a 1/2, H5c 0/2 (ölçütler sağlanmadı, c200 kalır); kilitli test yapılmadı |
 | D7 | Deney 7: belge yönlendirme (şirket/yıl), retrieval düzeyi | TAMAMLANDI: H7 DESTEKLENDİ (R2 benimsendi; Recall@1000w 0,409 → 0,504) |
 | D8 | Deney 8: belge yönlendirmenin cevap doğruluğuna etkisi | Çalıştırıldı (198 çağrı); GEÇİCİ sonuç (83 otomatik soru): H8a 0/2, H8b 1/2; kesin sonuç elle puanlama sonrası |
-| D9 | Deney 9: prompt v3 (bağlam yetmezse kendi bilgisiyle cevapla) | ÖN KAYIT YAZILDI, çalıştırılmadı |
+| D9 | Deney 9: prompt v3 (bağlam yetmezse kendi bilgisiyle cevapla) | Çalıştırıldı (198 çağrı); GEÇİCİ (83 otomatik soru): H9a ölçütü sağlandı; kesin sonuç elle puanlama (96 cevap) sonrası |
 | D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
@@ -1752,4 +1752,48 @@ final sistem tanımında v3 benimsenirse bu bedel açıkça belirtilir.
 
 **Maliyet:** pilot 24 çağrı ~5 TL + tam 198 çağrı ~33 TL ≈ 38 TL; toplam harcama ~183 TL (harcanan 145,40), tavan 350 TL.
 **Kilitli test bu deneyde KULLANILMAZ.**
+
+**GEÇİCİ SONUÇ, Deney 9 (2026-10-04; `src/deney9_olc.py`; yalnızca 83 otomatik puanlanan soru, elle puanlanacak 16 soru HENÜZ DAHİL DEĞİL)**
+
+Pilot (12 soru × 2 okuyucu): hata 0, `Final answer` 24/24, `Sources` 24/24, uydurma atıf 0, markdown 0; prompt v3 pilot sonrası
+dondu (`sonuclar/prompt_v3.json`). Tam çalıştırma: 87 yeni soru × 2 okuyucu = 174 çağrı, 0 hata; v3 toplam 33,95 TL (pilot dahil
+38,6 TL); **toplam harcama 184,06 TL / 350 TL**.
+
+| Okuyucu | K0 | K1-c200 (v2) | K1-R2 (v2) | **K1-R2 (v3)** | K2 oracle |
+|---|---|---|---|---|---|
+| gemini-3.5-flash-lite | 25/83 = 0,301 | 37/83 = 0,446 | 43/83 = 0,518 | **48/83 = 0,578** | 61/83 = 0,735 |
+| gemini-3.8-flash | 44/83 = 0,530 | 45/83 = 0,542 | 49/83 = 0,590 | **55/83 = 0,663** | 66/83 = 0,795 |
+
+| Karşılaştırma (B − A, şirket-kümeli bootstrap, %95; \* anlamlı) | flash-lite | 3.8-flash |
+|---|---|---|
+| **H9a** V3 − V2 (K1-R2) | +0,060 [0,000; +0,138] | **+0,072 [+0,026; +0,128] \*** |
+| V3 − K0 | +0,277 [+0,159; +0,421] \* | +0,133 [+0,053; +0,219] \* |
+| V3 − K1-c200 (başlangıç hattı) | +0,133 [+0,059; +0,210] \* | +0,120 [+0,047; +0,192] \* |
+| K2 − V3 (kalan boşluk) | +0,157 \* | +0,133 \* |
+
+**Ön kayıtlı H9a ölçütü (güçlü okuyucuda anlamlı pozitif VE zayıf okuyucuda anlamlı negatif değil): SAĞLANDI** (geçici).
+Zayıf okuyucuda kazanç da sınırda anlamlı (alt sınır 0,000). Ön kayıttaki tahmin (3.8-flash +4-8, flash-lite ~0) kısmen
+yanlıştı: flash-lite de kazandı (+0,060). **K1-R2 (v3), başlangıç hattına (K1-c200, v2) göre iki okuyucuda da anlamlı biçimde
+daha iyi (+0,12 / +0,13)** ve her ikisi de kapalı kitaptan anlamlı iyi.
+
+**H9b tanı (kanıt sayfası K1-R2 bağlamında VAR 49 / YOK 34 soru):**
+
+| | VAR: V2 → V3 | YOK: V2 → V3 | K0 (VAR / YOK) |
+|---|---|---|---|
+| flash-lite | 0,59 → 0,65 | 0,41 → 0,47 | 0,27 / 0,35 |
+| 3.8-flash | 0,71 → 0,73 | **0,41 → 0,56** | 0,51 / **0,56** |
+
+v3, güçlü okuyucuda "kanıt bağlamda yok" grubunu **kapalı kitap seviyesine çıkardı (0,41 → 0,56 = K0)** ve "kanıt var"
+grubunda kayıp yaratmadı (0,71 → 0,73). Beklenen mekanizma doğrulandı.
+
+**H9c dayanaklılık:** uydurma atıf **yok** (atıfların %100'ü bağlamda; v2 ve v3). v3'te model bilgisiyle cevapladığında
+bunu belirtiyor: "Sources: none" ve atıf yok oranı 3.8-flash'ta 0,11 → 0,21, atıf kesinliği 0,42 → 0,48; atıf isabeti
+değişmedi (0,48 → 0,47). "The passages do not contain this." ifadesi flash-lite'ta 0,14 → 0,34 (v3'ün talimatı), 3.8-flash'ta
+0,30 → 0,32. Yani doğruluk kazancı **kaynak gösterme dürüstlüğü korunarak** geldi: model bilgisine döndüğünde bunu açıkça işaretliyor.
+
+**Sınırlar:** 83 soru (elle puanlama sonrası 99; ölçüt sınırdaki flash-lite için değişebilir); elle puanlanacak 16 soruda
+bu sonuçlar farklılaşabilir; kilitli test yapılmadı; aynı geliştirme kümesinde ardışık üç müdahale (yönlendirme, v3) denendi,
+geliştirme sonuçları kilitli testte doğrulanmalıdır (çoklu müdahale iyimserliği). **Elle puanlama turu (d9, 96 cevap):** v3
+cevaplarının 22/96'sında v3'ün talimat verdiği "The passages do not contain this." cümlesi görünür; metne müdahale edilmedi,
+bu körlüğü kısmen zayıflatır ve raporda sınırlılık olarak belirtilir.
 

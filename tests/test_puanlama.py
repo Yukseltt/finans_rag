@@ -121,6 +121,19 @@ def main():
             continue
         raise AssertionError("bozuk ice aktarma reddedilmedi")
     print("ice aktarma: tamam (128 puan eslendi; eksik, taniyamadigi kod ve gecersiz deger reddedildi)")
+    # 6) d9 turu: 16 soru x 6 cevap (K1-c200, K1-R2 v2, K1-R2 v3; x 2 okuyucu), kor; test-tekrar uyum hesabi
+    v9, a9 = ps.olustur("d9")
+    assert len(v9["kartlar"]) == 16 and all(len(k["cevaplar"]) == 6 for k in v9["kartlar"])
+    assert len({(x["model"], x["kosul"]) for x in a9.values()}) == 6 and len(a9) == 96
+    m9 = json.dumps(v9, ensure_ascii=False).lower()
+    for yasak in ("gemini", "k1_r2", "k1_c", "kosul", "sources:"):
+        assert yasak not in m9, f"d9 sayfasinda gizli bilgi var: {yasak}"
+    yeni_p = [{"id": "a", "model": "m", "kosul": "k1_c200", "puan": "dogru"}, {"id": "b", "model": "m", "kosul": "k1_c200", "puan": "kismen"},
+              {"id": "c", "model": "m", "kosul": "k1_c200", "puan": "yanlis"}, {"id": "d", "model": "m", "kosul": "k1_c200", "puan": "dogru"}]
+    eski_p = [{"id": "a", "model": "m", "kosul": "k1_c200", "puan": "dogru"}, {"id": "b", "model": "m", "kosul": "k1_c200", "puan": "dogru"},
+              {"id": "c", "model": "m", "kosul": "k1_c200", "puan": "dogru"}, {"id": "z", "model": "m", "kosul": "k1_c200", "puan": "dogru"}]
+    assert ia.uyum(yeni_p, eski_p) == (3, 1, 1, 1), ia.uyum(yeni_p, eski_p)   # ortak 3; ayni 1; kismen-farki 1; dogru<->yanlis 1
+    print("d9 turu: tamam (96 cevap, kor, test-tekrar uyum hesabi)")
     print("TUM TESTLER GECTI")
 
 

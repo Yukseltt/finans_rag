@@ -1,0 +1,214 @@
+{
+  "tarih": "2026-10-04",
+  "kume": "gelistirme",
+  "n": 83,
+  "ozet": {
+    "gemini-3.5-flash-lite|k0": {
+      "dogru": 25,
+      "n": 83,
+      "dogruluk": 0.3012
+    },
+    "gemini-3.5-flash-lite|k1_c200": {
+      "dogru": 37,
+      "n": 83,
+      "dogruluk": 0.4458
+    },
+    "gemini-3.5-flash-lite|k1_r2": {
+      "dogru": 43,
+      "n": 83,
+      "dogruluk": 0.5181
+    },
+    "gemini-3.5-flash-lite|k1_r2_v3": {
+      "dogru": 48,
+      "n": 83,
+      "dogruluk": 0.5783
+    },
+    "gemini-3.5-flash-lite|k2": {
+      "dogru": 61,
+      "n": 83,
+      "dogruluk": 0.7349
+    },
+    "gemini-3.8-flash|k0": {
+      "dogru": 44,
+      "n": 83,
+      "dogruluk": 0.5301
+    },
+    "gemini-3.8-flash|k1_c200": {
+      "dogru": 45,
+      "n": 83,
+      "dogruluk": 0.5422
+    },
+    "gemini-3.8-flash|k1_r2": {
+      "dogru": 49,
+      "n": 83,
+      "dogruluk": 0.5904
+    },
+    "gemini-3.8-flash|k1_r2_v3": {
+      "dogru": 55,
+      "n": 83,
+      "dogruluk": 0.6627
+    },
+    "gemini-3.8-flash|k2": {
+      "dogru": 66,
+      "n": 83,
+      "dogruluk": 0.7952
+    }
+  },
+  "hipotezler": {
+    "H9a V3 vs V2 (K1-R2)|gemini-3.5-flash-lite": {
+      "n": 83,
+      "a": 0.5180722891566265,
+      "b": 0.5783132530120482,
+      "fark": 0.06024096385542166,
+      "ci95": [
+        0.0,
+        0.1382978723404255
+      ],
+      "anlamli": false
+    },
+    "H9a V3 vs V2 (K1-R2)|gemini-3.8-flash": {
+      "n": 83,
+      "a": 0.5903614457831325,
+      "b": 0.6626506024096386,
+      "fark": 0.07228915662650603,
+      "ci95": [
+        0.02564102564102566,
+        0.12790697674418605
+      ],
+      "anlamli": true
+    },
+    "V3 vs K0|gemini-3.5-flash-lite": {
+      "n": 83,
+      "a": 0.30120481927710846,
+      "b": 0.5783132530120482,
+      "fark": 0.2771084337349397,
+      "ci95": [
+        0.15853658536585363,
+        0.42105263157894735
+      ],
+      "anlamli": true
+    },
+    "V3 vs K0|gemini-3.8-flash": {
+      "n": 83,
+      "a": 0.5301204819277109,
+      "b": 0.6626506024096386,
+      "fark": 0.1325301204819277,
+      "ci95": [
+        0.052631578947368474,
+        0.21875
+      ],
+      "anlamli": true
+    },
+    "V3 vs K1-c200|gemini-3.5-flash-lite": {
+      "n": 83,
+      "a": 0.4457831325301205,
+      "b": 0.5783132530120482,
+      "fark": 0.1325301204819277,
+      "ci95": [
+        0.05882352941176472,
+        0.2098765432098766
+      ],
+      "anlamli": true
+    },
+    "V3 vs K1-c200|gemini-3.8-flash": {
+      "n": 83,
+      "a": 0.5421686746987951,
+      "b": 0.6626506024096386,
+      "fark": 0.12048192771084343,
+      "ci95": [
+        0.04705882352941171,
+        0.19191919191919193
+      ],
+      "anlamli": true
+    },
+    "K2 vs V3|gemini-3.5-flash-lite": {
+      "n": 83,
+      "a": 0.5783132530120482,
+      "b": 0.7349397590361446,
+      "fark": 0.15662650602409645,
+      "ci95": [
+        0.06666666666666665,
+        0.23809523809523803
+      ],
+      "anlamli": true
+    },
+    "K2 vs V3|gemini-3.8-flash": {
+      "n": 83,
+      "a": 0.6626506024096386,
+      "b": 0.7951807228915663,
+      "fark": 0.1325301204819277,
+      "ci95": [
+        0.05747126436781613,
+        0.20000000000000007
+      ],
+      "anlamli": true
+    },
+    "H9a_olcut": {
+      "guclu_anlamli_pozitif": true,
+      "zayif_anlamli_negatif_degil": true,
+      "saglandi": true
+    }
+  },
+  "tani": {
+    "gemini-3.5-flash-lite": {
+      "var": {
+        "k0": 0.265,
+        "k1_c200": 0.551,
+        "k1_r2": 0.592,
+        "k1_r2_v3": 0.653,
+        "k2": 0.776
+      },
+      "yok": {
+        "k0": 0.353,
+        "k1_c200": 0.294,
+        "k1_r2": 0.412,
+        "k1_r2_v3": 0.471,
+        "k2": 0.676
+      },
+      "n_var": 49,
+      "n_yok": 34
+    },
+    "gemini-3.8-flash": {
+      "var": {
+        "k0": 0.51,
+        "k1_c200": 0.592,
+        "k1_r2": 0.714,
+        "k1_r2_v3": 0.735,
+        "k2": 0.816
+      },
+      "yok": {
+        "k0": 0.559,
+        "k1_c200": 0.471,
+        "k1_r2": 0.412,
+        "k1_r2_v3": 0.559,
+        "k2": 0.765
+      },
+      "n_var": 49,
+      "n_yok": 34
+    },
+    "atif|gemini-3.5-flash-lite|k1_r2": {
+      "yetersiz_ifade": 0.141,
+      "atif_yok": 0.03,
+      "isabet": 0.485,
+      "baglamda": 1.0
+    },
+    "atif|gemini-3.5-flash-lite|k1_r2_v3": {
+      "yetersiz_ifade": 0.343,
+      "atif_yok": 0.061,
+      "isabet": 0.485,
+      "baglamda": 1.0
+    },
+    "atif|gemini-3.8-flash|k1_r2": {
+      "yetersiz_ifade": 0.303,
+      "atif_yok": 0.111,
+      "isabet": 0.485,
+      "baglamda": 1.0
+    },
+    "atif|gemini-3.8-flash|k1_r2_v3": {
+      "yetersiz_ifade": 0.323,
+      "atif_yok": 0.212,
+      "isabet": 0.475,
+      "baglamda": 1.0
+    }
+  }
+}

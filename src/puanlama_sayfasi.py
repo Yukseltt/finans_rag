@@ -1,6 +1,8 @@
 # Elle puanlama sayfasi uretir (Deney 5: otomatik puanlanamayan 16 soru x 8 cevap = 128 cevap).
 #
-# Kullanim: python src/puanlama_sayfasi.py
+# Kullanim: python src/puanlama_sayfasi.py              (Deney 5 turu: 16 soru x 8 cevap = 128)
+#           python src/puanlama_sayfasi.py --tur d9     (Deney 8+9 turu: 16 soru x 6 cevap = 96:
+#                                                         K1-c200, K1-R2 (v2), K1-R2 (v3), her biri x 2 okuyucu)
 # Girdi:    data/islenmis/cevaplar/*.jsonl, gelistirme gold cevaplari
 # Cikti:    data/islenmis/puanlama/puanlama.html   (TARAYICIDA acilan tek dosya; veri icinde gomulu)
 #           data/islenmis/puanlama/anahtar.json    (rastgele cevap kodu -> soru, model, kosul; SAYFADA YOK)
@@ -24,6 +26,11 @@ CIKTI = KOK / "data" / "islenmis" / "puanlama"
 SURUM = "v1"
 TOHUM = 20261004
 HARFLER = "ABCDEFGH"
+# tur -> (kosullar, sayfa surumu, tohum, html dosyasi, anahtar dosyasi); d5 varsayilandir ve onceki ciktiyi AYNEN uretir
+TURLER = {
+    "d5": (co.KOSULLAR, SURUM, TOHUM, "puanlama.html", "anahtar.json"),
+    "d9": (["k1_c200", "k1_r2", "k1_r2_v3"], "d9", TOHUM + 9, "puanlama_d9.html", "anahtar_d9.json"),
+}
 
 KURALLAR = [
     ("Doğru", "Cevap, gold cevabın ana bilgisini veriyor ve onunla çelişmiyor. Fazladan doğru ayrıntı, farklı ifade, yazım veya biçim farkı sorun değil."),
@@ -47,16 +54,17 @@ def govdeler(m, k):
     return sonuc
 
 
-def olustur():
+def olustur(tur="d5"):
+    kosullar, surum, tohum, _, _ = TURLER[tur]
     sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
     soru = {s["id"]: s for s in sorular}
     gold = co.goldleri_yukle(sorular)
     ids = elle_sorular(sorular, gold)
-    yanitlar = {(m, k): govdeler(m, k) for m in co.MODELLER for k in co.KOSULLAR}
-    rng = random.Random(TOHUM)
+    yanitlar = {(m, k): govdeler(m, k) for m in co.MODELLER for k in kosullar}
+    rng = random.Random(tohum)
     anahtar, kartlar = {}, []
     for n, i in enumerate(sorted(ids, key=lambda x: rng.random()), 1):  # soru sirasi da karisik
-        adaylar = [(m, k) for m in co.MODELLER for k in co.KOSULLAR]
+        adaylar = [(m, k) for m in co.MODELLER for k in kosullar]
         rng.shuffle(adaylar)
         cevaplar = []
         for harf, (m, k) in zip(HARFLER, adaylar):
@@ -69,7 +77,7 @@ def olustur():
             govde, _ = c.kaynak_ayir(tam)        # Sources satiri gizlenir
             cevaplar.append({"token": token, "harf": harf, "final": c.son_cevap(tam) or govde.strip(), "tam": govde.strip()})
         kartlar.append({"n": n, "soru": soru[i]["soru"], "gold": gold[i], "cevaplar": cevaplar})
-    return {"surum": SURUM, "kartlar": kartlar, "kurallar": KURALLAR}, anahtar
+    return {"surum": surum, "kartlar": kartlar, "kurallar": KURALLAR}, anahtar
 
 
 SABLON = r"""<!doctype html>
@@ -182,19 +190,22 @@ ciz();
 """
 
 
-def yaz():
-    veri, anahtar = olustur()
+def yaz(tur="d5"):
+    veri, anahtar = olustur(tur)
+    _, _, _, html_adi, anahtar_adi = TURLER[tur]
     CIKTI.mkdir(parents=True, exist_ok=True)
     govde = json.dumps(veri, ensure_ascii=False).replace("</", "<\\/")  # script etiketini erken kapatmasin
-    (CIKTI / "puanlama.html").write_text(SABLON.replace("__VERI__", govde), encoding="utf-8")
-    (CIKTI / "anahtar.json").write_text(json.dumps(anahtar, indent=2), encoding="utf-8")
+    (CIKTI / html_adi).write_text(SABLON.replace("__VERI__", govde), encoding="utf-8")
+    (CIKTI / anahtar_adi).write_text(json.dumps(anahtar, indent=2), encoding="utf-8")
     return veri, anahtar
 
 
 def main():
-    veri, anahtar = yaz()
+    import sys
+    tur = sys.argv[sys.argv.index("--tur") + 1] if "--tur" in sys.argv else "d5"
+    veri, anahtar = yaz(tur)
     n = sum(len(k["cevaplar"]) for k in veri["kartlar"])
-    print(f"{len(veri['kartlar'])} soru, {n} cevap -> {CIKTI / 'puanlama.html'}")
+    print(f"{len(veri['kartlar'])} soru, {n} cevap -> {CIKTI / TURLER[tur][3]}")
     print("sayfayi tarayicida ac: dosyaya cift tikla (ya da dosya yolunu tarayici adres cubuguna yapistir)")
 
 

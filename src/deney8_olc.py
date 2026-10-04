@@ -29,7 +29,7 @@ YUMUSAK = "--yumusak" in sys.argv
 
 
 def elle_d8():
-    yol = KOK / "sonuclar" / "elle_puanlar_d8.json"
+    yol = KOK / "sonuclar" / "elle_puanlar_d9.json"  # Deney 8+9 ortak elle puanlama turu (K1-c200, K1-R2 v2/v3)
     if not yol.exists():
         return {}
     return {(r["model"], r["kosul"], r["id"]): r["puan"] for r in json.load(open(yol, encoding="utf-8"))["puanlar"]}
