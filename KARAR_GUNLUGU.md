@@ -29,6 +29,7 @@ Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
 | D4 | Deney 4: chunk boyutu / örtüşme | c200 kalır (hiçbir varyant 4/4 ölçütünü geçmedi) |
 | 13 | Vektör veritabanı | KAPANDI: Chroma; Deney 6b ile doğrulandı, K1'in ilk aşaması (yeniden açılmış koleksiyon) |
 | D5 | Deney 5: uçtan uca RAG, cevap düzeyi (final protokol) | Geliştirme TAMAM (99 soru, elle puanlar dahil): H5a 1/2, H5c 0/2 (ölçütler sağlanmadı, c200 kalır); kilitli test yapılmadı |
+| D7 | Deney 7: belge yönlendirme (şirket/yıl), retrieval düzeyi | ÖN KAYIT YAZILDI, çalıştırılmadı |
 | D6 | Deney 6: vektör veritabanı (HNSW) vs tam arama | İlk koşu başarısız (kurulum hemen sonrası), **6b geçti (3/3 yeniden açılmış koşu)**: Chroma yeniden açılmış koleksiyon olarak kullanılabilir |
 
 Bekleyen işler (çekirdek RAG): final protokolün ön kaydı, üretim hattı (prompt, atıf, Gemini API),
@@ -1532,4 +1533,63 @@ Yumuşak analizde sonuç aynı: H5a +0,141 * / +0,010; H5c -0,020 / 0,000; ölç
 dayanıklıdır.** c300, 99 soruda c200'den anlamlı biçimde iyi değildir (farklar hafif negatif); **c200 kesin
 olarak kalır.** H5a yalnızca zayıf okuyucuda doğrulandı; güçlü okuyucuda retrieval cevap doğruluğunu net
 artırmadı (+0,020). Retrieval kaybı (oracle farkı) iki okuyucuda anlamlı ve büyük (+0,25-0,28).
+
+---
+
+## Deney 7: Belge yönlendirme (şirket ve yıl ile arama uzayını daraltma), retrieval düzeyi — ÖN KAYIT, ÇALIŞTIRILMADI
+
+**Sonuçlardan ÖNCE yazıldı (2026-10-04).** Hiçbir yönlendirme kodu yazılmadı ve ölçülmedi.
+
+**Gözlem (Deney 5):** retrieval en büyük kayıp kalemi: oracle (K2) ile RAG (K1-c200) arasında 25-28 puan; kanıt
+sayfası soruların ~%48'inde bağlamda. Doğru sayfa bağlamda olunca RAG kapalı kitaptan çok iyi (+0,17 / +0,36),
+olmayınca kapalı kitaptan kötü. Deney 1'de belge isabeti @5 künyesiz bile 0,5-0,8 iken sayfa Recall'u
+düşüktü; asıl kayıp ortak havuzda **yanlış belgelerin karışması** (tek belge uzayında Recall@1000w 0,646,
+ortak havuzda 0,409; aynı şirketin başka yılları ve başka şirketler). Soru metni çoğu zaman şirketi ve dönemi
+söylüyor ("3M FY2018", "AMD FY22").
+
+**Müdahale (kural tabanlı, LLM yok, ücretsiz):** soru metninden **şirket** ve **mali yıl** çıkarılır; arama uzayı o
+şirketin (ve yılın) belgelerine daraltılır; aynı dense (e5-base, c200) + aynı reranker (derinlik 50) bu daraltılmış
+uzayda çalışır. Künye yok, fine-tune yok.
+
+**Şirket bulma (sabit):** `belgeler.jsonl`'deki 40 şirket adı ve `doc_name` önekleri otomatik normalize edilir
+(küçük harf, noktalama/kesme işareti boşluk, "corporation/inc/company/co" gibi ekler atılır, ad ve sondaki "s"
+atılmış/eklenmiş varyantı); soru da aynı biçimde normalize edilip **kelime sınırlı** eşleşir (≥6 karakterli adlar
+bitişik yazılmış hâlle de eşleşir, kısa adlar yalnızca token olarak). Elle alias listesi **yalnızca şunlardır:**
+`jnj` ve `j&j` → Johnson & Johnson, `amex` → American Express. Başka alias eklenmeyecek. Şirket bulunamazsa
+yönlendirme yapılmaz (global arama, mevcut hat). Birden çok şirket bulunursa birleşimi.
+
+**Yıl bulma (sabit):** `FY2018`, `FY 2018`, `FY18`, `fiscal year 2018`, `Q2 2023`/`Q2 of FY2023`, `... 2022` gibi
+4 haneli (2010-2029) ya da `FY`+2 haneli yıllar; birden çok yıl varsa hepsi. Doküman dönemi `doc_period` (mali yıl).
+
+**İki varyant (önceden ilan edildi):**
+
+| Varyant | Aday belgeler |
+|---|---|
+| **R1** | Bulunan şirketin TÜM belgeleri |
+| **R2** | Bulunan şirketin, soruda geçen yılların **y ve y+1** dönemli belgeleri (y+1: sonraki yılın 10-K'sı önceki yıl karşılaştırma verisi taşır); yıl yoksa ya da bu filtreyle belge kalmazsa R1'e düşer |
+
+**Ölçümler (geliştirme, 99 soru, ortak havuz, e5-base c200 + reranker derinlik 50, kümeli bootstrap):**
+
+1. **Yönlendirme tanıları:** şirket bulunan soru oranı; **yönlendirme isabeti** (gold belge aday kümede mi);
+   yanlış şirket eşleşmesi oranı; ortalama aday belge ve chunk sayısı (daralma).
+2. **Retrieval kalitesi:** reranker sonrası **Recall@1000w**, yönlendirmeli vs mevcut hat (eşleştirilmiş
+   şirket-kümeli bootstrap, 10.000 tekrar, %95); kanıt sayfası bağlamda olan soru oranı.
+3. **Tavan referansı:** oracle belge yönlendirmesi (tek belge) reranker sonrası Recall@1000w = 0,646 (Deney 4/5).
+
+**Ölçüt (sabit):** yönlendirme **benimsenir** ancak şu ikisi birlikte sağlanırsa: (a) yönlendirme isabeti
+**≥ 0,90** (filtre gold belgeyi nadiren dışarıda bırakır); (b) reranker sonrası Recall@1000w farkının
+(yönlendirmeli − mevcut) %95 aralığının **alt sınırı > 0** (anlamlı pozitif). R2 birincildir; R2 (a)/(b)'yi
+sağlamazsa ve R1 sağlarsa R1 benimsenir; ikisi de sağlamazsa mevcut hat kalır. İki varyant denendiği için
+hafif seçim iyimserliği vardır ve raporlanır.
+
+**Açık beklenti (tahmin, ölçülmedi):** yönlendirmenin Recall@1000w'yi belirgin artırmasını (0,41 → 0,55-0,65
+aralığına), ancak yıl filtresinin (R2) zaman zaman gold belgeyi dışarıda bırakmasını (isabet ~0,9 civarı)
+bekliyorum; şirket adı bulunamayan sorularda kazanç olmayacak. Ölçüt bu tahmine göre değil sabit eşiğe göre
+değerlendirilir.
+
+**Sınırlar (önceden):** (1) kurallar yazılırken geliştirme sorularının ifadeleri görülmüştü ("JnJ", "McDonald's",
+"AMCOR's" gibi); alias listesi bu yüzden minimaldir ama geliştirme sonucu **kurallara uyarlanmış iyimser** olabilir;
+kilitli testte bu kurallar **değiştirilmeden** uygulanır ve orası bağımsız bir sınamadır. (2) Deney retrieval
+düzeyindedir; cevap doğruluğuna etkisi ayrı deneyle (Deney 8) ölçülür. (3) Yönlendirmeli arama tam (exact) aramayla
+yapılır; Chroma'da `$in` filtresi doğrulanmadı, benimsenirse ayrı doğrulama (Deney 6c) gerekir.
 
