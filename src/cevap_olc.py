@@ -21,6 +21,7 @@
 import collections
 import json
 import statistics
+import sys
 from datetime import date
 from pathlib import Path
 
@@ -32,6 +33,18 @@ CEVAPLAR = KOK / "data" / "islenmis" / "cevaplar"
 ISTEKLER = KOK / "data" / "islenmis" / "istekler"
 MODELLER = ["gemini-3.5-flash-lite", "gemini-3.8-flash"]
 KOSULLAR = ["k0", "k1_c200", "k1_c300", "k2"]
+YUMUSAK = "--yumusak" in sys.argv  # elle puanlarda "kismen" DOGRU sayilir (varsayilan siki: kismen = yanlis)
+
+
+def elle_yukle():
+    # sonuclar/elle_puanlar.json (elle_puan_ice_aktar.py ciktisi): (model, kosul, soru_id) -> dogru | kismen | yanlis
+    yol = KOK / "sonuclar" / "elle_puanlar.json"
+    if not yol.exists():
+        return {}
+    return {(r["model"], r["kosul"], r["id"]): r["puan"] for r in json.load(open(yol, encoding="utf-8"))["puanlar"]}
+
+
+ELLE = elle_yukle()
 
 
 def goldleri_yukle(sorular):
@@ -85,6 +98,9 @@ def main():
             for i in sid:
                 tahmin = kayitlar[i]["yanit"] if i in kayitlar else None
                 v, a = puanla(tahmin, gold[i], soru[i]["soru"])
+                if v is None and (m, k, i) in ELLE:  # otomatik puanlanamayan; elle puan var
+                    p = ELLE[(m, k, i)]
+                    v, a = int(p == "dogru" or (YUMUSAK and p == "kismen")), {"tur": "elle"}
                 if v is None:
                     elle += 1
                 else:
@@ -124,7 +140,8 @@ def main():
 
     # ---- tablo 1: dogruluk
     otomatik = sorted(set.intersection(*[set(v) for v in sonuc.values()]))
-    print(f"otomatik puanlanabilir soru: {len(otomatik)} / {len(sid)} (elle puanlanacak: {len(sid) - len(otomatik)})\n")
+    kip = "elle puanlar DAHIL, " + ("YUMUSAK (kismen = dogru)" if YUMUSAK else "SIKI (kismen = yanlis)") if ELLE else "yalnizca otomatik"
+    print(f"puanlanan soru: {len(otomatik)} / {len(sid)} ({kip}; elle bekleyen: {len(sid) - len(otomatik)})\n")
     print(f"{'okuyucu':24s} {'K0':>14s} {'K1-c200':>14s} {'K1-c300':>14s} {'K2 oracle':>14s}")
     for m in MODELLER:
         print(f"{m:24s} " + " ".join(f"{ozet[f'{m}|{k}']['dogru']:>5d}/{ozet[f'{m}|{k}']['n_otomatik']:<3d} {ozet[f'{m}|{k}']['dogruluk']:.3f}" for k in KOSULLAR))
@@ -170,7 +187,8 @@ def main():
         print(f"  {m:24s} toplam ${sum(ozet[f'{m}|{k}']['maliyet_usd'] for k in KOSULLAR):.3f} ({sum(ozet[f'{m}|{k}']['maliyet_usd'] for k in KOSULLAR) * 55:.1f} TL); "
               f"dusunme ort {statistics.mean(ozet[f'{m}|{k}']['dusunme_tokeni_ort'] for k in KOSULLAR):.0f}, cikti ort {statistics.mean(ozet[f'{m}|{k}']['cikti_tokeni_ort'] for k in KOSULLAR):.0f}")
 
-    (KOK / "sonuclar" / "olcumler" / "deney5_gelistirme.json").write_text(
+    ek = "" if not ELLE else ("_elle_yumusak" if YUMUSAK else "_elle_siki")
+    (KOK / "sonuclar" / "olcumler" / f"deney5_gelistirme{ek}.json").write_text(
         json.dumps({"tarih": date.today().isoformat(), "kume": "gelistirme", "otomatik_n": len(otomatik),
                     "elle_bekleyen": len(sid) - len(otomatik), "prompt_surum": "v2", "ozet": ozet, "hipotezler": hip},
                    indent=2, ensure_ascii=False), encoding="utf-8")
