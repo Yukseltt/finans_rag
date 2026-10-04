@@ -1912,3 +1912,14 @@ Birincil: sıkı (kısmen = yanlış). İkincil: yumuşak. İkisi de raporlanır
 
 **Kapsam dışı:** fine-tune (Karar 11, isteğe bağlı ek), EDGAR (Karar 4), batch API ölçümü.
 
+**Karar 14 eki: kilitli test betikleri (çalıştırmadan önce yazıldı, 2026-10-04)**
+
+Üç betik, tek seferlik hat. Hiçbiri kilitli sonuçlara bakılarak ayarlanmadı. Hepsi geliştirme verisiyle sınandı.
+1. `src/kilitli_hazirla.py` (aşama 1; API yok): arama + yönlendirme + reranker + istek üretimi. **Doğrulama** (`--dogrula`, geliştirme, 99 soru):
+   K1 bağlam metni kayıtlı geliştirme hattıyla **99/99 aynı**, yeni reranker çifti 0. İlk aşama sıralaması 94/99 aynı (fp16 eşit-skor farkı; bağlamı değiştirmiyor).
+2. `src/kilitli_calistir.py` (aşama 2): `--okuyucu` ve `--yargic`. Dry-run varsayılan. Bu çalıştırma için 100 TL sert durdurma (başlangıç harcaması `data/islenmis/kilitli/baslangic_harcama.json`).
+   K0 ve K2 prompt v2, K1 prompt v3. Okuyucu ve yargıç kodu önceki testli sınıflardır (`Okuyucu`, `Yargic`).
+3. `src/kilitli_olc.py` (aşama 3): HF1–HF4. **Deneme** (`--deneme`, geliştirme verisi): K1 doğruluğu 0,576 / 0,667, Recall@1000w 0,504; yani Deney 9 ve 7 sayılarını birebir yeniden üretti.
+   Eksik cevap veya eksik yargıç puanı varsa durur (kısmi analiz yok).
+Ek koruma: bu çalıştırmada kilitli sorularda otomatik puanlanamayanlar (gold türü serbest veya anahtar-sayısı boş) yargıçla puanlanır; elle puanlama yok.
+
