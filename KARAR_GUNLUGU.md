@@ -1922,4 +1922,6 @@ Birincil: sıkı (kısmen = yanlış). İkincil: yumuşak. İkisi de raporlanır
 3. `src/kilitli_olc.py` (aşama 3): HF1–HF4. **Deneme** (`--deneme`, geliştirme verisi): K1 doğruluğu 0,576 / 0,667, Recall@1000w 0,504; yani Deney 9 ve 7 sayılarını birebir yeniden üretti.
    Eksik cevap veya eksik yargıç puanı varsa durur (kısmi analiz yok).
 Ek koruma: bu çalıştırmada kilitli sorularda otomatik puanlanamayanlar (gold türü serbest veya anahtar-sayısı boş) yargıçla puanlanır; elle puanlama yok.
+**Teknik düzeltme (2026-10-04, hiçbir kilitli sonuç görülmeden):** `kilitli_hazirla.py --kilitli` ilk çalıştırmada `data/islenmis/kilitli` klasörü yok diye hata verip durdu (klasör oluşturma eksikti). Tek satır eklendi. Hat, istek, prompt ve kural değişmedi.
+**Hazırlık sonucu (kilitli, ücretsiz):** 51 soru, 45'i yönlendirildi, 6'sı şirket bulunamadığı için global arama. 306 istek hazır. Gerçek girdi toplamı 444.946 token. Okuyucu maliyeti geliştirme ölçümünden ölçeklenerek ~43 TL, yargıç ~2 TL; tahmin ~45 TL (üst sınır 100 TL).
 

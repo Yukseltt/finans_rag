@@ -93,6 +93,7 @@ def main():
     if "--kilitli" in sys.argv:
         sorular = d.yukle_sorular(kilitli=True)
         bilgi = d.yukle_chunk_bilgi()
+        KILITLI.mkdir(parents=True, exist_ok=True)  # rerank onbellegi bu klasore yazilir
         bh.sablonu_dondur(surum="v2")
         bh.sablonu_dondur(surum="v3")
         glob, r2, tani = siralamalar_uret(sorular)
