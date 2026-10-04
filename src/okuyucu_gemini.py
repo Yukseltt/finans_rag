@@ -200,7 +200,7 @@ def istekleri_yukle(kosul, idler):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--model", required=True, choices=list(FIYAT))
-    ap.add_argument("--kosul", required=True, choices=["k0", "k1_c200", "k1_c300", "k2"])
+    ap.add_argument("--kosul", required=True, choices=["k0", "k1_c200", "k1_c300", "k1_r2", "k2"])
     ap.add_argument("--idler", default="pilot", help="pilot | hepsi | virgullu id listesi")
     ap.add_argument("--onayla", action="store_true", help="gercek cagrilari yap (yoksa kuru calisma)")
     ap.add_argument("--tahmini-cikti", type=int, default=800, help="kuru calismada cagri basina tahmini cikti+dusunme tokeni")

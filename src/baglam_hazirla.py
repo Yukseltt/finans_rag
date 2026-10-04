@@ -166,7 +166,33 @@ def chroma_siralama(sorular):
     return {s["id"]: depo.ara(Q[i], 100) for i, s in enumerate(sorular)}
 
 
+def r2_uret():
+    # Deney 8: K1-R2 istekleri. Baglam, Deney 7'nin belge yonlendirmeli (R2) reranker siralamasindan; kural ve prompt
+    # K1 ile ayni. Siralama dosyasi: data/islenmis/siralamalar/yonlendirme_e5_R2_rerank_ortak.json (deney7_yonlendirme.py).
+    sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
+    sablonu_dondur()
+    bilgi = d.yukle_chunk_bilgi()
+    sirali = json.load(open(SIRA / "yonlendirme_e5_R2_rerank_ortak.json", encoding="utf-8"))
+    ISTEK_KLASORU.mkdir(parents=True, exist_ok=True)
+    kelimeler, gold_var, oran = [], [], []
+    with open(ISTEK_KLASORU / "k1_r2.jsonl", "w", encoding="utf-8") as f:
+        for s in sorular:
+            metin, alinan = baglam_k1(sirali[s["id"]], bilgi)
+            r = istek(s, "K1-R2", metin)
+            r.update({"baglam_kelime": sum(a[2] for a in alinan), "baglam_sayfalar": [[a[0], a[1]] for a in alinan]})
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+            gold = {(k["doc"], k["sayfa"]) for k in s["kanitlar"]}
+            bag = {(a[0], a[1]) for a in alinan}
+            kelimeler.append(r["baglam_kelime"])
+            gold_var.append(bool(gold & bag))
+            oran.append(len(gold & bag) / len(gold))
+    print(f"k1_r2: {len(sorular)} istek | baglam kelime medyan {statistics.median(kelimeler):.0f} (maks {max(kelimeler)}) | "
+          f">=1 gold sayfa var {sum(gold_var) / len(gold_var):.3f} | kanit orani {sum(oran) / len(oran):.3f}")
+
+
 def main():
+    if "--r2" in sys.argv:
+        return r2_uret()
     sorular = d.yukle_sorular()  # varsayilan: gelistirme; kilitli kumeye dokunmaz
     sablon = sablonu_dondur()
     print(f"prompt {sablon['surum']} sha256 {sablon['sha256'][:16]}... (dondurulmus: sonuclar/prompt_{PROMPT_SURUM}.json)")
