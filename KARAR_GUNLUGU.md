@@ -1870,3 +1870,45 @@ Test-tekrar uyumu (kullanıcı ikinci tur) hesaplanmadı; yargıç kalibrasyonu 
 **Sınırlar:** 64 cevap yargıç puanlı (kalibrasyonda %94,5 uyum, hafif katı). Yargıç ve okuyucu aynı model ailesinden. Tek insan puanlayıcı.
 Aynı geliştirme kümesinde üç müdahale denendi; kilitli testte doğrulanmalı. Kilitli test yapılmadı.
 
+## Karar 14: Nihai protokol ve kilitli test (2026-10-04) — ÖN KAYIT (kilitli test çalıştırılmadı)
+
+**Durum:** Kullanıcı onayına sunuldu. Onaydan sonra bu metin commit edilir. Kilitli test, commit'ten sonra tek seferde çalışır.
+
+**Amaç:** Geliştirme kümesinde seçilen sistemi, hiç dokunulmamış 51 soruda (11 şirket) bir kez ölçmek.
+
+**Dondurulan sistem (kilitli testte hiçbir şey ayarlanmaz):**
+1. Chunk: 200 kelime, sayfa sınırlı. Gömme modeli: e5-base-v2 (`query:` / `passage:` önekleri, fp16).
+2. Belge yönlendirme: R2 kuralları (şirket + yıl penceresi y, y+1; elle takma adlar yalnız jnj, j&j, amex). Kurallar `src/yonlendirme.py` içinde donar.
+3. Arama: **tam (exact) arama**. Chroma bu testte kullanılmaz. Neden: Chroma `$in` filtresiyle R2 yönlendirmesi doğrulanmadı (Deney 6c yapılmadı). Doğrulanmamış bir adımı nihai testte kullanmak istemiyoruz.
+4. Reranker: bge-reranker-v2-m3, derinlik 50. Bağlam: ilk 1000 kelime (K1).
+5. Prompt: v3 (`sonuclar/prompt_v3.json`, hash dosyada). K0 ve K2 için v2/v3 şablonları, geliştirme kümesindeki aynı sürümle.
+6. Okuyucular: gemini-3.5-flash-lite ve gemini-3.8-flash. temperature 0, seed 0, max_output_tokens 8192.
+7. Yargıç: gemini-3.7-flash, Karar 10 revizesi 2 prompt'u. Kalibrasyon geçti (0,945).
+
+**Koşullar (okuyucu başına 3):** K0 (kapalı kitap), K1 = K1-R2 v3 (nihai sistem), K2 (oracle: altın sayfa). 2 okuyucu × 3 koşul × 51 soru = 306 çağrı.
+K1-c200 (v2) başlangıç hattı kilitli testte **çalıştırılmaz**. Gerekçe: maliyeti sınırlamak. Başlangıç hattına karşı üstünlük yalnız geliştirme kümesinde gösterildi; raporda bu açıkça yazılır.
+
+**Hipotezler (okuyucu başına ayrı; şirket-kümeli bootstrap, 10.000 yeniden örnekleme, %95):**
+- **HF1 (birincil):** K1 − K0 farkı. "Desteklendi" = iki okuyucuda da %95 aralığının alt sınırı > 0.
+  Bir okuyucuda desteklenirse "kısmen" yazılır. Hiçbirinde desteklenmezse "ayırt edilemedi" yazılır.
+- **HF2 (betimsel):** K2 − K1 (kalan boşluk). Ölçüt yok.
+- **HF3 (retrieval, ücretsiz):** nihai arama hattında Recall@1000w, MRR, belge isabeti. Geliştirme kümesi değerleriyle (R@1000w 0,504) yan yana raporlanır.
+- **HF4 (bildirim):** geliştirme → kilitli düşüşü. Geliştirmede K1 doğruluğu 0,576 (flash-lite) ve 0,667 (3.8-flash). Kilitli sonuç bunun altına düşerse bu normal sayılır (çoklu müdahale iyimserliği) ve düşüş boyutu raporlanır.
+
+**Güç notu:** 51 soru ve 11 şirketle aralıklar geniştir. Geliştirmede V3 − K0 farkı +0,12 ile +0,25 idi. Kilitlide alt sınırın 0'ı geçmemesi mümkündür.
+Bu durumda sonuç "kanıt yetersiz" diye yazılır, "etki yok" diye yazılmaz.
+
+**Puanlama:** Katmanlı otomatik metrik (Karar 2) önce uygulanır. Serbest metin soruları yargıçla puanlanır (elle puanlama yok; kullanıcı isterse örnek denetler).
+Birincil: sıkı (kısmen = yanlış). İkincil: yumuşak. İkisi de raporlanır. Atıf metrikleri (isabet, kesinlik, bağlamda) raporlanır.
+
+**Tek seferlik kuralı:**
+1. Kod ve prompt'lar bu ön kayıt commit'inden sonra değişmez. Kilitli betik ayrı bir commit'tir ve çalıştırmadan önce bu ön kayda eklenir.
+2. Çalıştırma önbelleklidir. Ağ hatasında aynı isteklerle devam edilir. Prompt, kural veya model değişikliğiyle yeniden çalıştırma yoktur.
+3. Çalıştırma hatasız biterse sonuçlar olduğu gibi raporlanır, olumsuz olsa da.
+4. Teknik hata bulunursa (örn. kod hatası) hata, düzeltme ve yeniden çalıştırma ayrı bir bölümde açıkça belirtilir. İlk sonuç silinmez.
+5. Sonuçlara bakıp sistem seçimi, eşik veya hipotez değiştirilmez.
+
+**Maliyet:** Tahmin ~70 TL (okuyucular ~65 TL, yargıç ~1 TL). Bu çalıştırma için sert durdurma: 100 TL. Mevcut 191,16 TL; tavan 350 TL. Beklenen toplam ~260 TL.
+
+**Kapsam dışı:** fine-tune (Karar 11, isteğe bağlı ek), EDGAR (Karar 4), batch API ölçümü.
+
