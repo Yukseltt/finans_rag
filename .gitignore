@@ -15,6 +15,9 @@ data/islenmis/*
 *.engine
 checkpoints/
 
+# Kisisel not (CV/mulakat); public repoya girmez
+CV_OZETI.md
+
 # Ortam
 .venv/
 venv/

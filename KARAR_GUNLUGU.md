@@ -1,7 +1,7 @@
 # Karar Günlüğü
 
-Her karar burada, gerekçesiyle ve varsa ölçümüyle kaydedilir. Amaç: *"Neden hibrit arama seçtin?"* sorusunun cevabı bir cümle
-değil, bir ölçüm olmalı.
+Her karar burada, gerekçesiyle ve varsa ölçümüyle kaydedilir. Amaç: *"Neden hibrit arama seçtin?"*
+sorusunun cevabı bir cümle değil, bir ölçüm olsun.
 
 **Kayıt biçimi:** seçenekler → takaslar → karar → gerekçe → (varsa) ölçüm.
 Karar değişirse eskisi silinmez, altına "revize edildi" notu düşülür.
@@ -1362,7 +1362,8 @@ kurulumu (yeniden indeksleme) ve başka bir makine ölçülmedi. Kurulum sonras�
 
 **Protokol notu, Deney 5 (çalıştırmadan ÖNCE, 2026-10-02): API hesabı doğrulaması ve okuyucu betiği.**
 
-- **Hesap (kullanıcının ekran görüntülerinden):** tek proje, 1 anahtar, **ücretli katman (Tier 1, ön ödemeli)** (ücretli katman; dokümantasyona göre içerik ürün iyileştirmede kullanılmaz).
+- **Hesap (kullanıcının ekran görüntülerinden):** tek proje, 1 anahtar, **ücretli katman (Tier 1, ön ödemeli)**
+  (dokümantasyona göre içerik ürün iyileştirmede kullanılmaz).
   Aylık harcama sınırı sayfasında para birimi **TL** (TRY 250,00). **Yakalanan hata:** sınır ilk başta başka bir
   projeye konmuştu; sınır proje düzeyinde olduğundan anahtarın projesinde geçerli
   olmayacaktı. Kullanıcı düzeltti ve sınırı anahtarın projesine koydu. Google'ın sınırı
