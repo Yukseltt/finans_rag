@@ -1598,7 +1598,7 @@ yapılır; Chroma'da `$in` filtresi doğrulanmadı, benimsenirse ayrı doğrulam
 
 **SONUÇ, Deney 7 (2026-10-04; `src/yonlendirme.py`, `src/deney7_yonlendirme.py`; geliştirme, 99 soru, e5-base c200 + reranker derinlik 50)**
 
-Kurallar ölçümden önce commitlendi (`67a7055`) ve ön kayıtla birebir aynıdır (spec testleri `tests/test_yonlendirme.py`).
+Kurallar ölçümden önce commitlendi (`149d3a5`) ve ön kayıtla birebir aynıdır (spec testleri `tests/test_yonlendirme.py`).
 
 | | R1 (şirketin tüm belgeleri) | R2 (şirket, y ve y+1 dönemleri) |
 |---|---|---|
