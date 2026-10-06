@@ -95,11 +95,17 @@ Veriyi `src/veri_indir.py` ile lokalde indir. Aynı sayfa ve metin örtüşmesi 
 
 Kilitli küme bir kez kullanıldı. Aynı küme ikinci kez ölçüm için kullanılamaz.
 
+## Lisans
+
+Kod: MIT ([LICENSE](LICENSE)). Veri bu repoda yok. FinanceBench'in kendi lisansı geçerlidir (CC-BY-NC-4.0, ticari kullanım yok).
+Veri kaynağı: Patronus AI, FinanceBench. FinQA: MIT.
+
 ## Klasör düzeni
 
 ```
 finans_rag/
 ├── README.md
+├── LICENSE            MIT (yalnız kod)
 ├── KARAR_GUNLUGU.md   her karar ve deney: gerekçe, ön kayıt, sonuç
 ├── requirements.txt
 ├── src/               indirme, parse, retrieval, okuyucu, yargıç, ölçüm betikleri
